@@ -1,7 +1,9 @@
 {
   "name": "shuttler",
+  "main": "src/index.js",
   "compatibility_date": "2025-04-01",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS"
   }
 }

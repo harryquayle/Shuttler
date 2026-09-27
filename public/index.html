@@ -1254,6 +1254,9 @@
           <button onclick="window.openSpecialLeagueBranding('satsuma')" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex:none" title="Appearance">⚙️</button>
         </div>
         <p style="margin:0 0 14px;color:rgba(255,255,255,.75);font-size:.84rem;position:relative;z-index:1">Official all-time standings across every Satsuma session.</p>
+        <button id="satsumaEnableNotifBtn" onclick="window.enableSatsumaNotifications()" class="hide" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.25);border-radius:11px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.82rem;-webkit-tap-highlight-color:transparent;margin-bottom:10px;position:relative;z-index:1">
+          🔔 Enable notifications
+        </button>
         <div id="satsumaStartBtnWrap" style="display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1">
           <button onclick="if(window._moduleReady){window.createSatsumaSession('doubles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('doubles'));}" style="background:#fff;color:var(--court);border:none;border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.12);-webkit-tap-highlight-color:transparent">
             🏸 Start doubles session
@@ -3161,6 +3164,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot, getDoc, collection, getDocs, serverTimestamp, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
 // ── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────────
 const firebaseConfig = {
@@ -3174,10 +3178,16 @@ const firebaseConfig = {
 };
 // ─────────────────────────────────────────────────────────────────────
 
+// ── PASTE YOUR NOTIFY_API_SECRET HERE (must match the Worker's NOTIFY_API_SECRET) ──
+const NOTIFY_API_SECRET = "satsuma-notify-8k2j9x";
+// ─────────────────────────────────────────────────────────────────────
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const db = getFirestore(app);
+let messaging = null;
+try{ messaging = getMessaging(app); }catch(e){ console.warn('FCM not supported in this browser:', e.message); }
 
 // Expose for the classic (non-module) script to use, e.g. theme persistence
 window.auth = auth;
@@ -7684,6 +7694,28 @@ window.toggleSatsumaSessionMode = function(isSatsuma){
   if(title) title.textContent = isSatsuma ? '🍊 Plan Satsuma Session' : '📅 Plan a session';
 };
 
+window.enableSatsumaNotifications = async function(){
+  const user = auth.currentUser;
+  if(!user){ alert('Sign in first.'); return; }
+  if(!messaging){ alert('Push notifications are not supported in this browser.'); return; }
+  try{
+    const perm = await Notification.requestPermission();
+    if(perm !== 'granted'){
+      alert('Notifications permission was not granted.');
+      return;
+    }
+    const token = await getToken(messaging, {
+      vapidKey: 'BElKCTeAEENCyu4V4mc1J5OyKMi7N1PtSVeVvZCwO4gshJPWzf-y6NkbZvtmga5nZEyOrip6ZmPrRDM5I5Qplq8'
+    });
+    if(!token){ alert('Could not get a notification token. Try again.'); return; }
+    await setDoc(doc(db,'users',user.uid), { fcmToken: token }, { merge:true });
+    alert('🔔 Satsuma notifications enabled!');
+  }catch(e){
+    console.error('enableSatsumaNotifications failed:', e);
+    alert('Failed to enable notifications: '+e.message);
+  }
+};
+
 window.postSessionDate = async function(){
   const dateVal = document.getElementById('sessionDateInput').value;
   const endTimeVal = document.getElementById('sessionEndTimeInput').value;
@@ -7749,6 +7781,18 @@ window.postSessionDate = async function(){
       // Send browser notification to organiser's device
       window.sendNotification('🍊 Satsuma session planned!',
         `${new Date(dateVal).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})} at ${location} — invite sent to Satsuma members`);
+      // Notify all Satsuma members via push notification + email
+      try{
+        await fetch('/api/notify-satsuma-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Notify-Secret': NOTIFY_API_SECRET },
+          body: JSON.stringify({
+            dateStr: startDate.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}),
+            timeStr: startDate.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}),
+            location
+          })
+        });
+      }catch(notifyErr){ console.error('Satsuma notify failed', notifyErr); }
     } else if(targetCode){
       const sid = 'sched_'+Date.now();
       await setDoc(doc(db,'leagues',targetCode),{ schedule:{ [sid]: {...sessionData, createdBy:user.uid, creatorName:(window.currentUserData&&window.currentUserData.name)||'', rsvps:{[user.uid]:'yes'}} } },{ merge:true });
@@ -10506,6 +10550,8 @@ window.loadSatsumaTab = async function(){
   if(viewBanner) viewBanner.classList.toggle('hide', !isViewOnly);
   const startBtnWrap = document.getElementById('satsumaStartBtnWrap');
   if(startBtnWrap) startBtnWrap.classList.toggle('hide', isViewOnly || (!isFullMember && !isViewOnly));
+  const notifBtn = document.getElementById('satsumaEnableNotifBtn');
+  if(notifBtn) notifBtn.classList.toggle('hide', !(isFullMember || isViewOnly));
 
   const EMAIL_TO_NAME = {'harryrunrun@icloud.com':'Harry','zanequinn2012@gmail.com':'Zane','cheungw560@gmail.com':'Wai','george.yanyanyan@gmail.com':'George','jaspercorlett@gmail.com':'Jasper','emilycregeen@online.sch.im':'Emily'};
   const myRosterName = EMAIL_TO_NAME[userEmail] || (window.currentUserData&&window.currentUserData.name) || null;

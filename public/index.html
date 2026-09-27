@@ -760,7 +760,7 @@
       <div class="nav-section-sep" aria-hidden="true"></div>
       <div class="nav-group-label">Admin</div>
       <button class="nav-item" id="nav-admin" onclick="window.openAdminPanel()">
-        <span class="nav-icon">⚙️</span><span class="nav-label">Admin</span>
+        <span class="nav-icon">⚙️</span><span class="nav-label" style="position:relative">Admin<span id="adminChatNavDot" class="hide" style="position:absolute;top:-4px;right:-8px;width:8px;height:8px;background:#e53e3e;border-radius:50%;display:inline-block"></span></span>
       </button>
     </div>
 
@@ -4141,6 +4141,8 @@ onAuthStateChanged(auth, async user => {
     if(window._pendingAddFriend){ window.handleAddFriendFromUrl(window._pendingAddFriend); window._pendingAddFriend=null; }
     // Check for unanswered schedule items
     if(typeof window.checkScheduleNotificationDot === 'function') window.checkScheduleNotificationDot();
+    // Check for unread admin chat messages
+    if(typeof window.checkAdminChatNotificationDot === 'function') window.checkAdminChatNotificationDot();
     // Show onboarding tour for new users
     if(typeof window._showTourIfNew === 'function') window._showTourIfNew();
     // Cloud-backed personal game history — pull down anything recorded on
@@ -4307,6 +4309,10 @@ window.switchAdminTab = async function(tab){
     const p=document.getElementById('adminChatPanel');
     if(p){ p.classList.remove('hide'); p.style.display='flex'; }
     window.loadAdminChat();
+    // Mark as read and hide the nav dot immediately
+    localStorage.setItem('adminChatLastRead', String(Date.now()));
+    const dot = document.getElementById('adminChatNavDot');
+    if(dot) dot.classList.add('hide');
   } else {
     const p=document.getElementById('adminUsersPanel');
     if(p) p.classList.remove('hide');
@@ -6284,6 +6290,22 @@ window.handleAddFriendFromUrl = async function(friendUid){
   }catch(e){ alert('Could not find that user.'); }
 };
 
+window.checkAdminChatNotificationDot = async function(){
+  const dot = document.getElementById('adminChatNavDot');
+  if(!dot || !auth.currentUser || window.currentUserRole !== 'admin') return;
+  try{
+    const uid = auth.currentUser.uid;
+    const lastRead = Number(localStorage.getItem('adminChatLastRead')||0);
+    const snap = await getDocs(collection(db,'adminChat'));
+    let hasUnread = false;
+    snap.forEach(d=>{
+      const m = d.data();
+      if((m.ts||0) > lastRead && m.uid !== uid) hasUnread = true;
+    });
+    dot.classList.toggle('hide', !hasUnread);
+  }catch(e){ dot.classList.add('hide'); }
+};
+
 window.checkScheduleNotificationDot = async function(){
   const dot = document.getElementById('scheduleNavDot');
   if(!dot || !auth.currentUser) return;
@@ -6853,6 +6875,18 @@ window.startNotificationListeners = function(user){
           }
         }
       });
+      // Unread dot — reflects whether any message is newer than the
+      // admin's last-read timestamp and wasn't sent by them. Recomputed
+      // on every snapshot so it stays correct (and reappears) even while
+      // the admin panel is closed.
+      const lastRead = Number(localStorage.getItem('adminChatLastRead')||0);
+      let hasUnread = false;
+      snap.forEach(d=>{
+        const m = d.data();
+        if((m.ts||0) > lastRead && m.uid !== uid) hasUnread = true;
+      });
+      const dot = document.getElementById('adminChatNavDot');
+      if(dot) dot.classList.toggle('hide', !hasUnread);
     });
   }
 

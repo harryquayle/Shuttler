@@ -9,16 +9,74 @@ export default {
     if (request.method === 'POST' && url.pathname === '/api/notify-satsuma-session') {
       return handleNotifySatsumaSession(request, env);
     }
+    if (request.method === 'POST' && url.pathname === '/api/notify-satsuma-broadcast') {
+      return handleNotifySatsumaBroadcast(request, env);
+    }
 
     return env.ASSETS.fetch(request);
   },
 };
 
-async function handleNotifySatsumaSession(request, env) {
+// Shared setup for both notify routes: checks the shared secret, loads the
+// service account, mints a Google access token, and fetches recipients.
+// Returns { error: Response } on failure, otherwise { serviceAccount, accessToken, recipients }.
+async function prepareNotify(request, env) {
   if (request.headers.get('X-Notify-Secret') !== env.NOTIFY_API_SECRET) {
-    return json({ error: 'Unauthorized' }, 401);
+    return { error: json({ error: 'Unauthorized' }, 401) };
   }
 
+  let serviceAccount;
+  try {
+    serviceAccount = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT);
+  } catch {
+    return { error: json({ error: 'Server misconfigured: invalid FIREBASE_SERVICE_ACCOUNT' }, 500) };
+  }
+
+  let accessToken;
+  try {
+    accessToken = await getGoogleAccessToken(serviceAccount, [
+      'https://www.googleapis.com/auth/cloud-platform',
+    ]);
+  } catch (e) {
+    return { error: json({ error: 'Failed to authenticate with Google: ' + e.message }, 500) };
+  }
+
+  let recipients;
+  try {
+    recipients = await fetchSatsumaRecipients(serviceAccount.project_id, accessToken);
+  } catch (e) {
+    return { error: json({ error: 'Failed to query Firestore: ' + e.message }, 500) };
+  }
+
+  return { serviceAccount, accessToken, recipients };
+}
+
+async function sendToRecipients(serviceAccount, accessToken, env, recipients, { pushTitle, pushBody, pushData, emailSubject, emailHtml }) {
+  const tasks = [];
+  for (const r of recipients) {
+    if (r.fcmToken) {
+      tasks.push(
+        sendFcmMessage(serviceAccount.project_id, accessToken, r.fcmToken, pushTitle, pushBody, pushData)
+      );
+    }
+    if (r.email) {
+      tasks.push(sendResendEmail(env.RESEND_API_KEY, r.email, emailSubject, emailHtml));
+    }
+  }
+
+  const results = await Promise.allSettled(tasks);
+  const failures = results.filter((r) => r.status === 'rejected');
+
+  return json({
+    ok: true,
+    recipients: recipients.length,
+    pushSent: recipients.filter((r) => r.fcmToken).length,
+    emailsSent: recipients.filter((r) => r.email).length,
+    failures: failures.map((f) => String((f.reason && f.reason.message) || f.reason)),
+  });
+}
+
+async function handleNotifySatsumaSession(request, env) {
   let body;
   try {
     body = await request.json();
@@ -31,52 +89,42 @@ async function handleNotifySatsumaSession(request, env) {
     return json({ error: 'Missing dateStr, timeStr, or location' }, 400);
   }
 
-  let serviceAccount;
+  const prep = await prepareNotify(request, env);
+  if (prep.error) return prep.error;
+  const { serviceAccount, accessToken, recipients } = prep;
+
+  return sendToRecipients(serviceAccount, accessToken, env, recipients, {
+    pushTitle: FCM_TITLE,
+    pushBody: `${dateStr} at ${timeStr} — ${location}`,
+    pushData: { type: 'satsuma_session', url: '/' },
+    emailSubject: FCM_TITLE,
+    emailHtml: `<h2>New Satsuma session scheduled</h2><p><strong>${escapeHtml(dateStr)}</strong> at <strong>${escapeHtml(timeStr)}</strong></p><p>📍 ${escapeHtml(location)}</p>`,
+  });
+}
+
+async function handleNotifySatsumaBroadcast(request, env) {
+  let body;
   try {
-    serviceAccount = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT);
+    body = await request.json();
   } catch {
-    return json({ error: 'Server misconfigured: invalid FIREBASE_SERVICE_ACCOUNT' }, 500);
+    return json({ error: 'Invalid JSON body' }, 400);
   }
 
-  let accessToken;
-  try {
-    accessToken = await getGoogleAccessToken(serviceAccount, [
-      'https://www.googleapis.com/auth/cloud-platform',
-    ]);
-  } catch (e) {
-    return json({ error: 'Failed to authenticate with Google: ' + e.message }, 500);
+  const { title, body: pushBody, html } = body || {};
+  if (!title || !pushBody || !html) {
+    return json({ error: 'Missing title, body, or html' }, 400);
   }
 
-  let recipients;
-  try {
-    recipients = await fetchSatsumaRecipients(serviceAccount.project_id, accessToken);
-  } catch (e) {
-    return json({ error: 'Failed to query Firestore: ' + e.message }, 500);
-  }
+  const prep = await prepareNotify(request, env);
+  if (prep.error) return prep.error;
+  const { serviceAccount, accessToken, recipients } = prep;
 
-  const pushBody = `${dateStr} at ${timeStr} — ${location}`;
-  const tasks = [];
-
-  for (const r of recipients) {
-    if (r.fcmToken) {
-      tasks.push(
-        sendFcmMessage(serviceAccount.project_id, accessToken, r.fcmToken, FCM_TITLE, pushBody)
-      );
-    }
-    if (r.email) {
-      tasks.push(sendResendEmail(env.RESEND_API_KEY, r.email, dateStr, timeStr, location));
-    }
-  }
-
-  const results = await Promise.allSettled(tasks);
-  const failures = results.filter((r) => r.status === 'rejected');
-
-  return json({
-    ok: true,
-    recipients: recipients.length,
-    pushSent: recipients.filter((r) => r.fcmToken).length,
-    emailsSent: recipients.filter((r) => r.email).length,
-    failures: failures.map((f) => String(f.reason && f.reason.message || f.reason)),
+  return sendToRecipients(serviceAccount, accessToken, env, recipients, {
+    pushTitle: title,
+    pushBody,
+    pushData: { type: 'satsuma_announcement', url: '/' },
+    emailSubject: title,
+    emailHtml: html,
   });
 }
 
@@ -201,7 +249,7 @@ function base64urlEncodeBytes(bytes) {
 
 // ── FCM ──────────────────────────────────────────────────────────────
 
-async function sendFcmMessage(projectId, accessToken, token, title, body) {
+async function sendFcmMessage(projectId, accessToken, token, title, body, data) {
   const res = await fetch(
     `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
     {
@@ -214,7 +262,7 @@ async function sendFcmMessage(projectId, accessToken, token, title, body) {
         message: {
           token,
           notification: { title, body },
-          data: { type: 'satsuma_session', url: '/' },
+          data: data || {},
         },
       }),
     }
@@ -227,7 +275,7 @@ async function sendFcmMessage(projectId, accessToken, token, title, body) {
 
 // ── Resend ───────────────────────────────────────────────────────────
 
-async function sendResendEmail(apiKey, to, dateStr, timeStr, location) {
+async function sendResendEmail(apiKey, to, subject, html) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -237,8 +285,8 @@ async function sendResendEmail(apiKey, to, dateStr, timeStr, location) {
     body: JSON.stringify({
       from: RESEND_FROM,
       to: [to],
-      subject: FCM_TITLE,
-      html: `<h2>New Satsuma session scheduled</h2><p><strong>${escapeHtml(dateStr)}</strong> at <strong>${escapeHtml(timeStr)}</strong></p><p>📍 ${escapeHtml(location)}</p>`,
+      subject,
+      html,
     }),
   });
   if (!res.ok) {

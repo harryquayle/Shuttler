@@ -7704,8 +7704,10 @@ window.enableSatsumaNotifications = async function(){
       alert('Notifications permission was not granted.');
       return;
     }
+    const registration = await navigator.serviceWorker.ready;
     const token = await getToken(messaging, {
-      vapidKey: 'BElKCTeAEENCyu4V4mc1J5OyKMi7N1PtSVeVvZCwO4gshJPWzf-y6NkbZvtmga5nZEyOrip6ZmPrRDM5I5Qplq8'
+      vapidKey: 'BElKCTeAEENCyu4V4mc1J5OyKMi7N1PtSVeVvZCwO4gshJPWzf-y6NkbZvtmga5nZEyOrip6ZmPrRDM5I5Qplq8',
+      serviceWorkerRegistration: registration
     });
     if(!token){ alert('Could not get a notification token. Try again.'); return; }
     await setDoc(doc(db,'users',user.uid), { fcmToken: token }, { merge:true });

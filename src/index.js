@@ -312,7 +312,13 @@ function wrapEmailHtml(subject, contentHtml) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<meta name="x-apple-disable-message-reformatting">
 <title>${escapeHtml(subject)}</title>
+<style>
+  :root { color-scheme: light only; supported-color-schemes: light; }
+</style>
 </head>
 <body style="margin:0;padding:0;background:#fdf3ea;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fdf3ea;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">

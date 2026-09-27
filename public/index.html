@@ -3526,7 +3526,7 @@ window.sendSatsumaAnnouncement = async function(){
       body: JSON.stringify({
         title,
         body: message.trim(),
-        html: `<h2>${title}</h2><p>${message.trim().replace(/\n/g,'<br>')}</p>`
+        html: `<h2>${title}</h2><p style="margin:0;">${message.trim().replace(/\n/g,'<br>')}</p>`
       })
     });
     const data = await res.json().catch(()=>({}));

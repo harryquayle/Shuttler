@@ -314,7 +314,7 @@ function wrapEmailHtml(subject, contentHtml) {
           <tr>
             <td style="background:linear-gradient(150deg,#d9701f 0%,#e8893e 100%);padding:26px 28px;">
               <table role="presentation" cellpadding="0" cellspacing="0"><tr>
-                <td style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.2);text-align:center;vertical-align:middle;font-size:19px;">🏸</td>
+                <td style="width:40px;height:40px;"><img src="https://badminton.shuttler.uk/icon-192.png" width="40" height="40" alt="Shuttler" style="display:block;border-radius:12px;width:40px;height:40px;"></td>
                 <td style="padding-left:12px;vertical-align:middle;">
                   <div style="color:#ffffff;font-weight:800;font-size:17px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">Shuttler</div>
                   <div style="color:rgba(255,255,255,0.78);font-size:12px;font-weight:600;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">Satsuma League</div>

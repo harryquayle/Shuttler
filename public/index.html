@@ -4149,21 +4149,26 @@ const OWNER_EMAIL = 'harryrunrun@icloud.com';
 async function ensureUserProfile(user){
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
+  const isOwner = user.email && user.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
   if(!snap.exists()){
-    const role = (user.email && user.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) ? 'admin' : 'editor';
     const profile = {
       uid: user.uid,
       email: user.email || '',
       name: user.displayName || (user.email ? user.email.split('@')[0] : 'Player'),
-      role: role,
+      role: isOwner ? 'admin' : 'editor',
       createdAt: serverTimestamp(),
       lastSeen: serverTimestamp()
     };
+    if(isOwner){ profile.satsumaAdmin = true; profile.satsumaAccess = true; }
     await setDoc(ref, profile);
     return profile;
   } else {
-    await setDoc(ref, { lastSeen: serverTimestamp() }, { merge: true });
-    return snap.data();
+    const updates = { lastSeen: serverTimestamp() };
+    // Self-heals the owner's Satsuma admin flag on every sign-in, so it stays
+    // set even if their profile doc was recreated or edited without it.
+    if(isOwner && snap.data().satsumaAdmin !== true){ updates.satsumaAdmin = true; updates.satsumaAccess = true; }
+    await setDoc(ref, updates, { merge: true });
+    return { ...snap.data(), ...updates };
   }
 }
 

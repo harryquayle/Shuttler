@@ -426,6 +426,98 @@
   .btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .hide{display:none !important}
 
+  /* ── Analyse Match ── */
+  .ma-head{display:flex;align-items:center;gap:12px;min-width:0}
+  .ma-head h2{margin:0;font-size:1.3rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);min-width:0}
+  .ma-ico{width:40px;height:40px;flex:none;border-radius:50%;background:var(--court);display:grid;place-items:center;box-shadow:0 2px 8px rgba(217,112,31,.3)}
+  .ma-ico svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ma-card{background:var(--paper);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);padding:14px;margin-bottom:12px;min-width:0}
+  .ma-match{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center}
+  .ma-side{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;text-align:center}
+  .ma-av{width:44px;height:44px;flex:none;border-radius:50%;background:var(--court) center/cover no-repeat;color:#fff;font-weight:800;font-size:1.05rem;display:grid;place-items:center}
+  .ma-av.sm{width:22px;height:22px;font-size:.7rem}
+  .ma-name{max-width:100%;font-weight:800;font-size:.86rem;line-height:1.2;overflow-wrap:anywhere;color:var(--ink)}
+  .ma-count{font-weight:800;font-size:1rem;color:var(--ink)}
+  .ma-sub{font-size:.76rem;color:var(--muted)}
+  .ma-mid{text-align:center}
+  .ma-score{font-size:1.75rem;font-weight:900;line-height:1;letter-spacing:-.02em;white-space:nowrap;color:var(--ink)}
+  .ma-res{margin-top:5px;font-size:.78rem;font-weight:800}
+  .ma-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
+  .ma-meta span{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;font-size:.74rem;color:var(--muted)}
+  .ma-meta svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ma-meta em{font-style:normal;min-width:0;overflow-wrap:anywhere}
+  .ma-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+  .ma-chip{display:inline-flex;align-items:center;gap:6px;min-width:0;max-width:100%;padding:3px 10px 3px 3px;border-radius:999px;border:1px solid var(--hair);background:var(--paper);color:var(--ink);font:inherit;font-weight:700;font-size:.76rem;cursor:pointer}
+  .ma-chip span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ma-chip.on{background:var(--court);border-color:var(--court);color:#fff}
+  .ma-chip.on .ma-av{box-shadow:0 0 0 2px #fff}
+  .ma-h3{margin:14px 2px 10px;font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);overflow-wrap:anywhere}
+  .ma-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+  .ma-stat{background:var(--paper);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);padding:12px;min-width:0}
+  .ma-stat-top{display:flex;align-items:center;gap:10px;min-width:0}
+  .ma-stat-txt{min-width:0}
+  .ma-lbl{font-size:.72rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.2}
+  .ma-val{margin-top:2px;font-size:1.1rem;font-weight:800;color:var(--ink);overflow-wrap:anywhere;line-height:1.2}
+  .ma-bar{height:6px;margin-top:12px;border-radius:999px;background:var(--hair);overflow:hidden}
+  .ma-bar i{display:block;height:100%;border-radius:999px}
+  .ma-ins-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-width:0}
+  .ma-ins-head h3{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .ma-insights ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .ma-insights li{display:flex;align-items:flex-start;gap:8px;min-width:0;font-size:.86rem;line-height:1.45;color:var(--ink)}
+  .ma-insights li>span:last-child{min-width:0;overflow-wrap:anywhere}
+  .ma-chk{flex:none;width:20px;height:20px;border-radius:50%;background:var(--pos-bg);display:grid;place-items:center;margin-top:1px}
+  .ma-chk svg{width:12px;height:12px;fill:none;stroke:var(--pos);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .ma-cta{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border:none;border-radius:999px;background:var(--court);color:#fff;font:inherit;font-weight:800;font-size:.98rem;cursor:pointer;box-shadow:0 4px 14px rgba(217,112,31,.35);-webkit-tap-highlight-color:transparent}
+  .ma-cta:active{transform:scale(.98)}
+  .ma-cta svg{width:18px;height:18px;flex:none;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+  .ma-cta.open svg{transform:rotate(-90deg)}
+
+  /* ── Leagues ── */
+  .lg-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+  .lg-title{margin:0;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .lg-sub{margin:2px 0 0;font-size:.82rem;color:var(--muted)}
+  .lg-head-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .lg-seg{display:flex;gap:8px;margin:14px 0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .lg-seg button{flex:none;padding:8px 16px;border-radius:999px;border:none;background:var(--mist-2);color:var(--muted);font:inherit;font-weight:700;font-size:.82rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .lg-seg button.on{background:var(--court);color:#fff;box-shadow:0 2px 8px rgba(217,112,31,.3)}
+  .lg-card{background:var(--paper);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;min-width:0}
+  .lg-card-top{display:flex;align-items:center;gap:12px;padding:14px;min-width:0}
+  .lg-crest{width:52px;height:52px;flex:none;border-radius:14px;background:linear-gradient(135deg,var(--court),var(--court-2));display:grid;place-items:center;font-size:1.6rem;line-height:1;box-shadow:0 2px 8px rgba(217,112,31,.25)}
+  .lg-card-title{min-width:0;flex:1}
+  .lg-name{font-weight:800;font-size:1.05rem;color:var(--ink);overflow-wrap:anywhere;line-height:1.2}
+  .lg-subline{margin-top:3px;font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.35}
+  .lg-chev{flex:none;color:var(--muted);font-size:1.4rem;line-height:1}
+  .lg-gear{flex:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--hair);background:var(--mist);cursor:pointer;font-size:1rem;display:grid;place-items:center}
+  .lg-actions{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 14px}
+  .lg-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 13px;border-radius:999px;border:1px solid var(--hair);background:var(--mist);color:var(--ink);font:inherit;font-weight:700;font-size:.84rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .lg-btn.pri{background:var(--court);border-color:var(--court);color:#fff;box-shadow:0 2px 8px rgba(217,112,31,.3)}
+  .lg-btn.out{background:var(--paper);border-color:var(--court);color:var(--court)}
+  .lg-pos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--hair)}
+  .lg-pos>div{padding:12px 14px;min-width:0}
+  .lg-pos>div+div{border-left:1px solid var(--hair);display:flex;flex-direction:column;justify-content:center;gap:2px}
+  .lg-pos-label{font-size:.78rem;font-weight:700;color:var(--ink)}
+  .lg-pos-val{display:flex;align-items:baseline;gap:6px;margin-top:2px}
+  .lg-pos-val b{font-size:2rem;font-weight:900;line-height:1;color:var(--court)}
+  .lg-pos-val span{font-size:.9rem;color:var(--muted);font-weight:600}
+  .lg-delta{font-weight:800;font-size:.95rem}
+  .lg-delta-sub{font-size:.76rem;color:var(--muted);line-height:1.35}
+  .lg-up{color:var(--pos)} .lg-down{color:var(--coral)} .lg-flat{color:var(--muted)}
+  .lg-tt{margin:18px 2px 8px;font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .lg-av{width:26px;height:26px;flex:none;border-radius:50%;object-fit:cover;background:var(--court);color:#fff;font-weight:800;font-size:.74rem;display:inline-grid;place-items:center;vertical-align:middle}
+  .lg-trend{font-weight:800;font-size:.74rem;white-space:nowrap;margin-left:2px}
+  .lg-trend::after{content:attr(data-t)}
+  .sttbl .pname{display:inline-flex;align-items:center;gap:6px}
+  .sttbl .rankpill{margin-right:0}
+  .lg-hist{background:var(--paper);border:1px solid var(--hair);border-radius:14px;padding:10px 12px;margin-bottom:8px;min-width:0}
+  .lg-hist-meta{display:flex;justify-content:space-between;gap:8px;font-size:.72rem;color:var(--muted);margin-bottom:6px}
+  .lg-hist-meta span:first-child{font-weight:700;min-width:0;overflow-wrap:anywhere}
+  .lg-hist-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto;align-items:center;gap:8px;font-size:.82rem}
+  .lg-hist-row .t{overflow-wrap:anywhere;line-height:1.25}
+  .lg-hist-row .t.r{text-align:right}
+  .lg-hist-row .s{font-weight:800;background:var(--mist-2);border-radius:7px;padding:3px 9px;white-space:nowrap}
+  .lg-res{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:800}
+  .lg-res.w{background:var(--pos-bg);color:var(--pos)} .lg-res.l{background:var(--coral-bg);color:var(--coral)} .lg-res.d{background:var(--mist-2);color:var(--muted)}
+
   .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
   .toolbar .meta{font-size:.85rem;color:var(--muted)}
   .toolbar .meta b{color:var(--ink)}
@@ -440,7 +532,7 @@
   .sttbl thead th:first-child{text-align:left}
   .sttbl tbody td{padding:9px 4px;border-bottom:1px solid var(--mist-2);white-space:nowrap}
   .sttbl tbody td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
-  .sttbl .rankpill{width:21px;height:21px;font-size:.72rem;margin-right:6px;border-radius:6px}
+  .sttbl .rankpill{width:21px;height:21px;font-size:.72rem;margin-right:0;border-radius:6px}
   .sttbl .pname{font-size:.84rem}
   .sttbl .nm{overflow:hidden;text-overflow:ellipsis}
   .sttbl .diff{min-width:34px;padding:2px 6px;font-size:.8rem}
@@ -1059,13 +1151,16 @@
         </div>
 
           <!-- League header card -->
-          <div id="leagueHeaderCard" style="background:linear-gradient(135deg,var(--court),var(--court-2));border-radius:16px;padding:20px 22px;margin-bottom:18px">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-              <span id="leaguePageEmoji" style="font-size:1.6rem;line-height:1"></span>
-              <h2 id="leaguePageName" style="margin:0;color:#fff;font-size:1.2rem"></h2>
+          <div id="leagueHeaderCard" class="lg-card" style="margin-bottom:18px">
+            <div class="lg-card-top">
+              <span id="leaguePageCrest" class="lg-crest"><span id="leaguePageEmoji">🏆</span></span>
+              <div class="lg-card-title">
+                <h2 id="leaguePageName" class="lg-name" style="margin:0"></h2>
+                <p id="leaguePageRole" class="lg-subline" style="margin:3px 0 0"></p>
+              </div>
             </div>
-            <p id="leaguePageRole" style="margin:0 0 14px;color:rgba(255,255,255,.7);font-size:.82rem"></p>
-            <div id="leaguePageActions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+            <div id="leaguePageActions" style="padding:0 14px 14px"></div>
+            <div class="lg-pos" id="leaguePagePos"></div>
           </div>
 
           <!-- Pending approvals (admin only) -->
@@ -1079,7 +1174,7 @@
 
           <!-- Leaderboard -->
           <div class="card" style="margin-bottom:18px">
-            <h2 style="margin:0 0 8px">Leaderboard</h2>
+            <h2 style="margin:0 0 8px">League table</h2>
             <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">
               <button onclick="window.printTable('leagueLeaderboardBody', (window.currentLeagueData&&window.currentLeagueData.name)||'League Table')" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">🖨 Print</button>
               <button onclick="window.exportTableToCSV('leagueLeaderboardBody', 'league-standings')" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">⬇ Export CSV</button>
@@ -1149,6 +1244,17 @@
                 <input type="email" id="leagueAddEmailInput" class="auth-input" style="flex:2;min-width:150px;margin:0;font-size:.84rem" placeholder="their@email.com" autocomplete="off">
                 <input type="text" id="leagueAddNameInput" class="auth-input" style="flex:1;min-width:110px;margin:0;font-size:.84rem" placeholder="Display name (optional)" autocomplete="off">
                 <button class="btn btn-dark btn-sm" onclick="window.lockButton(this, () => window.addLeagueMember())" style="flex:none">Add →</button>
+              </div>
+              <div style="margin:12px 0;padding:12px;background:var(--mist);border-radius:12px">
+                <div style="font-weight:700;font-size:.84rem;margin-bottom:4px">🔗 Link an email to a player</div>
+                <p style="font-size:.74rem;color:var(--muted);margin:0 0 10px;line-height:1.5">Someone changed email? Type their name and their new address — their results stay under the same name. Keep "replace" ticked to retire the old email.</p>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+                  <input type="text" id="leagueAssignName" list="leagueAssignNameList" class="auth-input" style="flex:1 1 140px;min-width:0;margin:0;font-size:.84rem" placeholder="Player name" autocomplete="off">
+                  <datalist id="leagueAssignNameList"></datalist>
+                  <input type="email" id="leagueAssignEmail" class="auth-input" style="flex:2 1 200px;min-width:0;margin:0;font-size:.84rem" placeholder="their@email.com" autocomplete="off">
+                  <button class="btn btn-dark btn-sm" onclick="window.lockButton(this, () => window.assignLeagueEmail())" style="flex:none">Assign →</button>
+                </div>
+                <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted);cursor:pointer"><input type="checkbox" id="leagueAssignReplace" checked> Replace their old email(s)</label>
               </div>
               <div id="leagueMembersList"></div>
             </div>
@@ -1222,59 +1328,62 @@
 
       <!-- Leagues list view (shown by default) -->
       <section id="leaguesTab">
-        <div class="card" style="margin-bottom:20px">
-          <h2 style="margin-bottom:4px">🏆 Leagues</h2>
-          <p class="hint">Create your own league or join one with a code.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-            <button class="btn btn-primary btn-sm" onclick="window.openCreateLeagueModal()">+ Create league</button>
-            <button class="btn btn-ghost btn-sm" onclick="window.openJoinLeagueModal()">Join with code</button>
+        <div class="lg-head">
+          <h1 class="lg-title">Leagues</h1>
+          <div class="lg-head-actions">
+            <button class="lg-btn pri" onclick="window.openCreateLeagueModal()">+ Create league</button>
+            <button class="lg-btn" onclick="window.openJoinLeagueModal()">Join with code</button>
           </div>
+        </div>
+        <p class="lg-sub">Create your own league or join one with a code.</p>
+        <div class="lg-seg" role="tablist">
+          <button type="button" class="on" data-lgtab="mine" onclick="window.switchLeaguesTab('mine')">My leagues</button>
+          <button type="button" data-lgtab="history" onclick="window.switchLeaguesTab('history')">History</button>
+        </div>
+        <div id="lgPanelMine">
           <div id="myLeaguesList"></div>
-        </div>
-        <!-- Live sessions within leagues -->
-        <div id="leagueLiveSection" class="hide" style="margin-bottom:20px">
-          <div class="card">
-            <h2 style="margin-bottom:4px">🔴 Live sessions</h2>
-            <p class="hint">Active sessions in your leagues — scores update in real time.</p>
-            <div id="leagueLiveList"><p style="color:var(--muted);font-size:.84rem">No live sessions right now.</p></div>
+          <!-- Live sessions within leagues -->
+          <div id="leagueLiveSection" class="hide" style="margin-bottom:20px">
+            <div class="card">
+              <h2 style="margin-bottom:4px">🔴 Live sessions</h2>
+              <p class="hint">Active sessions in your leagues — scores update in real time.</p>
+              <div id="leagueLiveList"><p style="color:var(--muted);font-size:.84rem">No live sessions right now.</p></div>
+            </div>
           </div>
         </div>
+        <div id="lgPanelHistory" class="hide"><div id="lgHistoryList"></div></div>
       </section>
 
     </div><!-- end tab-leagues -->
 
     <!-- ── TAB: Satsuma League ───────────────────────────────── -->
     <div class="tab-panel" id="tab-satsuma">
-      <div style="background:linear-gradient(150deg,var(--court) 0%,var(--court-2) 100%);border-radius:20px;padding:22px;margin-bottom:18px;position:relative;overflow:hidden" id="satsumaHeaderCard">
-        <div style="position:absolute;top:-25px;right:-25px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none"></div>
-        <div style="position:absolute;bottom:-35px;left:-15px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none"></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;position:relative;z-index:1">
-          <div style="width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:none">🍊</div>
-          <h2 style="margin:0;color:#fff;flex:1;font-size:1.05rem">Satsuma League</h2>
-          <button onclick="window.openSpecialLeagueBranding('satsuma')" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex:none" title="Appearance">⚙️</button>
+      <div class="lg-card" style="margin-bottom:14px">
+        <div class="lg-card-top">
+          <!-- id kept: league branding paints this crest -->
+          <span class="lg-crest" id="satsumaHeaderCard">🍊</span>
+          <div class="lg-card-title">
+            <h2 class="lg-name" style="margin:0">Satsuma League</h2>
+            <p class="lg-subline" style="margin:3px 0 0">Official all-time standings across every Satsuma session.</p>
+          </div>
+          <button onclick="window.openSpecialLeagueBranding('satsuma')" class="lg-gear" title="Appearance">⚙️</button>
         </div>
-        <p style="margin:0 0 14px;color:rgba(255,255,255,.75);font-size:.84rem;position:relative;z-index:1">Official all-time standings across every Satsuma session.</p>
-        <button id="satsumaEnableNotifBtn" onclick="window.enableSatsumaNotifications()" class="hide" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.25);border-radius:11px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.82rem;-webkit-tap-highlight-color:transparent;margin-bottom:10px;position:relative;z-index:1">
-          🔔 Enable notifications
-        </button>
-        <div id="satsumaStartBtnWrap" style="display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1">
-          <button onclick="if(window._moduleReady){window.createSatsumaSession('doubles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('doubles'));}" style="background:#fff;color:var(--court);border:none;border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.12);-webkit-tap-highlight-color:transparent">
-            🏸 Start doubles session
-          </button>
-          <button onclick="if(window._moduleReady){window.createSatsumaSession('singles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('singles'));}" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.9rem;-webkit-tap-highlight-color:transparent">
-            🎯 Start singles session
-          </button>
-          <button onclick="window.lockButton(this, () => window.submitSatsumaSession())" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.25);border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.9rem;-webkit-tap-highlight-color:transparent">
-            📤 Submit for approval
-          </button>
+        <div style="padding:0 14px 14px">
+          <button id="satsumaEnableNotifBtn" onclick="window.enableSatsumaNotifications()" class="lg-btn hide" style="margin-bottom:10px">🔔 Enable notifications</button>
+          <div id="satsumaStartBtnWrap" style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onclick="if(window._moduleReady){window.createSatsumaSession('doubles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('doubles'));}" class="lg-btn pri">🏸 Start doubles session</button>
+            <button onclick="if(window._moduleReady){window.createSatsumaSession('singles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('singles'));}" class="lg-btn out">🎯 Start singles session</button>
+            <button onclick="window.lockButton(this, () => window.submitSatsumaSession())" class="lg-btn">📤 Submit for approval</button>
+          </div>
         </div>
+        <div class="lg-pos" id="satsumaPos" style="display:none"></div>
       </div>
       <!-- View-only notice (shown for view-only users) -->
       <div id="satsumaViewOnlyBanner" class="hide" style="background:#e8f4fd;border:1px solid #bee3f8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.84rem;color:#2b6cb0;font-weight:600">
         👁 You have view-only access — you can see scores and history but can't start a session.
       </div>
       <div class="card" style="margin-bottom:18px">
-        <h2 style="margin:0 0 10px">Leaderboard</h2>
+        <h2 style="margin:0 0 10px">League table</h2>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
           <button onclick="window.showRatingHistoryChart()" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">📈 My history</button>
           <button onclick="window.printTable('satsumaTabLeaderboardBody', '🍊 Satsuma League')" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">🖨 Print</button>
@@ -1688,10 +1797,11 @@
 
     <!-- ── TAB: Analyse Match ─────────────────────────────────── -->
     <div class="tab-panel" id="tab-analyse">
-      <div style="background:linear-gradient(135deg,#1a365d,#2b6cb0);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">🔬 Analyse match</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Upload a photo of scores, paste results, or pick a local session — get a full breakdown.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 20v-7M12 20V5M18 20v-10"/></svg></span>
+        <h2>Match Analysis</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Upload a photo of scores, paste results, or pick a local session — get a full breakdown.</p>
       <!-- Input method tabs -->
       <div style="display:flex;gap:6px;margin-bottom:16px">
         <button data-amethod="local" onclick="window.setAnalyseMethod('local')" class="analyse-method-btn" style="flex:1;padding:10px;border-radius:10px;border:2px solid #2b6cb0;background:#2b6cb0;color:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem">📋 Local session</button>
@@ -2920,6 +3030,20 @@
         <button onclick="window.seedSatsumaPlayerRatings()" class="btn btn-ghost btn-sm" style="margin-top:6px;width:100%;font-size:.78rem">⚡ Set all to 1.5 (default)</button>
       </div>
 
+      <!-- Player emails: which email belongs to which player name -->
+      <div style="margin-bottom:14px;padding:12px 14px;background:var(--mist);border-radius:12px">
+        <div style="font-weight:700;font-size:.84rem;margin-bottom:4px">📧 Player emails <span style="font-weight:400;color:var(--muted);font-size:.76rem">— which email belongs to which player</span></div>
+        <p style="font-size:.74rem;color:var(--muted);margin:0 0 10px;line-height:1.5">Someone changed email? Type their name and their new email — their results, rating and badges stay under the same name. Keep "replace" ticked to retire the old email.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+          <input type="text" id="satEmailName" list="satEmailNameList" class="auth-input" style="flex:1 1 140px;min-width:0;margin:0;font-size:.84rem" placeholder="Player name" autocomplete="off">
+          <datalist id="satEmailNameList"></datalist>
+          <input type="email" id="satEmailInput" class="auth-input" style="flex:2 1 200px;min-width:0;margin:0;font-size:.84rem" placeholder="their@email.com" autocomplete="off">
+          <button onclick="window.lockButton(this, () => window.assignSatsumaEmail())" class="btn btn-dark btn-sm">Assign →</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:10px;cursor:pointer"><input type="checkbox" id="satEmailReplace" checked> Replace their old email(s)</label>
+        <div id="satsumaEmailList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+      </div>
+
       <!-- Season management -->
       <div style="margin-bottom:14px;padding:12px 14px;background:var(--mist);border-radius:12px">
         <div style="font-weight:700;font-size:.84rem;margin-bottom:8px">📅 Seasons</div>
@@ -3164,7 +3288,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot, getDoc, collection, getDocs, serverTimestamp, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, getDoc, collection, getDocs, serverTimestamp, deleteDoc, updateDoc, deleteField, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
@@ -4320,6 +4444,7 @@ window.switchAdminTab = async function(tab){
     await window.renderSatsumaLeaderboard();
     await window.loadSatsumaSubmissions();
     await window.loadSatsumaGameLog();
+    window.renderSatsumaEmailLinks();
     // Populate player dropdowns from dynamic roster
     ['satEditP1','satEditP2'].forEach(id=>{
       const sel = document.getElementById(id);
@@ -4608,6 +4733,133 @@ window.loadSatsumaGameLog = async function(){
   }catch(e){ log.innerHTML='<span style="color:var(--coral)">Failed.</span>'; }
 };
 
+// ── Email → roster-name links ──────────────────────────────────────────
+// Built-in defaults plus admin-editable overrides (settings/satsuma_emails).
+// An override of '' unlinks a built-in default, so an old email can be retired.
+const SATSUMA_EMAIL_DEFAULTS = {
+  'harryrunrun@icloud.com': 'Harry',
+  'zanequinn2012@gmail.com': 'Zane',
+  'cheungw560@gmail.com': 'Wai',
+  'george.yanyanyan@gmail.com': 'George',
+  'jaspercorlett@gmail.com': 'Jasper',
+  'emilycregeen@online.sch.im': 'Emily'
+};
+window._satsumaEmailOverrides = {};
+let _satsumaEmailLoad = null;
+window.loadSatsumaEmailMap = function(force){
+  if(force) _satsumaEmailLoad = null;
+  if(!_satsumaEmailLoad){
+    _satsumaEmailLoad = getDoc(doc(db,'settings','satsuma_emails')).then(s=>{
+      window._satsumaEmailOverrides = (s.exists() && s.data().map) || {};
+    }).catch(()=>{ /* keep whatever we have — defaults still work */ });
+  }
+  return _satsumaEmailLoad;
+};
+window.satsumaNameForEmail = function(email){
+  const e = (email||'').toLowerCase();
+  if(!e) return null;
+  const o = window._satsumaEmailOverrides || {};
+  if(Object.prototype.hasOwnProperty.call(o, e)) return o[e] || null;
+  return SATSUMA_EMAIL_DEFAULTS[e] || null;
+};
+// Every email currently linked to any name: { email: name }
+window.satsumaEmailLinks = function(){
+  const out = {};
+  Object.keys(SATSUMA_EMAIL_DEFAULTS).forEach(e=>{ const n = window.satsumaNameForEmail(e); if(n) out[e] = n; });
+  Object.keys(window._satsumaEmailOverrides||{}).forEach(e=>{ const n = window.satsumaNameForEmail(e); if(n) out[e] = n; });
+  return out;
+};
+window.saveSatsumaEmailOverrides = async function(map){
+  await setDoc(doc(db,'settings','satsuma_emails'), {
+    map, updatedAt: Date.now(), updatedBy: (auth.currentUser&&auth.currentUser.email)||''
+  });
+  window._satsumaEmailOverrides = map;
+  _satsumaEmailLoad = Promise.resolve();
+};
+
+window.renderSatsumaEmailLinks = async function(){
+  const list = document.getElementById('satsumaEmailList');
+  if(!list) return;
+  await window.loadSatsumaEmailMap(true);
+  const links = window.satsumaEmailLinks();
+  // Signed-up status per email, so the admin can see whether the new address has an account/access yet
+  const users = {};
+  try{
+    const snap = await getDocs(collection(db,'users'));
+    snap.forEach(d=>{ const u = d.data(); if(u.email) users[u.email.toLowerCase()] = u; });
+  }catch(e){}
+  const byName = {};
+  Object.entries(links).forEach(([email,name])=>{ (byName[name] = byName[name] || []).push(email); });
+  const names = [...new Set([...Object.keys(byName), ...(window.SATSUMA_ROSTER||[]), ...(window._satsumaLbNames||[])])]
+    .filter(Boolean).sort((a,b)=>a.localeCompare(b));
+  const dl = document.getElementById('satEmailNameList');
+  if(dl) dl.innerHTML = names.map(n=>'<option value="'+esc(n)+'"></option>').join('');
+  if(!names.length){ list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">No players yet.</p>'; return; }
+  list.innerHTML = names.map(name=>{
+    const emails = (byName[name]||[]).sort();
+    const rows = emails.length ? emails.map(email=>{
+      const u = users[email];
+      const hasAccess = SATSUMA_EMAIL_DEFAULTS[email] || (u && (u.satsumaAccess===true || u.satsumaAdmin===true));
+      const status = !u ? '<span style="color:var(--muted)">not signed up yet</span>'
+        : hasAccess ? '<span style="color:var(--pos)">✓ Satsuma access</span>'
+        : '<span style="color:var(--coral)">⚠ no Satsuma access — set it in the Users tab</span>';
+      return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0">'
+        +'<div style="flex:1;min-width:0"><div style="font-size:.78rem;overflow-wrap:anywhere">'+esc(email)+'</div><div style="font-size:.7rem">'+status+'</div></div>'
+        +'<button data-unlink="'+esc(email)+'" title="Unlink this email" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:2px 8px;flex:none">×</button>'
+        +'</div>';
+    }).join('') : '<div style="font-size:.76rem;color:var(--muted);padding:3px 0">No email linked</div>';
+    return '<div style="padding:8px 0;border-top:1px solid var(--hair)"><div style="font-weight:800;font-size:.84rem;margin-bottom:2px">'+esc(name)+'</div>'+rows+'</div>';
+  }).join('');
+  list.querySelectorAll('[data-unlink]').forEach(btn=>btn.onclick = ()=>window.unlinkSatsumaEmail(btn.dataset.unlink));
+};
+
+// Point a map entry at nothing: built-in defaults need an explicit '' override, custom ones can just go
+function _satsumaUnlinkInMap(map, email){
+  if(SATSUMA_EMAIL_DEFAULTS[email]) map[email] = ''; else delete map[email];
+}
+
+window.assignSatsumaEmail = async function(){
+  const nameEl = document.getElementById('satEmailName');
+  const emailEl = document.getElementById('satEmailInput');
+  let name = (nameEl.value||'').trim();
+  const email = (emailEl.value||'').trim().toLowerCase();
+  if(!name){ alert('Enter the player name.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Enter a valid email address.'); return; }
+  await window.loadSatsumaEmailMap(true);
+  const links = window.satsumaEmailLinks();
+  // Reuse the existing spelling if it only differs by case
+  const known = [...new Set([...Object.values(links), ...(window.SATSUMA_ROSTER||[]), ...(window._satsumaLbNames||[])])];
+  name = known.find(n=>n.toLowerCase()===name.toLowerCase()) || name;
+  const current = links[email];
+  if(current === name){ alert(email+' is already linked to '+name+'.'); return; }
+  if(current && !confirm(email+' is currently linked to '+current+'. Move it to '+name+'?')) return;
+  const replace = document.getElementById('satEmailReplace').checked;
+  const old = Object.entries(links).filter(([e,n])=>n===name && e!==email).map(([e])=>e);
+  if(replace && old.length && !confirm('Retire '+old.join(', ')+' for '+name+'? That email will no longer be recognised as '+name+'.')) return;
+  const map = {...(window._satsumaEmailOverrides||{})};
+  map[email] = name;
+  if(replace) old.forEach(e=>_satsumaUnlinkInMap(map, e));
+  try{
+    await window.saveSatsumaEmailOverrides(map);
+    nameEl.value = ''; emailEl.value = '';
+    if(typeof window.loadSatsumaRoster === 'function') window.loadSatsumaRoster();
+    await window.renderSatsumaEmailLinks();
+    if(window.showToast) window.showToast(email+' linked to '+name, {icon:'✅'});
+  }catch(e){ alert('Failed to save: '+e.message); }
+};
+
+window.unlinkSatsumaEmail = async function(email){
+  const name = window.satsumaNameForEmail(email);
+  if(!confirm('Unlink '+email+' from '+(name||'this player')+'? They will no longer be recognised as '+(name||'that player')+'.')) return;
+  const map = {...(window._satsumaEmailOverrides||{})};
+  _satsumaUnlinkInMap(map, email);
+  try{
+    await window.saveSatsumaEmailOverrides(map);
+    if(typeof window.loadSatsumaRoster === 'function') window.loadSatsumaRoster();
+    await window.renderSatsumaEmailLinks();
+  }catch(e){ alert('Failed to save: '+e.message); }
+};
+
 window.renderSatsumaLeaderboard = async function(){
   const body = document.getElementById('satsumaLeaderboardBody');
   if(!body) return;
@@ -4622,16 +4874,9 @@ window.renderSatsumaLeaderboard = async function(){
     });
   }
 
-  const EMAIL_TO_NAME = {
-    'harryrunrun@icloud.com': 'Harry',
-    'zanequinn2012@gmail.com': 'Zane',
-    'cheungw560@gmail.com': 'Wai',
-    'george.yanyanyan@gmail.com': 'George',
-    'jaspercorlett@gmail.com': 'Jasper',
-    'emilycregeen@online.sch.im': 'Emily'
-  };
+  await window.loadSatsumaEmailMap();
   const myEmail = (currentUser && currentUser.email || '').toLowerCase();
-  const myRosterName = EMAIL_TO_NAME[myEmail] || null;
+  const myRosterName = window.satsumaNameForEmail(myEmail) || null;
 
   try{
     const { rows, docCount } = await window.loadSatsumaLeaderboard();
@@ -4643,6 +4888,7 @@ window.renderSatsumaLeaderboard = async function(){
 
     // Render ratings editor
     const allNames = [...new Set(playedRows.map(r=>r.name))];
+    window._satsumaLbNames = allNames;
     window.renderSatsumaRatingsList(allNames);
 
     body.innerHTML = '';
@@ -4674,14 +4920,7 @@ window.renderSatsumaLeaderboard = async function(){
 window.loadAllUsers = async function(){
   const list = document.getElementById('adminUserList');
   list.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading…</p>';
-  const EMAIL_TO_NAME = {
-    'harryrunrun@icloud.com': 'Harry',
-    'zanequinn2012@gmail.com': 'Zane',
-    'cheungw560@gmail.com': 'Wai',
-    'george.yanyanyan@gmail.com': 'George',
-    'jaspercorlett@gmail.com': 'Jasper',
-    'emilycregeen@online.sch.im': 'Emily'
-  };
+  await window.loadSatsumaEmailMap();
   try{
     const snap = await getDocs(collection(db, 'users'));
     const users = [];
@@ -4693,7 +4932,7 @@ window.loadAllUsers = async function(){
     }
     list.innerHTML = '';
     users.forEach(u => {
-      const displayName = EMAIL_TO_NAME[(u.email||'').toLowerCase()] || u.name || 'Unnamed';
+      const displayName = window.satsumaNameForEmail(u.email) || u.name || 'Unnamed';
       const isBanned = u.bannedUntil && (u.bannedUntil === -1 || u.bannedUntil > Date.now());
       const banLabel = isBanned ? (u.bannedUntil === -1 ? ' · 🚫 Banned indefinitely' : ' · 🚫 Banned until '+new Date(u.bannedUntil).toLocaleDateString()) : '';
       const row = document.createElement('div');
@@ -5082,6 +5321,159 @@ window.joinLeague = async function(){
   }catch(e){ err.style.display='block'; err.textContent='Failed: '+e.message; }
 };
 
+// ── Shared league UI helpers ───────────────────────────────────────────
+// Profile photos: users/{uid}.photoData, indexed by email and by the roster name
+// an admin linked to that email (Satsuma), so names on a table can show a face.
+let _photoCache = null;
+window.getPlayerPhotos = async function(){
+  if(_photoCache && Date.now()-_photoCache.ts < 300000) return _photoCache;
+  const byEmail = {}, byName = {};
+  try{
+    if(window.loadSatsumaEmailMap) await window.loadSatsumaEmailMap();
+    const snap = await getDocs(collection(db,'users'));
+    const nameCount = {};
+    const users = [];
+    snap.forEach(d=>{ const u = d.data(); users.push(u); const n = (u.name||'').toLowerCase(); if(n) nameCount[n] = (nameCount[n]||0)+1; });
+    users.forEach(u=>{
+      if(!u.photoData) return;
+      const email = (u.email||'').toLowerCase();
+      if(email) byEmail[email] = u.photoData;
+      const linked = window.satsumaNameForEmail ? window.satsumaNameForEmail(email) : null;
+      if(linked) byName[linked.toLowerCase()] = u.photoData;
+    });
+    // Fall back to their own profile name, but only when it's unambiguous
+    users.forEach(u=>{
+      const n = (u.name||'').toLowerCase();
+      if(u.photoData && n && nameCount[n]===1 && !byName[n]) byName[n] = u.photoData;
+    });
+  }catch(e){ /* no photos — initials are used */ }
+  _photoCache = { ts:Date.now(), byEmail, byName };
+  return _photoCache;
+};
+window.lgAvatar = function(name, photo){
+  if(photo) return '<img class="lg-av" src="'+esc(photo)+'" alt="" loading="lazy">';
+  return '<span class="lg-av">'+esc(([...String(name||'?').trim()][0]||'?').toUpperCase())+'</span>';
+};
+// delta = places climbed since last week (positive = up)
+window.lgTrend = function(delta){
+  if(delta==null) return '';
+  if(delta>0) return '<span class="lg-trend lg-up" data-t="▲'+delta+'"></span>';
+  if(delta<0) return '<span class="lg-trend lg-down" data-t="▼'+(-delta)+'"></span>';
+  return '<span class="lg-trend lg-flat" data-t="–"></span>';
+};
+window.lgPosHtml = function(rank, total, delta){
+  if(rank<0){
+    return '<div><div class="lg-pos-label">Your position</div><div class="lg-pos-val"><b>—</b><span>/ '+total+'</span></div></div>'
+      + '<div><div class="lg-delta-sub">Play a game in this league to get ranked</div></div>';
+  }
+  let right;
+  if(delta==null) right = '<div class="lg-delta lg-flat">—</div><div class="lg-delta-sub">since last week</div>';
+  else if(delta>0) right = '<div class="lg-delta lg-up">▲ +'+delta+'</div><div class="lg-delta-sub">since last week</div>';
+  else if(delta<0) right = '<div class="lg-delta lg-down">▼ −'+(-delta)+'</div><div class="lg-delta-sub">since last week</div>';
+  else right = '<div class="lg-delta lg-flat">– no change</div><div class="lg-delta-sub">since last week</div>';
+  return '<div><div class="lg-pos-label">Your position</div><div class="lg-pos-val"><b>'+(rank+1)+'</b><span>/ '+total+'</span></div></div><div>'+right+'</div>';
+};
+window.lgBrandBg = function(lg){
+  const c1 = lg.brandColor || '#d9701f', c2 = lg.brandColor2 || (lg.brandColor ? lg.brandColor+'bb' : '#e8893e');
+  return lg.brandImage
+    ? "linear-gradient(135deg,"+c1+"cc,"+c2+"cc), url('"+lg.brandImage+"') center/cover"
+    : "linear-gradient(135deg,"+c1+","+c2+")";
+};
+
+// The name this league knows the signed-in user by: custom name > league profile > account name
+window.leagueMyName = function(lg){
+  const email = (auth.currentUser && auth.currentUser.email || '').toLowerCase();
+  const p = ((lg&&lg.members)||{})[email.replace(/[@.]/g,'_')];
+  return ((lg&&lg.memberNames)||{})[email] || (p && p.name) || (window.currentUserData && window.currentUserData.name) || null;
+};
+// lower-cased player name → photo, for the people in one league
+window.leaguePhotoMap = function(lg, photos){
+  const map = {};
+  ((lg&&lg.memberEmails)||[]).forEach(e=>{
+    const el = e.toLowerCase();
+    const p = ((lg.members)||{})[el.replace(/[@.]/g,'_')];
+    const n = ((lg.memberNames)||{})[el] || (p && p.name);
+    const ph = photos && photos.byEmail[el];
+    if(n && ph) map[n.toLowerCase()] = ph;
+  });
+  const me = window.leagueMyName(lg);
+  if(me && window.currentUserData && window.currentUserData.photoData) map[me.toLowerCase()] = window.currentUserData.photoData;
+  return map;
+};
+
+// Same maths the leaderboards always used: sorted by point difference, then wins; ELO alongside
+window.computeLeagueRows = function(approved){
+  const stats = {};
+  approved.forEach(m=>{
+    [m.t1||[], m.t2||[]].forEach((team,side)=>{
+      team.forEach(name=>{
+        if(!stats[name]) stats[name] = {name,played:0,won:0,lost:0,for:0,against:0};
+        stats[name].played++;
+        stats[name].for += side===0?m.s1:m.s2;
+        stats[name].against += side===0?m.s2:m.s1;
+        if((side===0&&m.s1>m.s2)||(side===1&&m.s2>m.s1)) stats[name].won++;
+        else if((side===0&&m.s1<m.s2)||(side===1&&m.s2<m.s1)) stats[name].lost++;
+      });
+    });
+  });
+  const elos = {};
+  const getE = n=>(elos[n]||1000);
+  approved.slice().sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0)).forEach(m=>{
+    const t1=m.t1||[], t2=m.t2||[];
+    const r1 = t1.reduce((s,n)=>s+getE(n),0)/Math.max(t1.length,1);
+    const r2 = t2.reduce((s,n)=>s+getE(n),0)/Math.max(t2.length,1);
+    const w1 = m.s1>m.s2?1:m.s1<m.s2?0:0.5;
+    const k = 32;
+    t1.forEach(n=>{ elos[n] = (getE(n)+k*(w1-1/(1+Math.pow(10,(r2-r1)/400))))|0; });
+    t2.forEach(n=>{ elos[n] = (getE(n)+k*((1-w1)-1/(1+Math.pow(10,(r1-r2)/400))))|0; });
+  });
+  return Object.values(stats).map(s=>({...s,diff:s.for-s.against,elo:elos[s.name]||1000}))
+    .sort((a,b)=>b.diff-a.diff||b.won-a.won);
+};
+// rows now, plus places gained/lost against the table as it stood a week ago
+window.leagueBoardData = function(approved){
+  const rows = window.computeLeagueRows(approved);
+  const weekAgo = Date.now() - 7*24*3600*1000;
+  const older = approved.filter(m=>(m.submittedAt||0) <= weekAgo);
+  let deltas = null;
+  if(older.length){
+    const before = {};
+    window.computeLeagueRows(older).forEach((r,i)=>{ before[r.name] = i; });
+    deltas = {};
+    rows.forEach((r,i)=>{ if(before[r.name]!=null) deltas[r.name] = before[r.name]-i; });
+  }
+  return { rows, deltas };
+};
+// Fill a league <tbody>. Returns the signed-in user's index in rows (or -1).
+window.fillLeagueBody = function(body, rows, opts){
+  const myName = opts.myName, photoMap = opts.photoMap||{}, deltas = opts.deltas;
+  body.innerHTML = '';
+  let myIdx = -1;
+  rows.forEach((r,i)=>{
+    const isMe = !!myName && r.name.toLowerCase()===myName.toLowerCase();
+    if(isMe) myIdx = i;
+    const tr = document.createElement('tr');
+    if(isMe) tr.style.background = 'var(--mist-2)';
+    const d = r.diff>0?'pos':r.diff<0?'neg':'zero';
+    const dt = (r.diff>0?'+':'')+r.diff;
+    tr.innerHTML = '<td><span class="pname"><span class="rankpill">'+(i+1)+'</span>'+window.lgAvatar(r.name, photoMap[r.name.toLowerCase()])
+      +'<span class="nm"'+(isMe?' style="font-weight:800"':'')+'>'+esc(r.name)+(isMe?' <span style="font-size:.7rem;color:var(--court)">(Me)</span>':'')+'</span>'+window.lgTrend(deltas ? deltas[r.name] : null)+'</span></td>'
+      +'<td class="num">'+r.played+'</td><td class="num">'+r.won+'</td><td class="num">'+r.lost+'</td>'
+      +'<td class="num">'+r.for+'</td><td class="num">'+r.against+'</td>'
+      +'<td class="num"><span class="diff '+d+'">'+dt+'</span></td>'
+      +'<td class="num"><span style="font-size:.74rem;font-weight:800;color:var(--court)">'+r.elo+'</span></td>';
+    body.appendChild(tr);
+  });
+  return myIdx;
+};
+
+window.switchLeaguesTab = function(which){
+  document.querySelectorAll('#leaguesTab [data-lgtab]').forEach(b=>b.classList.toggle('on', b.dataset.lgtab===which));
+  document.getElementById('lgPanelMine').classList.toggle('hide', which!=='mine');
+  document.getElementById('lgPanelHistory').classList.toggle('hide', which!=='history');
+  if(which==='history') window.loadLeaguesHistory();
+};
+
 window.loadMyLeagues = async function(){
   const list = document.getElementById('myLeaguesList');
   if(!list) return;
@@ -5089,14 +5481,20 @@ window.loadMyLeagues = async function(){
   if(!user){ list.innerHTML=''; return; }
   list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
   try{
-    const snap = await getDocs(collection(db,'leagues'));
     const email = (user.email||'').toLowerCase();
+    const [snap, matchSnap] = await Promise.all([
+      getDocs(collection(db,'leagues')),
+      getDocs(collection(db,'leagueMatches')).catch(()=>null)
+    ]);
     const myLeagues = [];
     snap.forEach(d=>{
       const data = d.data();
       const members = (data.memberEmails||[]).map(e=>e.toLowerCase());
       if(members.includes(email) || data.creatorUid === user.uid) myLeagues.push(data);
     });
+    const approved = [];
+    if(matchSnap) matchSnap.forEach(d=>{ const m = d.data(); if(m.status==='approved') approved.push(m); });
+    window._lgCache = { leagues: myLeagues, matches: approved };
     if(myLeagues.length === 0){
       list.innerHTML='<p style="color:var(--muted);font-size:.84rem">No leagues yet — create one or join with a code.</p>';
       return;
@@ -5105,22 +5503,53 @@ window.loadMyLeagues = async function(){
     myLeagues.forEach(lg=>{
       const isAdmin = lg.creatorUid===user.uid || (lg.adminEmails||[]).map(e=>e.toLowerCase()).includes(email) || window.currentUserRole==='admin';
       const memberCount = (lg.memberEmails||[]).length;
-      const btn = document.createElement('button');
-      btn.style='width:100%;text-align:left;background:var(--paper);border:1px solid var(--hair);border-radius:14px;padding:16px 18px;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:border-color .12s,box-shadow .12s';
-      btn.onmouseover=()=>{ btn.style.borderColor='var(--court)'; btn.style.boxShadow='0 2px 12px rgba(217,112,31,.12)'; };
-      btn.onmouseout=()=>{ btn.style.borderColor='var(--hair)'; btn.style.boxShadow='none'; };
-      btn.innerHTML=`
-        <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--court),var(--court-2));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none">🏆</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:800;font-size:.96rem;color:var(--ink);margin-bottom:2px">${esc(lg.name)}</div>
-          <div style="font-size:.76rem;color:var(--muted)">${memberCount} member${memberCount===1?'':'s'} · <span style="font-family:monospace">${lg.code}</span></div>
-        </div>
-        ${isAdmin ? '<span style="font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--mist-2);color:var(--court)">Admin</span>' : ''}
-      `;
-      btn.onclick=()=>window.openLeaguePage(lg.code);
-      list.appendChild(btn);
+      const { rows, deltas } = window.leagueBoardData(approved.filter(m=>m.leagueCode===lg.code));
+      const myName = window.leagueMyName(lg);
+      const myIdx = myName ? rows.findIndex(r=>r.name.toLowerCase()===myName.toLowerCase()) : -1;
+      const delta = (myIdx>=0 && deltas) ? deltas[rows[myIdx].name] : null;
+      const card = document.createElement('div');
+      card.className = 'lg-card';
+      card.innerHTML =
+        '<div class="lg-card-top" data-open style="cursor:pointer">'
+        + '<span class="lg-crest" style="background:'+window.lgBrandBg(lg)+'">'+esc(lg.brandEmoji||'🏆')+'</span>'
+        + '<div class="lg-card-title"><div class="lg-name">'+esc(lg.name)+'</div>'
+        + '<div class="lg-subline">'+(isAdmin?'League admin':'Member')+' · '+memberCount+' member'+(memberCount===1?'':'s')+' · <span style="font-family:monospace">'+esc(lg.code)+'</span></div></div>'
+        + '<span class="lg-chev">›</span></div>'
+        + '<div class="lg-pos">'+window.lgPosHtml(myIdx, rows.length, delta)+'</div>';
+      card.querySelector('[data-open]').onclick = ()=>window.openLeaguePage(lg.code);
+      list.appendChild(card);
     });
   }catch(e){ list.innerHTML='<p style="color:var(--coral);font-size:.84rem">Failed to load leagues.</p>'; }
+};
+
+// History tab: the signed-in user's approved games across their leagues, newest first
+window.loadLeaguesHistory = async function(){
+  const box = document.getElementById('lgHistoryList');
+  if(!box) return;
+  if(!window._lgCache) await window.loadMyLeagues();
+  const cache = window._lgCache;
+  if(!cache || !cache.leagues.length){ box.innerHTML='<p style="color:var(--muted);font-size:.84rem">Join a league to see your games here.</p>'; return; }
+  const items = [];
+  cache.leagues.forEach(lg=>{
+    const me = window.leagueMyName(lg);
+    if(!me) return;
+    const mine = n=>(n||'').toLowerCase()===me.toLowerCase();
+    cache.matches.forEach(m=>{
+      if(m.leagueCode!==lg.code) return;
+      const in1 = (m.t1||[]).some(mine), in2 = (m.t2||[]).some(mine);
+      if(!in1 && !in2) return;
+      items.push({lg, m, res: m.s1===m.s2 ? 'd' : ((in1 && m.s1>m.s2) || (in2 && m.s2>m.s1)) ? 'w' : 'l'});
+    });
+  });
+  items.sort((a,b)=>(b.m.submittedAt||b.m.playedAt||0)-(a.m.submittedAt||a.m.playedAt||0));
+  if(!items.length){ box.innerHTML='<p style="color:var(--muted);font-size:.84rem">No approved games yet.</p>'; return; }
+  box.innerHTML = items.slice(0,50).map(({lg,m,res})=>{
+    const ts = m.submittedAt||m.playedAt||0;
+    const date = ts ? new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
+    return '<div class="lg-hist"><div class="lg-hist-meta"><span>'+esc(lg.name)+'</span><span>'+esc(date)+'</span></div>'
+      + '<div class="lg-hist-row"><span class="t">'+esc((m.t1||[]).join(' & '))+'</span><span class="s">'+m.s1+'–'+m.s2+'</span>'
+      + '<span class="t r">'+esc((m.t2||[]).join(' & '))+'</span><span class="lg-res '+res+'">'+res.toUpperCase()+'</span></div></div>';
+  }).join('');
 };
 
 window.closeLeaguePage = function(){
@@ -5157,21 +5586,18 @@ window.openLeaguePage = async function(code){
     primaryRow.style='display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px';
 
     const startBtn = document.createElement('button');
-    startBtn.className='btn btn-sm';
-    startBtn.style='background:#fff;color:var(--court);border:none;font-weight:800;padding:9px 16px';
+    startBtn.className='lg-btn pri';
     startBtn.textContent='\u{1f3f8} Start session';
     startBtn.onclick=()=>window.startLeagueSession(code);
     primaryRow.appendChild(startBtn);
 
     const copyBtn = document.createElement('button');
-    copyBtn.className='btn btn-sm';
-    copyBtn.style='background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);padding:9px 16px';
+    copyBtn.className='lg-btn';
     copyBtn.textContent='\u{1f517} Copy invite link';
     copyBtn.onclick=()=>{ window._newLeagueCode=code; window.copyLeagueCode(); };
     primaryRow.appendChild(copyBtn);
     const qrBtn = document.createElement('button');
-    qrBtn.className='btn btn-sm';
-    qrBtn.style='background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.25);padding:9px 14px';
+    qrBtn.className='lg-btn';
     qrBtn.textContent='\u{1f4f7} QR';
     qrBtn.onclick=()=>window.showLeagueQR(code, currentLeagueData.name);
     primaryRow.appendChild(qrBtn);
@@ -5182,7 +5608,7 @@ window.openLeaguePage = async function(code){
     secondaryRow.style='display:flex;gap:6px;flex-wrap:wrap';
 
     const shareInviteBtn = document.createElement('button');
-    shareInviteBtn.style='padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600;display:flex;align-items:center;gap:5px';
+    shareInviteBtn.style='padding:5px 11px;border-radius:8px;background:var(--mist);color:var(--muted);border:1px solid var(--hair);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600;display:flex;align-items:center;gap:5px';
     shareInviteBtn.innerHTML='\u{1f4f2} WhatsApp';
     shareInviteBtn.onclick=()=>{
       const url = location.origin+location.pathname+'?league='+code;
@@ -5193,7 +5619,7 @@ window.openLeaguePage = async function(code){
 
     // Embed leaderboard link
     const embedBtn = document.createElement('button');
-    embedBtn.style='padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600';
+    embedBtn.style='padding:5px 11px;border-radius:8px;background:var(--mist);color:var(--muted);border:1px solid var(--hair);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600';
     embedBtn.textContent='📊 Share leaderboard';
     embedBtn.onclick=()=>{
       const url=location.origin+location.pathname+'?league='+code+'&view=leaderboard';
@@ -5204,7 +5630,7 @@ window.openLeaguePage = async function(code){
     if(isAdmin){
       const seasonNum = currentLeagueData.currentSeason||1;
       const seasonBtn = document.createElement('button');
-      seasonBtn.style='padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600';
+      seasonBtn.style='padding:5px 11px;border-radius:8px;background:var(--mist);color:var(--muted);border:1px solid var(--hair);cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:600';
       seasonBtn.textContent='\u{1f3c6} End Season '+seasonNum;
       seasonBtn.onclick=()=>window.endSeason(code);
       secondaryRow.appendChild(seasonBtn);
@@ -5472,10 +5898,99 @@ window.renderLeagueMembers = function(){
         <div style="font-weight:700;font-size:.86rem;color:var(--ink)">${esc(displayName||'(no display name)')}</div>
         <div style="font-size:.72rem;color:var(--muted)">${esc(email)}</div>
       </div>
+      <button data-editmember="${esc(email)}" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:.9rem;padding:4px 8px" title="Change this player's email">✏️</button>
       <button data-removemember="${esc(email)}" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:4px 8px" title="Remove">×</button>`;
     list.appendChild(row);
   });
   list.querySelectorAll('[data-removemember]').forEach(btn=>btn.onclick=()=>window.removeLeagueMember(btn.dataset.removemember));
+  // ✏️ pre-fills the link form with this player's name so only the new email is needed
+  list.querySelectorAll('[data-editmember]').forEach(btn=>btn.onclick=()=>{
+    const name = window._leagueNameForEmail(btn.dataset.editmember);
+    const nameEl = document.getElementById('leagueAssignName');
+    const emailEl = document.getElementById('leagueAssignEmail');
+    if(nameEl) nameEl.value = name || '';
+    if(emailEl){ emailEl.value = ''; emailEl.scrollIntoView({behavior:'smooth',block:'center'}); emailEl.focus(); }
+    if(!name) alert('This member has no display name yet — type the player name in the box, then enter their new email.');
+  });
+  window.renderLeagueAssignOptions();
+};
+
+// Display name for an email in the open league: custom name > profile name > null
+window._leagueNameForEmail = function(email){
+  const lg = window.currentLeagueData; if(!lg || !email) return null;
+  const e = email.toLowerCase();
+  const p = (lg.members||{})[e.replace(/[@.]/g,'_')];
+  return (lg.memberNames||{})[e] || (p && p.name) || null;
+};
+
+// Name suggestions for the link form: named members plus anyone on the leaderboard
+window.renderLeagueAssignOptions = function(){
+  const dl = document.getElementById('leagueAssignNameList');
+  const lg = window.currentLeagueData;
+  if(!dl || !lg) return;
+  const names = new Set();
+  (lg.memberEmails||[]).forEach(e=>{ const n = window._leagueNameForEmail(e); if(n) names.add(n); });
+  (window._leagueBoardNames||[]).forEach(n=>names.add(n));
+  dl.innerHTML = [...names].sort((a,b)=>a.localeCompare(b)).map(n=>'<option value="'+esc(n)+'"></option>').join('');
+};
+
+window.assignLeagueEmail = async function(){
+  if(!currentLeagueCode || !currentLeagueData) return;
+  const nameEl = document.getElementById('leagueAssignName');
+  const emailEl = document.getElementById('leagueAssignEmail');
+  let name = (nameEl.value||'').trim();
+  const email = (emailEl.value||'').trim().toLowerCase();
+  if(!name){ alert('Enter the player name.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('Enter a valid email address.'); return; }
+
+  const lg = currentLeagueData;
+  const memberEmails = lg.memberEmails || [];
+  const memberNames = {...(lg.memberNames||{})};
+  const profiles = {...(lg.members||{})};
+  const keyOf = e=>e.toLowerCase().replace(/[@.]/g,'_');
+  const nameOf = e=>window._leagueNameForEmail(e);
+  const same = (a,b)=>(a||'').toLowerCase()===(b||'').toLowerCase();
+
+  // Reuse the existing spelling if it only differs by case
+  const known = [...memberEmails.map(nameOf).filter(Boolean), ...(window._leagueBoardNames||[])];
+  name = known.find(n=>same(n,name)) || name;
+
+  const currentOwner = memberEmails.some(e=>same(e,email)) ? nameOf(email) : null;
+  if(currentOwner && same(currentOwner,name)){ alert(email+' is already linked to '+name+'.'); return; }
+  if(currentOwner && !confirm(email+' is currently linked to '+currentOwner+'. Move it to '+name+'?')) return;
+
+  const replace = document.getElementById('leagueAssignReplace').checked;
+  const old = memberEmails.filter(e=>!same(e,email) && same(nameOf(e),name));
+  if(replace && old.length && !confirm('Retire '+old.join(', ')+' for '+name+'? That email will be removed from the league.')) return;
+
+  const isOld = e=>replace && old.some(o=>same(o,e));
+  const newMembers = memberEmails.filter(e=>!isOld(e));
+  if(!newMembers.some(e=>same(e,email))) newMembers.push(email);
+
+  // Names: drop the retired emails' entries, point the new email at this name
+  if(replace) old.forEach(o=>{ delete memberNames[o.toLowerCase()]; });
+  memberNames[email] = name;
+
+  // Profiles (name/gender): carry the first old profile over to the new email, drop the retired ones
+  const newProfiles = {...profiles};
+  const carried = replace ? old.map(o=>profiles[keyOf(o)]).find(Boolean) : null;
+  if(replace) old.forEach(o=>{ delete newProfiles[keyOf(o)]; });
+  if(carried && !newProfiles[keyOf(email)]) newProfiles[keyOf(email)] = {...carried, email: carried.email===null ? null : email};
+
+  // If a retired email was a league admin, the new one takes over that role
+  let adminEmails = lg.adminEmails || [];
+  if(replace && adminEmails.some(a=>isOld(a))){
+    adminEmails = adminEmails.filter(a=>!isOld(a));
+    if(!adminEmails.some(a=>same(a,email))) adminEmails.push(email);
+  }
+
+  try{
+    await updateDoc(doc(db,'leagues',currentLeagueCode), { memberEmails:newMembers, memberNames, members:newProfiles, adminEmails });
+    lg.memberEmails = newMembers; lg.memberNames = memberNames; lg.members = newProfiles; lg.adminEmails = adminEmails;
+    nameEl.value = ''; emailEl.value = '';
+    window.renderLeagueMembers();
+    if(window.showToast) window.showToast(email+' linked to '+name, {icon:'✅'});
+  }catch(e){ alert('Failed: '+e.message); }
 };
 
 window.addLeagueMember = async function(){
@@ -5678,24 +6193,27 @@ window.createLeagueTab = function(lg, user, email, dynNav, dynPanels){
   panel.className = 'tab-panel';
   panel.id = 'tab-'+tabId;
   panel.innerHTML = `
-    <div id="lgHeader_${lg.id}" style="background:${bgStyle};border-radius:16px;padding:20px 22px;margin-bottom:18px;position:relative">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-        <span style="font-size:1.6rem;line-height:1">${emoji}</span>
-        <h2 style="margin:0;color:#fff;font-size:1.2rem;flex:1">${esc(lg.name)}</h2>
-        ${isAdmin ? `<button onclick="window.openLeagueBrandingModal('${lg.id}')" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex:none" title="League settings">⚙️</button>` : ''}
+    <div id="lgHeader_${lg.id}" class="lg-card">
+      <div class="lg-card-top">
+        <span id="lgCrest_${lg.id}" class="lg-crest" style="background:${bgStyle}">${emoji}</span>
+        <div class="lg-card-title">
+          <h2 class="lg-name" style="margin:0">${esc(lg.name)}</h2>
+          <div class="lg-subline">📍 ${esc(lg.location||'')} · ${isAdmin?'League admin':'Member'}</div>
+        </div>
+        ${isAdmin ? `<button class="lg-gear" onclick="window.openLeagueBrandingModal('${lg.id}')" title="League settings">⚙️</button>` : ''}
       </div>
-      <p style="margin:0 0 12px;color:rgba(255,255,255,.75);font-size:.82rem">📍 ${esc(lg.location||'')} · ${isAdmin?'League admin':'Member'}</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="window.startLeagueSession('${lg.id}')" style="background:#fff;color:${color};border:none;border-radius:10px;padding:8px 16px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.88rem">🏸 Start session</button>
-        <button onclick="window.copyLeagueCode('${lg.id}')" style="background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 14px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem">🔗 Invite</button>
-        <button onclick="window.showLeagueQR('${lg.id}','${esc(lg.name)}')" style="background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:8px 12px;cursor:pointer;font-family:inherit;font-size:.82rem">📷 QR</button>
+      <div class="lg-actions">
+        <button class="lg-btn pri" onclick="window.startLeagueSession('${lg.id}')">🏸 Start session</button>
+        <button class="lg-btn" onclick="window.copyLeagueCode('${lg.id}')">🔗 Invite</button>
+        <button class="lg-btn" onclick="window.showLeagueQR('${lg.id}','${esc(lg.name)}')">📷 QR</button>
       </div>
+      <div class="lg-pos" id="lgPos_${lg.id}"><div><div class="lg-pos-label">Your position</div><div class="lg-pos-val"><b>—</b></div></div><div><div class="lg-delta-sub">Loading…</div></div></div>
     </div>
 
-    <!-- Leaderboard -->
+    <!-- League table -->
+    <h3 class="lg-tt">League table</h3>
     <div class="card" style="margin-bottom:18px">
-      <h2 style="margin-bottom:4px">Leaderboard</h2>
-      <p class="hint">Live — updates as you play.</p>
+      <p class="hint" style="margin-bottom:8px">Live — updates as you play.</p>
       <div class="sttbl-wrap"><table class="sttbl">
         <thead><tr>
           <th>Player</th><th class="num">Pld</th><th class="num">W</th><th class="num">L</th>
@@ -5759,62 +6277,23 @@ window.loadLeagueTab = function(leagueId){
 window.renderLeagueTabLeaderboard = async function(leagueId){
   const body = document.getElementById('lgLb_'+leagueId);
   if(!body) return;
+  const posEl = document.getElementById('lgPos_'+leagueId);
   try{
-    const snap = await getDocs(collection(db,'leagueMatches'));
+    const [snap, photos] = await Promise.all([getDocs(collection(db,'leagueMatches')), window.getPlayerPhotos()]);
     const approved = [];
     snap.forEach(d=>{
       const m = d.data();
       if(m.leagueCode===leagueId && m.status==='approved') approved.push(m);
     });
-
-    // Build stats
-    const stats = {};
-    approved.forEach(m=>{
-      [m.t1||[], m.t2||[]].forEach((team,side)=>{
-        team.forEach(name=>{
-          if(!stats[name]) stats[name]={name,played:0,won:0,lost:0,for:0,against:0};
-          stats[name].played++;
-          stats[name].for += side===0?m.s1:m.s2;
-          stats[name].against += side===0?m.s2:m.s1;
-          if((side===0&&m.s1>m.s2)||(side===1&&m.s2>m.s1)) stats[name].won++;
-          else if((side===0&&m.s1<m.s2)||(side===1&&m.s2<m.s1)) stats[name].lost++;
-        });
-      });
-    });
-
-    // ELO
-    const elos = {};
-    approved.sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0));
-    const getE = n=>(elos[n]||1000);
-    approved.forEach(m=>{
-      const t1=m.t1||[], t2=m.t2||[];
-      const r1=t1.reduce((s,n)=>s+getE(n),0)/Math.max(t1.length,1);
-      const r2=t2.reduce((s,n)=>s+getE(n),0)/Math.max(t2.length,1);
-      const w1=m.s1>m.s2?1:m.s1<m.s2?0:0.5;
-      const k=32;
-      t1.forEach(n=>{elos[n]=(getE(n)+k*(w1-1/(1+Math.pow(10,(r2-r1)/400))))|0;});
-      t2.forEach(n=>{elos[n]=(getE(n)+k*((1-w1)-1/(1+Math.pow(10,(r1-r2)/400))))|0;});
-    });
-
-    const rows = Object.values(stats).map(s=>({...s,diff:s.for-s.against,elo:elos[s.name]||1000}))
-      .sort((a,b)=>b.diff-a.diff||b.won-a.won);
-
-    const myName = window.currentUserData&&window.currentUserData.name;
-    if(!rows.length){ body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--muted);font-size:.85rem">No games played yet. Start a session!</td></tr>'; return; }
-    body.innerHTML='';
-    rows.forEach((r,i)=>{
-      const isMe = myName && r.name.toLowerCase()===myName.toLowerCase();
-      const tr=document.createElement('tr');
-      if(isMe) tr.style.background='var(--mist-2)';
-      const d=r.diff>0?'pos':r.diff<0?'neg':'zero';
-      const dt=(r.diff>0?'+':'')+r.diff;
-      tr.innerHTML='<td><span class="pname"><span class="rankpill">'+(i+1)+'</span><span class="nm"'+(isMe?' style="font-weight:800"':'')+'>'+esc(r.name)+'</span>'+(isMe?'<span style="font-size:.7rem;color:var(--court);margin-left:4px">(Me)</span>':'')+'</span></td>'
-        +'<td class="num">'+r.played+'</td><td class="num">'+r.won+'</td><td class="num">'+r.lost+'</td>'
-        +'<td class="num">'+r.for+'</td><td class="num">'+r.against+'</td>'
-        +'<td class="num"><span class="diff '+d+'">'+dt+'</span></td>'
-        +'<td class="num"><span style="font-size:.74rem;font-weight:800;color:var(--court)">'+r.elo+'</span></td>';
-      body.appendChild(tr);
-    });
+    const lg = (window._allLeagueData||{})[leagueId] || {};
+    const { rows, deltas } = window.leagueBoardData(approved);
+    if(!rows.length){
+      body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--muted);font-size:.85rem">No games played yet. Start a session!</td></tr>';
+      if(posEl) posEl.innerHTML = window.lgPosHtml(-1, 0, null);
+      return;
+    }
+    const myIdx = window.fillLeagueBody(body, rows, { myName: window.leagueMyName(lg), photoMap: window.leaguePhotoMap(lg, photos), deltas });
+    if(posEl) posEl.innerHTML = window.lgPosHtml(myIdx, rows.length, (myIdx>=0 && deltas) ? deltas[rows[myIdx].name] : null);
   }catch(e){ body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--coral);font-size:.85rem">Failed.</td></tr>'; }
 };
 
@@ -7358,51 +7837,23 @@ window.showPublicLeaderboard = async function(code){
 // ── ELO on leaderboard ────────────────────────────────────────────
 window.renderLeagueLeaderboard = async function(code, leagueData){
   const body = document.getElementById('leagueLeaderboardBody');
+  const posEl = document.getElementById('leaguePagePos');
   try{
-    const snap = await getDocs(collection(db,'leagueMatches'));
+    const [snap, photos] = await Promise.all([getDocs(collection(db,'leagueMatches')), window.getPlayerPhotos()]);
     const approved = [];
     snap.forEach(d=>{ const m=d.data(); if(m.leagueCode===code&&m.status==='approved') approved.push(m); });
-    const stats = {};
-    approved.forEach(m=>{
-      [m.t1||[],m.t2||[]].forEach((team,side)=>{
-        team.forEach(name=>{
-          if(!stats[name]) stats[name]={name,played:0,won:0,lost:0,for:0,against:0};
-          stats[name].played++;
-          stats[name].for += side===0?m.s1:m.s2;
-          stats[name].against += side===0?m.s2:m.s1;
-          if((side===0&&m.s1>m.s2)||(side===1&&m.s2>m.s1)) stats[name].won++;
-          else if((side===0&&m.s1<m.s2)||(side===1&&m.s2<m.s1)) stats[name].lost++;
-        });
-      });
-    });
-    // Compute ELO
-    const elos = {};
-    approved.sort((a,b)=>(a.submittedAt||0)-(b.submittedAt||0));
-    const getE = n=>(elos[n]||1000);
-    approved.forEach(m=>{
-      const t1=m.t1||[],t2=m.t2||[];
-      const r1=t1.reduce((s,n)=>s+getE(n),0)/Math.max(t1.length,1);
-      const r2=t2.reduce((s,n)=>s+getE(n),0)/Math.max(t2.length,1);
-      const w1=m.s1>m.s2?1:m.s1<m.s2?0:0.5;
-      const k=32;
-      t1.forEach(n=>{elos[n]=(getE(n)+k*(w1-1/(1+Math.pow(10,(r2-r1)/400))))|0;});
-      t2.forEach(n=>{elos[n]=(getE(n)+k*((1-w1)-1/(1+Math.pow(10,(r1-r2)/400))))|0;});
-    });
-    const rows = Object.values(stats).map(s=>({...s,diff:s.for-s.against,elo:elos[s.name]||1000}))
-      .sort((a,b)=>b.diff-a.diff||b.won-a.won);
-    if(!rows.length){ body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--muted);font-size:.85rem">No approved games yet.</td></tr>'; return; }
-    body.innerHTML='';
-    rows.forEach((r,i)=>{
-      const tr=document.createElement('tr');
-      const d=r.diff>0?'pos':r.diff<0?'neg':'zero';
-      const dt=(r.diff>0?'+':'')+r.diff;
-      tr.innerHTML=`<td><span class="pname"><span class="rankpill">${i+1}</span><span class="nm">${esc(r.name)}</span></span></td>
-        <td class="num">${r.played}</td><td class="num">${r.won}</td><td class="num">${r.lost}</td>
-        <td class="num">${r.for}</td><td class="num">${r.against}</td>
-        <td class="num"><span class="diff ${d}">${dt}</span></td>
-        <td class="num"><span style="font-size:.74rem;font-weight:800;color:var(--court)">${r.elo}</span></td>`;
-      body.appendChild(tr);
-    });
+    const { rows, deltas } = window.leagueBoardData(approved);
+    // Remember names for the "link an email to a player" suggestions
+    window._leagueBoardNames = rows.map(r=>r.name);
+    if(window.renderLeagueAssignOptions) window.renderLeagueAssignOptions();
+    if(!rows.length){
+      body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--muted);font-size:.85rem">No approved games yet.</td></tr>';
+      if(posEl) posEl.innerHTML = window.lgPosHtml(-1, 0, null);
+      return;
+    }
+    const lg = leagueData || window.currentLeagueData || {};
+    const myIdx = window.fillLeagueBody(body, rows, { myName: window.leagueMyName(lg), photoMap: window.leaguePhotoMap(lg, photos), deltas });
+    if(posEl) posEl.innerHTML = window.lgPosHtml(myIdx, rows.length, (myIdx>=0 && deltas) ? deltas[rows[myIdx].name] : null);
   }catch(e){ body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--coral);font-size:.85rem">Failed.</td></tr>'; }
 };
 
@@ -7553,8 +8004,8 @@ window.loadProfileTab = async function(){
       try{
         await window.loadSatsumaPlayers();
         const { rows } = await window.loadSatsumaLeaderboard();
-        const EMAIL_TO_NAME = {'harryrunrun@icloud.com':'Harry','zanequinn2012@gmail.com':'Zane','cheungw560@gmail.com':'Wai','george.yanyanyan@gmail.com':'George','jaspercorlett@gmail.com':'Jasper','emilycregeen@online.sch.im':'Emily'};
-        const rosterName = EMAIL_TO_NAME[email.toLowerCase()] || name;
+        await window.loadSatsumaEmailMap();
+        const rosterName = window.satsumaNameForEmail(email) || name;
         const myRow = rows.find(r=>r.name===rosterName);
         const myRank = rows.findIndex(r=>r.name===rosterName) + 1;
         if(myRow){
@@ -8929,8 +9380,8 @@ window.saveLeagueBrandingModal = async function(){
   }
   try{
     await setDoc(doc(db,'leagues',leagueId),{brandEmoji:emoji,brandColor:color,brandColor2:color2,brandImage:image},{merge:true});
-    const header=document.getElementById('lgHeader_'+leagueId);
-    if(header) header.style.background=bg;
+    const crest=document.getElementById('lgCrest_'+leagueId);
+    if(crest){ crest.style.background=bg; crest.textContent=emoji; }
     const navBtn=document.getElementById('nav-league_'+leagueId);
     if(navBtn){ const icon=navBtn.querySelector('.nav-icon'); if(icon) icon.textContent=emoji; }
     if(window._allLeagueData&&window._allLeagueData[leagueId]) Object.assign(window._allLeagueData[leagueId],{brandEmoji:emoji,brandColor:color,brandColor2:color2,brandImage:image});
@@ -8968,7 +9419,7 @@ window.applyLeagueBranding = function(leagueData){
   const color2 = leagueData && leagueData.brandColor2;
   const emoji = leagueData && leagueData.brandEmoji;
   const image = leagueData && leagueData.brandImage;
-  const header = document.getElementById('leagueHeaderCard');
+  const header = document.getElementById('leaguePageCrest');
   if(header){
     if(image){
       header.style.background = `linear-gradient(135deg,${color||'#d9701f'}cc,${color2||color||'#c45e14'}cc), url('${image}') center/cover`;
@@ -8979,7 +9430,7 @@ window.applyLeagueBranding = function(leagueData){
     }
   }
   const emojiEl = document.getElementById('leaguePageEmoji');
-  if(emojiEl) emojiEl.textContent = emoji || '';
+  if(emojiEl) emojiEl.textContent = emoji || '🏆';
   const emojiInput = document.getElementById('leagueBrandEmoji');
   const colorInput = document.getElementById('leagueBrandColor');
   const color2Input = document.getElementById('leagueBrandColor2');
@@ -9944,9 +10395,9 @@ function _smoothSvgPath(pts){
 
 window.showRatingHistoryChart = async function(playerName){
   if(!playerName){
-    const EMAIL_TO_NAME = {'harryrunrun@icloud.com':'Harry','zanequinn2012@gmail.com':'Zane','cheungw560@gmail.com':'Wai','george.yanyanyan@gmail.com':'George','jaspercorlett@gmail.com':'Jasper','emilycregeen@online.sch.im':'Emily'};
+    await window.loadSatsumaEmailMap();
     const email = (auth.currentUser&&auth.currentUser.email||'').toLowerCase();
-    playerName = EMAIL_TO_NAME[email] || (window.currentUserData&&window.currentUserData.name) || prompt('Whose rating history? Enter their name:');
+    playerName = window.satsumaNameForEmail(email) || (window.currentUserData&&window.currentUserData.name) || prompt('Whose rating history? Enter their name:');
     if(!playerName) return;
   }
 
@@ -10430,15 +10881,26 @@ window._computeSatsumaPoints = function(allMatches){
 
 ;
 
-window.loadSatsumaLeaderboard = async function(){
+// opts.asOf: only count sessions approved up to that time (used for the "since last week" trend)
+// opts.useCache: reuse the sessions fetched a moment ago instead of reading them again
+window.loadSatsumaLeaderboard = async function(opts){
+  opts = opts || {};
   if(!auth.currentUser) throw new Error('Not signed in');
   const seasonId = window._selectedSeasonId || null;
   // Read from frozen approved sessions — never recompute from raw games
   // This ensures changing a player's rating doesn't retroactively alter past scores
-  const approvedSnap = await getDocs(collection(db,'satsumaApprovedSessions'));
+  let approvedSnap;
+  const cached = window._satsumaApprovedCache;
+  if(opts.useCache && cached && Date.now()-cached.ts < 20000){
+    approvedSnap = cached.snap;
+  } else {
+    approvedSnap = await getDocs(collection(db,'satsumaApprovedSessions'));
+    window._satsumaApprovedCache = { ts:Date.now(), snap:approvedSnap };
+  }
   const docCount = approvedSnap.size;
 
   if(docCount === 0){
+    if(opts.asOf) return { rows:[], docCount:0 };
     // If a specific season is selected, show empty — it's a fresh season
     if(seasonId) return { rows:[], docCount:0 };
 
@@ -10494,6 +10956,7 @@ window.loadSatsumaLeaderboard = async function(){
   approvedSnap.forEach(d=>{
     const ses = d.data();
     if(seasonId && ses.seasonId !== seasonId) return;
+    if(opts.asOf && (ses.approvedAt||0) > opts.asOf) return;
     sessionDocs.push(ses);
   });
 
@@ -10617,8 +11080,8 @@ window.loadSatsumaTab = async function(){
   const notifBtn = document.getElementById('satsumaEnableNotifBtn');
   if(notifBtn) notifBtn.classList.toggle('hide', !(isFullMember || isViewOnly));
 
-  const EMAIL_TO_NAME = {'harryrunrun@icloud.com':'Harry','zanequinn2012@gmail.com':'Zane','cheungw560@gmail.com':'Wai','george.yanyanyan@gmail.com':'George','jaspercorlett@gmail.com':'Jasper','emilycregeen@online.sch.im':'Emily'};
-  const myRosterName = EMAIL_TO_NAME[userEmail] || (window.currentUserData&&window.currentUserData.name) || null;
+  await window.loadSatsumaEmailMap();
+  const myRosterName = window.satsumaNameForEmail(userEmail) || (window.currentUserData&&window.currentUserData.name) || null;
 
   try{
     const { rows } = await window.loadSatsumaLeaderboard();
@@ -10637,16 +11100,18 @@ window.loadSatsumaTab = async function(){
 window.renderSatsumaTabRows = function(rows, myRosterName){
   const body = document.getElementById('satsumaTabLeaderboardBody');
   if(!body) return;
+  const posEl = document.getElementById('satsumaPos');
   if(!rows||!rows.length){
     body.innerHTML=`<tr><td colspan="8" style="padding:20px;color:var(--muted);font-size:.84rem;text-align:center">${window._selectedSeasonId?'🆕 No sessions approved for this season yet — play and submit a session to get started!':'No approved sessions yet — sessions appear here once approved by an admin.'}</td></tr>`;
+    if(posEl) posEl.style.display='none';
     return;
   }
   // Derive myRosterName if not passed
   if(!myRosterName && auth.currentUser){
-    const EMAIL_TO_NAME = {'harryrunrun@icloud.com':'Harry','zanequinn2012@gmail.com':'Zane','cheungw560@gmail.com':'Wai','george.yanyanyan@gmail.com':'George','jaspercorlett@gmail.com':'Jasper','emilycregeen@online.sch.im':'Emily'};
     const email = (auth.currentUser.email||'').toLowerCase();
-    myRosterName = EMAIL_TO_NAME[email] || (window.currentUserData&&window.currentUserData.name) || null;
+    myRosterName = window.satsumaNameForEmail(email) || (window.currentUserData&&window.currentUserData.name) || null;
   }
+  window._satsumaMyName = myRosterName;
   body.innerHTML='';
   rows.forEach((r,i)=>{
     const tr=document.createElement('tr');
@@ -10655,7 +11120,8 @@ window.renderSatsumaTabRows = function(rows, myRosterName){
     const prov = r.provisional ? ` <span style="font-size:.68rem;color:var(--muted)" title="Fewer than 5 approved sessions — rank isn't firm yet">(prov. ${r.sessions||0}/5)</span>` : '';
     const pts = r.satsumaPoints!=null ? r.satsumaPoints.toFixed(2) : '—';
     const badgeStr = window._badgeString ? window._badgeString(r.badgeCounts) : '';
-    tr.innerHTML='<td><span class="pname"><span class="rankpill">'+(i+1)+'</span><span class="nm"'+(isMe?' style="font-weight:800"':'')+'>'+esc(r.name)+(isMe?' <span style="font-size:.7rem;color:var(--court)">(Me)</span>':'')+prov+'</span></span></td>'
+    // Avatar starts as an initial; the profile photo is swapped in once photos have loaded
+    tr.innerHTML='<td><span class="pname"><span class="rankpill">'+(i+1)+'</span><span data-avname="'+esc(r.name)+'">'+window.lgAvatar(r.name)+'</span><span class="nm"'+(isMe?' style="font-weight:800"':'')+'>'+esc(r.name)+(isMe?' <span style="font-size:.7rem;color:var(--court)">(Me)</span>':'')+prov+'</span><span data-trendname="'+esc(r.name)+'"></span></span></td>'
       +'<td class="num">'+r.played+'</td><td class="num">'+r.won+'</td><td class="num">'+r.lost+'</td>'
       +'<td class="num">'+(r.avgSess!=null?r.avgSess.toFixed(2):'—')+'</td>'
       +'<td class="num">'+(r.avgBonus!=null?r.avgBonus.toFixed(2):'—')+'</td>'
@@ -10663,6 +11129,41 @@ window.renderSatsumaTabRows = function(rows, myRosterName){
       +'<td class="num" style="font-size:.9rem">'+badgeStr+'</td>';
     body.appendChild(tr);
   });
+  const myIdx = myRosterName ? rows.findIndex(r=>r.name===myRosterName) : -1;
+  if(posEl){
+    if(myIdx>=0){ posEl.style.display=''; posEl.innerHTML = window.lgPosHtml(myIdx, rows.length, null); }
+    else posEl.style.display='none';
+  }
+  window._decorateSatsumaRows(rows, myIdx, myRosterName);
+};
+
+// Async extras for the Satsuma table: profile photos, and each player's move since a week ago
+window._decorateSatsumaRows = async function(rows, myIdx, myName){
+  const token = window._satsumaDecorToken = (window._satsumaDecorToken||0)+1;
+  try{
+    const photos = await window.getPlayerPhotos();
+    if(token !== window._satsumaDecorToken) return;
+    document.querySelectorAll('#satsumaTabLeaderboardBody [data-avname]').forEach(el=>{
+      const name = el.dataset.avname;
+      let ph = photos.byName[name.toLowerCase()];
+      if(name===myName && window.currentUserData && window.currentUserData.photoData) ph = window.currentUserData.photoData;
+      if(ph) el.innerHTML = window.lgAvatar(name, ph);
+    });
+  }catch(e){}
+  try{
+    const prev = await window.loadSatsumaLeaderboard({ asOf: Date.now()-7*24*3600*1000, useCache:true });
+    if(token !== window._satsumaDecorToken) return;
+    if(!prev.rows.length) return; // nothing was approved a week ago, so there's no weekly change to show
+    const before = {};
+    prev.rows.forEach((r,i)=>{ before[r.name] = i; });
+    const deltas = {};
+    rows.forEach((r,i)=>{ if(before[r.name]!=null) deltas[r.name] = before[r.name]-i; });
+    document.querySelectorAll('#satsumaTabLeaderboardBody [data-trendname]').forEach(td=>{
+      td.innerHTML = window.lgTrend(deltas[td.dataset.trendname]);
+    });
+    const posEl = document.getElementById('satsumaPos');
+    if(posEl && myIdx>=0) posEl.innerHTML = window.lgPosHtml(myIdx, rows.length, deltas[rows[myIdx].name]);
+  }catch(e){}
 };
 
 window.toggleSatsumaHistory = async function(){
@@ -12468,7 +12969,7 @@ window.buildMatchAnalysis = function(games, title){
   const mostDeclined = improvedEntries.length > 1 ? improvedEntries[improvedEntries.length-1] : null;
   const bestPair = Object.values(partnerships).filter(p=>p.games>=2).sort((a,b)=>b.wins/b.games-a.wins/a.games)[0];
 
-  const fmt = g=>`${g.t1.join(' & ')} <b>${g.s1}–${g.s2}</b> ${g.t2.join(' & ')}`;
+  const fmt = g=>`${esc(g.t1.join(' & '))} <b>${g.s1}–${g.s2}</b> ${esc(g.t2.join(' & '))}`;
   const wr = p=>p.played?Math.round(p.won/p.played*100)+'%':'—';
   const diff = p=>(p.for-p.against>0?'+':'')+(p.for-p.against);
 
@@ -12482,12 +12983,203 @@ window.buildMatchAnalysis = function(games, title){
   if(closeGames.length) funnies.push(`⚡ ${closeGames.length} game${closeGames.length>1?'s were':' was'} decided by 2 points or fewer — nail-biting stuff.`);
   if(bestPair) funnies.push(`🤝 Best doubles pair: <b>${esc(bestPair.names[0])} & ${esc(bestPair.names[1])}</b> won ${bestPair.wins} of ${bestPair.games} games together.`);
 
-  return `
-    <div style="background:linear-gradient(135deg,#1a365d,#2b6cb0);border-radius:16px;padding:16px 20px;margin-bottom:16px">
-      <div style="font-weight:800;font-size:1rem;color:#fff;margin-bottom:2px">🔬 Match analysis</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.7)">${games.length} games analysed</div>
+  // ── Perspective: whose performance the top of the screen shows ──────
+  const myName = typeof getMyName==='function' ? getMyName() : null;
+  const mineName = allNames.find(n=>nameMatches(n, myName)) || null;
+  const startName = mineName || best.name;
+  const photo = (window.currentUserData && window.currentUserData.photoData) || '';
+
+  const svg = paths=>`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`;
+  const ICON = {
+    chart:  svg('<path d="M6 20v-7M12 20V5M18 20v-10"/>'),
+    trophy: svg('<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'),
+    target: svg('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>'),
+    trend:  svg('<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>'),
+    list:   svg('<path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'),
+    bulb:   svg('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>'),
+    check:  svg('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    cal:    svg('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+    clock:  svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+    person: svg('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+    people: svg('<circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0"/><circle cx="17" cy="9" r="3"/><path d="M17 14a6 6 0 0 1 5 6"/>'),
+    chev:   svg('<path d="M9 5l7 7-7 7"/>')
+  };
+  // Profile photo only exists for the signed-in user; everyone else gets an initial.
+  const avatar = (name, small)=>{
+    const usePhoto = photo && name===mineName;
+    const style = usePhoto ? ` style="background-image:url('${photo.replace(/['"()\\\s]/g, c=>encodeURIComponent(c))}')"` : '';
+    return `<span class="ma-av${small?' sm':''}"${style}>${usePhoto?'':esc(([...String(name||'?').trim()][0]||'?').toUpperCase())}</span>`;
+  };
+
+  // This player's games from their own point of view
+  const perGame = name=>games.filter(g=>g.t1.includes(name)||g.t2.includes(name)).map(g=>{
+    const in1 = g.t1.includes(name);
+    const mine = in1?g.s1:g.s2, theirs = in1?g.s2:g.s1;
+    return { mine, theirs, d:mine-theirs, opp:in1?g.t2:g.t1 };
+  });
+
+  // Wins from their last 5 games across everything saved on this device
+  const lastFive = name=>{
+    const rows = [];
+    let seq = 0;
+    (typeof getAllSessions==='function' ? getAllSessions() : []).forEach(ses=>{
+      const pl = ses.players||[];
+      const sesTs = ses.startedAt||ses.playedAt||ses.archivedAt||0;
+      const resolve = v=>typeof v==='number' ? pl[v] : v;
+      (ses.games||[]).forEach(g=>{
+        if(g.s1==null||g.s2==null||g.s1===''||g.s2===''||isNaN(+g.s1)||isNaN(+g.s2)) return;
+        const t1=(g.t1||[]).map(resolve), t2=(g.t2||[]).map(resolve);
+        const in1=t1.some(p=>typeof p==='string'&&nameMatches(p,name));
+        const in2=t2.some(p=>typeof p==='string'&&nameMatches(p,name));
+        if(!in1&&!in2) return;
+        rows.push({ ts:g.endedAt||g.startedAt||sesTs, seq:seq++, won:(in1?+g.s1-+g.s2:+g.s2-+g.s1)>0 });
+      });
+    });
+    if(rows.length<5) return null;
+    rows.sort((a,b)=>a.ts-b.ts||a.seq-b.seq);
+    return rows.slice(-5).filter(r=>r.won).length;
+  };
+
+  // 3–4 plain-English bullets, all computed from the games
+  const insightsFor = (name, isMe)=>{
+    const s = stats[name];
+    const who = isMe ? 'You' : esc(name);
+    const whoMid = isMe ? 'you' : esc(name);
+    const poss = isMe ? 'your' : esc(name)+'’s';
+    const pg = perGame(name);
+    const wins = pg.filter(r=>r.d>0), losses = pg.filter(r=>r.d<0);
+    const sc = r=>`<b>${r.mine}–${r.theirs}</b>`;
+    const vs = r=>r.opp.length ? ' vs '+esc(r.opp.join(' & ')) : '';
+
+    const head = pg.length===1
+      ? `${who} ${pg[0].d>0?'won':pg[0].d<0?'lost':'drew'} ${sc(pg[0])}${vs(pg[0])}.`
+      : `${who} won <b>${s.won} of ${s.played}</b> games (${wr(s)}).`;
+
+    const extras = [];
+    if(pg.length===1){
+      const tot = s.for+s.against;
+      if(tot) extras.push(`${who} won <b>${Math.round(s.for/tot*100)}%</b> of the points.`);
+    } else if(wins.length){
+      const r = wins.reduce((a,b)=>b.d>a.d?b:a);
+      extras.push(`Biggest win: ${sc(r)}${vs(r)} (+${r.d}).`);
+    }
+    const partners = Object.entries(s.partners).map(([n,v])=>({n, w:v.w, t:v.w+v.l})).filter(p=>p.w>0)
+      .sort((a,b)=>b.w/b.t-a.w/a.t||b.t-a.t);
+    if(partners.length){
+      const p = partners[0];
+      extras.push(`Best partner: <b>${esc(p.n)}</b> — ${p.w} win${p.w>1?'s':''} from ${p.t} game${p.t>1?'s':''} together.`);
+    } else {
+      const opps = Object.entries(s.opponents).map(([n,v])=>({n, w:v.w, l:v.l, t:v.w+v.l})).filter(o=>o.l>0)
+        .sort((a,b)=>a.w/a.t-b.w/b.t||b.l-a.l);
+      if(opps.length){
+        const o = opps[0];
+        extras.push(`Toughest opponent: <b>${esc(o.n)}</b> — ${whoMid} lost ${o.l} of ${o.t} against them.`);
+      }
+    }
+    if(pg.length>1){
+      const r = pg.reduce((a,b)=>Math.abs(b.d)<Math.abs(a.d)?b:a);
+      extras.push(`Closest game: ${sc(r)}${vs(r)} (${r.d>0?'won by '+r.d:r.d<0?'lost by '+(-r.d):'a draw'}).`);
+    }
+
+    const tight = losses.filter(r=>-r.d<=3);
+    let tip = null;
+    if(tight.length) tip = `Try to close out tight games — ${tight.length} of ${poss} ${losses.length} loss${losses.length>1?'es':''} ${tight.length>1?'were':'was'} by 3 points or fewer.`;
+    else if(losses.length){
+      const avgLoss = losses.reduce((t,r)=>t-r.d,0)/losses.length;
+      const pts = losses.length>1 ? avgLoss.toFixed(1) : String(avgLoss);
+      tip = `Try to stay in touch — ${poss} ${losses.length>1?'losses were':'loss was'} by ${pts} points${losses.length>1?' on average':''}.`;
+    }
+    else if(pg.length) tip = 'Unbeaten so far — try to keep the streak going.';
+
+    return [head, ...extras.slice(0, tip?2:3), ...(tip?[tip]:[])];
+  };
+
+  const dayFmt = {day:'numeric',month:'short',year:'numeric'};
+  const isLocal = typeof _analyseMethod!=='undefined' && _analyseMethod==='local' && _analyseSelectedSession;
+  const ses = isLocal ? _analyseSelectedSession : null;
+  const ts = ses ? (ses.startedAt || ((ses.games||[]).find(g=>g.startedAt)||{}).startedAt || ses.playedAt || ses.archivedAt || null) : null;
+  const dateTxt = ts ? new Date(ts).toLocaleDateString('en-GB', dayFmt) : '—';
+  const timeTxt = ts ? new Date(ts).toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'}) : '—';
+  const isDoubles = games.some(g=>g.t1.length>1||g.t2.length>1);
+  const scale = Math.max(21, ...games.map(g=>Math.max(+g.s1||0, +g.s2||0)));
+
+  const statCard = (icon, label, value, pct, color)=>`
+    <div class="ma-stat">
+      <div class="ma-stat-top">
+        <span class="ma-ico">${icon}</span>
+        <div class="ma-stat-txt"><div class="ma-lbl">${label}</div><div class="ma-val">${value}</div></div>
+      </div>
+      <div class="ma-bar"><i style="width:${Math.max(0,Math.min(100,pct||0)).toFixed(1)}%;background:${color}"></i></div>
+    </div>`;
+
+  const render = name=>{
+    const s = stats[name];
+    const isMe = name===mineName;
+    const single = games.length===1;
+    const first = single ? perGame(name)[0] : null;
+
+    const state = single ? first.d : s.won-s.lost;
+    const label = state>0 ? 'Win' : state<0 ? 'Loss' : 'Even';
+    const labelCol = state>0 ? 'var(--pos)' : state<0 ? 'var(--coral)' : 'var(--muted)';
+    const centre = single ? `${first.mine}–${first.theirs}` : `${s.won}–${s.lost}`;
+    const oppName = single ? first.opp.join(' & ') : '';
+    const right = single
+      ? `${avatar(first.opp[0])}<div class="ma-name">${esc(oppName||'—')}</div>`
+      : `<div class="ma-count">${games.length} game${games.length===1?'':'s'}</div><div class="ma-sub">${allNames.length} player${allNames.length===1?'':'s'}</div>`;
+
+    const tot = s.for+s.against;
+    const avgM = s.played ? (s.for-s.against)/s.played : null;
+    const l5 = lastFive(name);
+    const bullets = insightsFor(name, isMe);
+
+    return `
+    <div class="ma-card">
+      <div class="ma-match">
+        <div class="ma-side">${avatar(name)}<div class="ma-name">${esc(name)}</div></div>
+        <div class="ma-mid">
+          <div class="ma-score">${centre}</div>
+          <div class="ma-res" style="color:${labelCol}">${label}</div>
+        </div>
+        <div class="ma-side">${right}</div>
+      </div>
+      <div class="ma-meta">
+        <span>${ICON.cal}<em>${dateTxt}</em></span>
+        <span>${ICON.clock}<em>${timeTxt}</em></span>
+        <span>${isDoubles?ICON.people:ICON.person}<em>${isDoubles?'Doubles':'Singles'}</em></span>
+      </div>
     </div>
 
+    <div class="ma-chips" role="group" aria-label="Choose a player">
+      ${players.map((p,i)=>`<button type="button" class="ma-chip${p.name===name?' on':''}" aria-pressed="${p.name===name}" onclick="window._maPick(${i})">${avatar(p.name,true)}<span>${esc(p.name)}</span></button>`).join('')}
+    </div>
+
+    <h3 class="ma-h3">${isMe?'Your':esc(name)+'’s'} performance</h3>
+    <div class="ma-grid">
+      ${statCard(ICON.trophy, 'Win rate', s.played?Math.round(s.won/s.played*100)+'%':'—', s.played?s.won/s.played*100:0, 'var(--pos)')}
+      ${statCard(ICON.target, 'Points won', tot?Math.round(s.for/tot*100)+'%':'—', tot?s.for/tot*100:0, 'var(--pos)')}
+      ${statCard(ICON.trend, 'Avg. margin', avgM==null?'—':(avgM>0?'+':'')+avgM.toFixed(1)+' pts', avgM==null?0:(avgM+scale)/(2*scale)*100, 'var(--court)')}
+      ${statCard(ICON.list, 'Last 5 games', l5==null?'—':l5+'/5', l5==null?0:l5/5*100, 'var(--pos)')}
+    </div>
+
+    <div class="ma-card ma-insights">
+      <div class="ma-ins-head"><span class="ma-ico">${ICON.bulb}</span><h3>Key insights</h3></div>
+      <ul>${bullets.map(b=>`<li><span class="ma-chk">${ICON.check}</span><span>${b}</span></li>`).join('')}</ul>
+    </div>`;
+  };
+
+  window._maPick = i=>{
+    const el = document.getElementById('maPerspective');
+    if(el && players[i]) el.innerHTML = render(players[i].name);
+  };
+
+  return `
+    <div id="maPerspective">${render(startName)}</div>
+
+    <button type="button" id="maToggle" class="ma-cta" aria-expanded="false" aria-controls="maDetails" onclick="window.toggleMatchDetails()">
+      <span id="maToggleTxt">View full analysis</span>${ICON.chev}
+    </button>
+
+    <div id="maDetails" class="hide" style="margin-top:14px">
     <!-- Standings -->
     <div class="card" style="margin-bottom:14px">
       <h2 style="margin-bottom:12px">🏆 Standings</h2>
@@ -12495,9 +13187,9 @@ window.buildMatchAnalysis = function(games, title){
         const d=p.for-p.against;
         const medals=['🥇','🥈','🥉'];
         return `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair)">
-          <span style="font-size:1.1rem;width:24px;text-align:center">${medals[i]||'  '+(i+1)}</span>
-          <span style="flex:1;font-weight:${i===0?800:600};font-size:.92rem">${esc(p.name)}</span>
-          <div style="display:flex;gap:10px;font-size:.78rem;color:var(--muted)">
+          <span style="font-size:1.1rem;width:24px;flex:none;text-align:center">${medals[i]||'  '+(i+1)}</span>
+          <span style="flex:1;min-width:0;overflow-wrap:anywhere;font-weight:${i===0?800:600};font-size:.92rem">${esc(p.name)}</span>
+          <div style="display:flex;flex:none;gap:8px;font-size:.78rem;color:var(--muted)">
             <span style="font-weight:700;color:var(--ink)">${p.won}W ${p.lost}L</span>
             <span style="color:${d>=0?'var(--pos)':'var(--coral)'};font-weight:700">${diff(p)}</span>
             <span style="background:var(--mist-2);border-radius:6px;padding:2px 7px;font-weight:700;color:var(--ink)">${wr(p)}</span>
@@ -12507,16 +13199,16 @@ window.buildMatchAnalysis = function(games, title){
     </div>
 
     <!-- Star performers -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px">
       <div class="card" style="margin:0;border-top:3px solid var(--pos)">
         <div style="font-size:.72rem;font-weight:800;color:var(--pos);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">⭐ Best performer</div>
-        <div style="font-weight:800;font-size:1rem;margin-bottom:4px">${esc(best.name)}</div>
+        <div style="font-weight:800;font-size:1rem;margin-bottom:4px;overflow-wrap:anywhere">${esc(best.name)}</div>
         <div style="font-size:.78rem;color:var(--muted)">${best.won}W ${best.lost}L · ${wr(best)} win rate</div>
         <div style="font-size:.78rem;color:var(--muted)">${best.for} pts scored · ${diff(best)} diff</div>
       </div>
       <div class="card" style="margin:0;border-top:3px solid var(--coral)">
         <div style="font-size:.72rem;font-weight:800;color:var(--coral);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">📉 Needs work</div>
-        <div style="font-weight:800;font-size:1rem;margin-bottom:4px">${esc(worst.name)}</div>
+        <div style="font-weight:800;font-size:1rem;margin-bottom:4px;overflow-wrap:anywhere">${esc(worst.name)}</div>
         <div style="font-size:.78rem;color:var(--muted)">${worst.won}W ${worst.lost}L · ${wr(worst)} win rate</div>
         <div style="font-size:.78rem;color:var(--muted)">${worst.for} pts scored · ${diff(worst)} diff</div>
       </div>
@@ -12527,17 +13219,26 @@ window.buildMatchAnalysis = function(games, title){
       <h2 style="margin-bottom:12px">🎯 Notable games</h2>
       <div style="padding:9px 0;border-bottom:1px solid var(--hair)">
         <div style="font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Biggest win</div>
-        <div style="font-size:.88rem">${fmt(biggestWin)} <span style="color:var(--muted);font-size:.76rem">(${Math.abs(biggestWin.s1-biggestWin.s2)} pt margin)</span></div>
+        <div style="font-size:.88rem;overflow-wrap:anywhere">${fmt(biggestWin)} <span style="color:var(--muted);font-size:.76rem">(${Math.abs(biggestWin.s1-biggestWin.s2)} pt margin)</span></div>
       </div>
       <div style="padding:9px 0;border-bottom:1px solid var(--hair)">
         <div style="font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Closest game</div>
-        <div style="font-size:.88rem">${fmt(closest)} <span style="color:var(--muted);font-size:.76rem">(${Math.abs(closest.s1-closest.s2)} pt margin)</span></div>
+        <div style="font-size:.88rem;overflow-wrap:anywhere">${fmt(closest)} <span style="color:var(--muted);font-size:.76rem">(${Math.abs(closest.s1-closest.s2)} pt margin)</span></div>
       </div>
       <div style="padding:9px 0">
         <div style="font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Most improved 📈</div>
         <div style="font-size:.88rem">${mostImproved ? esc(mostImproved[0])+' <span style="color:var(--pos);font-weight:700">'+(mostImproved[1]>0?'+':'')+Math.round(mostImproved[1]*100)+'% win rate in 2nd half</span>' : 'Not enough data'}</div>
         ${mostDeclined && mostDeclined[1] < 0 ? `<div style="font-size:.8rem;color:var(--muted);margin-top:3px">📉 ${esc(mostDeclined[0])} faded — ${Math.round(mostDeclined[1]*100)}% in 2nd half</div>` : ''}
       </div>
+    </div>
+
+    <!-- Game by game -->
+    <div class="card" style="margin-bottom:14px">
+      <h2 style="margin-bottom:12px">📋 Game by game</h2>
+      ${games.map((g,i)=>`<div style="display:flex;align-items:baseline;gap:8px;padding:9px 0;${i<games.length-1?'border-bottom:1px solid var(--hair)':''}">
+        <span style="flex:none;width:24px;color:var(--muted);font-size:.74rem;font-weight:700">#${i+1}</span>
+        <span style="flex:1;min-width:0;overflow-wrap:anywhere;font-size:.86rem">${fmt(g)}</span>
+      </div>`).join('')}
     </div>
 
     <!-- Individual breakdowns -->
@@ -12548,8 +13249,8 @@ window.buildMatchAnalysis = function(games, title){
         const topOpp = Object.entries(p.opponents).sort((a,b)=>(b[1].w/(b[1].w+b[1].l))-(a[1].w/(a[1].w+a[1].l)))[0];
         const d=p.for-p.against;
         return `<div style="padding:12px 0;border-bottom:1px solid var(--hair)">
-          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
-            <span style="font-weight:800;font-size:.92rem">${esc(p.name)}</span>
+          <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin-bottom:4px">
+            <span style="font-weight:800;font-size:.92rem;overflow-wrap:anywhere">${esc(p.name)}</span>
             <span style="font-size:.76rem;color:var(--muted)">${p.played} games · ${wr(p)}</span>
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:.76rem">
@@ -12569,11 +13270,23 @@ window.buildMatchAnalysis = function(games, title){
         ${funnies.map(f=>`<div>${f}</div>`).join('')}
       </div>
     </div>`:''}
+    </div>
 
-    <button id="aiSummaryBtn" onclick="window.generateAIMatchSummary()" class="btn btn-dark btn-sm" style="width:100%;margin-top:8px;padding:12px;background:linear-gradient(135deg,#1a2e4a,#2d4a7a)">🤖 AI summary</button>
+    <button id="aiSummaryBtn" onclick="window.generateAIMatchSummary()" class="btn btn-ghost btn-sm" style="width:100%;margin-top:12px;padding:12px">🤖 AI summary</button>
     <div id="aiSummaryOutput" style="margin-top:8px"></div>
 
     <button onclick="window.shareAnalysis()" class="btn btn-primary btn-sm" style="width:100%;margin-top:8px;padding:12px">📤 Share analysis card</button>`;
+};
+
+window.toggleMatchDetails = function(){
+  const d = document.getElementById('maDetails');
+  const b = document.getElementById('maToggle');
+  const t = document.getElementById('maToggleTxt');
+  if(!d || !b) return;
+  const open = !d.classList.toggle('hide');
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  b.classList.toggle('open', open);
+  if(t) t.textContent = open ? 'Hide full analysis' : 'View full analysis';
 };
 
 window.shareAnalysis = function(){
@@ -13729,14 +14442,18 @@ window.loadSatsumaRoster = async function(){
     'george.yanyanyan@gmail.com','jaspercorlett@gmail.com','emilycregeen@online.sch.im'
   ];
   try{
+    if(typeof window.loadSatsumaEmailMap === 'function') await window.loadSatsumaEmailMap();
     const snap = await window._getDocs(window._collection(window._db,'users'));
     const names = [];
     snap.forEach(d=>{
       const data = d.data();
       const email = (data.email||'').toLowerCase();
       // Include if satsumaAccess=true OR if they're in the hardcoded list
-      if((data.satsumaAccess === true || SATSUMA_EMAILS_ALL.includes(email)) && data.name){
-        names.push(data.name);
+      // A name linked to their email by an admin wins over their own profile name
+      const linked = typeof window.satsumaNameForEmail === 'function' ? window.satsumaNameForEmail(email) : null;
+      const rosterName = linked || data.name;
+      if((data.satsumaAccess === true || SATSUMA_EMAILS_ALL.includes(email)) && rosterName){
+        names.push(rosterName);
       }
     });
     // Merge with defaults (deduplicate, keep defaults for anyone not yet signed in)

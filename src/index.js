@@ -15,15 +15,19 @@ export default {
     if (request.method === 'POST' && url.pathname === '/api/notify-satsuma-broadcast') {
       return handleNotifySatsumaBroadcast(request, env);
     }
+    if (request.method === 'POST' && url.pathname === '/api/notify-session-invite') {
+      return handleNotifySessionInvite(request, env);
+    }
 
     return env.ASSETS.fetch(request);
   },
 };
 
-// Shared setup for both notify routes: checks the shared secret, loads the
-// service account, mints a Google access token, and fetches recipients.
-// Returns { error: Response } on failure, otherwise { serviceAccount, accessToken, recipients }.
-async function prepareNotify(request, env) {
+// Checks the shared secret, loads the service account, and mints a Google
+// access token — the bit every notify route needs before it can send
+// anything. Returns { error: Response } on failure, otherwise
+// { serviceAccount, accessToken }.
+async function authorizeNotify(request, env) {
   if (request.headers.get('X-Notify-Secret') !== env.NOTIFY_API_SECRET) {
     return { error: json({ error: 'Unauthorized' }, 401) };
   }
@@ -43,6 +47,18 @@ async function prepareNotify(request, env) {
   } catch (e) {
     return { error: json({ error: 'Failed to authenticate with Google: ' + e.message }, 500) };
   }
+
+  return { serviceAccount, accessToken };
+}
+
+// Same as authorizeNotify, but also looks up the Satsuma-wide recipient list
+// from Firestore — used by the two Satsuma-broadcast routes, which notify
+// everyone rather than a caller-supplied list.
+// Returns { error: Response } on failure, otherwise { serviceAccount, accessToken, recipients }.
+async function prepareNotify(request, env) {
+  const auth = await authorizeNotify(request, env);
+  if (auth.error) return auth;
+  const { serviceAccount, accessToken } = auth;
 
   let recipients;
   try {
@@ -128,6 +144,65 @@ async function handleNotifySatsumaBroadcast(request, env) {
     pushData: { type: 'satsuma_announcement', url: '/' },
     emailSubject: title,
     emailHtml: html,
+  });
+}
+
+async function handleNotifySessionInvite(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const { organiserName, dateStr, timeStr, location, format, recipients } = body || {};
+  if (!dateStr || !timeStr || !location || !Array.isArray(recipients) || !recipients.length) {
+    return json({ error: 'Missing dateStr, timeStr, location, or recipients' }, 400);
+  }
+  // Only email/fcmToken are ever used — drop anything else the caller sent.
+  const cleanRecipients = recipients
+    .filter((r) => r && (r.email || r.fcmToken))
+    .map((r) => ({ email: r.email || undefined, fcmToken: r.fcmToken || undefined, name: r.name || '' }));
+  if (!cleanRecipients.length) {
+    return json({ error: 'No recipient had an email or notification token' }, 400);
+  }
+
+  const auth = await authorizeNotify(request, env);
+  if (auth.error) return auth.error;
+  const { serviceAccount, accessToken } = auth;
+
+  const who = escapeHtml(organiserName || 'A friend');
+  const formatLabel = format ? escapeHtml(format.charAt(0).toUpperCase() + format.slice(1)) : null;
+  const subject = `🏸 ${organiserName || 'A friend'} invited you to a badminton session`;
+  const emailHtml = `<h2>You're invited!</h2>
+    <p style="margin:0 0 8px;"><strong>${who}</strong> invited you to play badminton on Shuttler.</p>
+    <p style="margin:0 0 4px;"><strong>${escapeHtml(dateStr)}</strong> at <strong>${escapeHtml(timeStr)}</strong></p>
+    <p style="margin:0 0 4px;color:#8a6a4e;">📍 ${escapeHtml(location)}</p>
+    ${formatLabel ? `<p style="margin:0;color:#8a6a4e;">🏸 ${formatLabel}</p>` : ''}`;
+
+  // Personalise each recipient's email/push with their own name where we have it,
+  // rather than sending one identical broadcast to everyone.
+  const tasks = [];
+  for (const r of cleanRecipients) {
+    const pushBody = `${dateStr} at ${timeStr} — ${location}`;
+    if (r.fcmToken) {
+      tasks.push(sendFcmMessage(serviceAccount.project_id, accessToken, r.fcmToken, subject, pushBody, { type: 'session_invite', url: '/' }));
+    }
+    if (r.email) {
+      const greeting = r.name ? `<p style="margin:0 0 8px;">Hi ${escapeHtml(r.name)},</p>` : '';
+      tasks.push(sendResendEmail(env.RESEND_API_KEY, r.email, subject, greeting + emailHtml));
+    }
+  }
+
+  const results = await Promise.allSettled(tasks);
+  const failures = results.filter((r) => r.status === 'rejected');
+
+  return json({
+    ok: true,
+    recipients: cleanRecipients.length,
+    pushSent: cleanRecipients.filter((r) => r.fcmToken).length,
+    emailsSent: cleanRecipients.filter((r) => r.email).length,
+    failures: failures.map((f) => String((f.reason && f.reason.message) || f.reason)),
   });
 }
 

@@ -518,6 +518,29 @@
   .lg-res{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:800}
   .lg-res.w{background:var(--pos-bg);color:var(--pos)} .lg-res.l{background:var(--coral-bg);color:var(--coral)} .lg-res.d{background:var(--mist-2);color:var(--muted)}
 
+  /* ── Friends ── */
+  .fr-row{display:flex;align-items:center;gap:12px;padding:12px 4px;margin:0 -4px;border-bottom:1px solid var(--hair);cursor:pointer;transition:background .12s;border-radius:8px}
+  .fr-row:hover{background:var(--mist)}
+  .fr-av-wrap{position:relative;flex:none}
+  .fr-av{width:44px;height:44px;border-radius:50%;background:var(--court) center/cover no-repeat;color:#fff;font-weight:800;font-size:1.1rem;display:grid;place-items:center}
+  .fr-dot{position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;background:var(--pos);border:2px solid var(--paper)}
+  .fr-chev{flex:none;color:var(--muted);font-size:1.3rem;line-height:1}
+
+  /* ── Badges ── */
+  .bdg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px}
+  .bdg-tile{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;min-width:0}
+  .bdg-ico{position:relative;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;margin-bottom:4px;filter:grayscale(1);opacity:.45;transition:.15s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .bdg-tile.on .bdg-ico{filter:none;opacity:1}
+  .bdg-check{position:absolute;bottom:-3px;right:-3px;width:18px;height:18px;border-radius:50%;background:var(--pos);color:#fff;font-style:normal;font-size:.62rem;font-weight:800;display:grid;place-items:center;border:2px solid var(--paper)}
+  .bdg-name{font-weight:800;font-size:.76rem;color:var(--ink);line-height:1.2;overflow-wrap:anywhere}
+  .bdg-desc{font-size:.66rem;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
+  .bdg-tile:not(.on) .bdg-name,.bdg-tile:not(.on) .bdg-desc{opacity:.55}
+
+  /* ── Smash speed ── */
+  .smash-gauge{width:168px;height:168px;margin:0 auto 4px;border-radius:50%;border:8px solid var(--mist-2);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 0 3px var(--court)}
+  .smash-gauge #smashSpeedDisplay{font-size:2.7rem;font-weight:900;color:var(--court);line-height:1}
+  .smash-gauge-unit{font-size:.8rem;color:var(--muted);font-weight:700;letter-spacing:.03em;margin-top:2px}
+
   .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
   .toolbar .meta{font-size:.85rem;color:var(--muted)}
   .toolbar .meta b{color:var(--ink)}
@@ -1407,6 +1430,20 @@
           <tbody id="satsumaTabLeaderboardBody"></tbody>
         </table></div>
       </div>
+      <!-- Player emails: open to every full Satsuma member, not just admins -->
+      <div id="satsumaEmailCard" class="card hide" style="margin-bottom:18px">
+        <h2 style="margin-bottom:4px">🔗 Link an email to a player</h2>
+        <p class="hint">Someone changed email? Type their name and their new address — their results, rating and badges stay under the same name. Keep "replace" ticked to retire the old email.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+          <input type="text" id="satEmailName" list="satEmailNameList" class="auth-input" style="flex:1 1 140px;min-width:0;margin:0;font-size:.84rem" placeholder="Player name" autocomplete="off">
+          <datalist id="satEmailNameList"></datalist>
+          <input type="email" id="satEmailInput" class="auth-input" style="flex:2 1 200px;min-width:0;margin:0;font-size:.84rem" placeholder="their@email.com" autocomplete="off">
+          <button onclick="window.lockButton(this, () => window.assignSatsumaEmail())" class="btn btn-dark btn-sm">Assign →</button>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:10px;cursor:pointer"><input type="checkbox" id="satEmailReplace" checked> Replace their old email(s)</label>
+        <div id="satsumaEmailList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+      </div>
+
       <div style="margin-bottom:18px">
         <button onclick="window.toggleSatsumaHistory()" style="width:100%;text-align:left;padding:14px 18px;border-radius:14px;border:1px solid var(--hair);background:var(--paper);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between" onmouseover="this.style.borderColor='var(--court)'" onmouseout="this.style.borderColor='var(--hair)'">
           <span style="font-weight:700;font-size:.92rem;color:var(--ink)">📜 Match history</span>
@@ -1527,74 +1564,68 @@
     <div class="tab-panel" id="tab-friends">
 
       <!-- Header -->
-      <div style="background:linear-gradient(135deg,var(--court),var(--court-2));border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">👥 Friends</h2>
-        <p style="margin:0;color:rgba(255,255,255,.8);font-size:.84rem">Compare stats, see recent games, and track your rivals.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0"/><circle cx="17" cy="9" r="3"/><path d="M17 14a6 6 0 0 1 5 6"/></svg></span>
+        <h2>Friends</h2>
+      </div>
+      <p style="margin:8px 0 14px;color:var(--muted);font-size:.84rem">Connect with other players, share your progress and challenge your friends.</p>
+
+      <!-- All / Online / Requests -->
+      <div class="lg-seg" role="tablist" style="margin-bottom:12px">
+        <button type="button" class="on" data-ftab="all" onclick="window.switchFriendsTab('all')">All</button>
+        <button type="button" data-ftab="online" onclick="window.switchFriendsTab('online')">Online</button>
+        <button type="button" data-ftab="requests" onclick="window.switchFriendsTab('requests')">Requests<span id="friendReqDot" class="hide" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--coral);margin-left:5px;vertical-align:middle"></span></button>
       </div>
 
-      <!-- My QR code — always visible -->
-      <div class="card" style="margin-bottom:14px;text-align:center">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--court),var(--court-2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none">📲</div>
-          <div style="text-align:left">
-            <div style="font-weight:800;font-size:.92rem;color:var(--ink)">My friend code</div>
-            <div style="font-size:.76rem;color:var(--muted)">Share this so friends can add you instantly</div>
-          </div>
-        </div>
-        <div id="myFriendQRCode" style="display:flex;justify-content:center;margin-bottom:12px;min-height:120px;align-items:center">
-          <p style="color:var(--muted);font-size:.84rem">Sign in to see your QR code</p>
-        </div>
-        <div style="display:flex;gap:8px">
-          <button onclick="window.copyFriendLink()" class="btn btn-ghost btn-sm" style="flex:1">🔗 Copy link</button>
-          <button onclick="window.shareFriendLink()" class="btn" style="flex:1;background:var(--court);color:#fff;border-radius:10px;padding:8px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;font-family:inherit">📤 Share</button>
-        </div>
+      <!-- Search + add -->
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input type="text" id="friendsFilterInput" class="auth-input" style="flex:1;margin:0" placeholder="Search friends…" oninput="window.renderFriendsList()">
+        <button onclick="window.openAddFriendModal()" class="lg-btn pri" style="flex:none">+ Add friend</button>
       </div>
 
-      <!-- Scan a friend's QR -->
-      <div class="card" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div style="width:40px;height:40px;background:var(--mist-2);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none">📷</div>
-          <div>
-            <div style="font-weight:800;font-size:.92rem;color:var(--ink)">Scan a friend's code</div>
-            <div style="font-size:.76rem;color:var(--muted)">Open their QR with your camera app to add them</div>
+      <!-- All / Online panel -->
+      <div id="friendsPanelList">
+        <div class="card" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <h2 style="margin:0">Your friends</h2>
+            <span id="friendCount" style="font-size:.76rem;color:var(--muted);background:var(--mist-2);padding:3px 10px;border-radius:20px;font-weight:700"></span>
           </div>
-        </div>
-        <div style="background:var(--mist);border-radius:11px;padding:12px 14px;font-size:.82rem;color:var(--muted);line-height:1.5">
-          Ask your friend to open Shuttler → Friends → and show you their QR code. Scan it with your iPhone/Android camera to add them in one tap.
+          <div id="friendsList"><p style="color:var(--muted);font-size:.84rem">No friends yet — tap + Add friend above!</p></div>
         </div>
       </div>
 
-      <!-- Search -->
-      <div class="card" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div style="width:40px;height:40px;background:var(--mist-2);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none">🔍</div>
-          <div>
-            <div style="font-weight:800;font-size:.92rem;color:var(--ink)">Search by name</div>
-            <div style="font-size:.76rem;color:var(--muted)">Find Shuttler players to add as friends</div>
+      <!-- Requests panel -->
+      <div id="friendsPanelRequests" class="hide">
+        <div id="friendRequestsCard" class="card" style="margin-bottom:14px">
+          <h2 style="margin-bottom:10px">Friend requests</h2>
+          <div id="friendRequestsList"><p style="color:var(--muted);font-size:.84rem">No pending requests.</p></div>
+        </div>
+      </div>
+    </div><!-- end tab-friends -->
+
+    <!-- Add friend — QR, scan, search -->
+    <div class="modal-overlay hide" id="addFriendModal" onclick="if(event.target===this)window.closeAddFriendModal()">
+      <div class="modal" style="max-width:400px;text-align:left">
+        <button class="modal-close" onclick="window.closeAddFriendModal()">×</button>
+        <h3>Add a friend</h3>
+        <div style="text-align:center;margin-bottom:16px">
+          <div id="myFriendQRCode" style="display:flex;justify-content:center;margin-bottom:12px;min-height:120px;align-items:center">
+            <p style="color:var(--muted);font-size:.84rem">Sign in to see your QR code</p>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);margin:0 0 10px">Share this so a friend can add you instantly, or ask to scan theirs.</p>
+          <div style="display:flex;gap:8px">
+            <button onclick="window.copyFriendLink()" class="btn btn-ghost btn-sm" style="flex:1">🔗 Copy link</button>
+            <button onclick="window.shareFriendLink()" class="btn" style="flex:1;background:var(--court);color:#fff;border-radius:10px;padding:8px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;font-family:inherit">📤 Share</button>
           </div>
         </div>
+        <div class="modal-divider">or search by name</div>
         <div style="display:flex;gap:8px">
           <input type="text" id="friendSearchInput" class="auth-input" style="flex:1;margin:0" placeholder="Type a name or email…" autocomplete="new-password" onkeydown="if(event.key==='Enter')window.searchFriends()">
           <button onclick="window.searchFriends()" class="btn btn-dark btn-sm">Search</button>
         </div>
         <div id="friendSearchResults" style="margin-top:10px"></div>
       </div>
-
-      <!-- Pending requests -->
-      <div id="friendRequestsCard" class="card hide" style="margin-bottom:14px;border-left:3px solid var(--court)">
-        <h2 style="margin-bottom:10px">📬 Friend requests</h2>
-        <div id="friendRequestsList"></div>
-      </div>
-
-      <!-- Friends list -->
-      <div class="card" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <h2 style="margin:0">My friends</h2>
-          <span id="friendCount" style="font-size:.76rem;color:var(--muted);background:var(--mist-2);padding:3px 10px;border-radius:20px;font-weight:700"></span>
-        </div>
-        <div id="friendsList"><p style="color:var(--muted);font-size:.84rem">No friends yet — share your QR code or search above!</p></div>
-      </div>
-    </div><!-- end tab-friends -->
+    </div>
 
     <!-- ── TAB: Friend Profile ────────────────────────────────── -->
     <div class="tab-panel" id="tab-friendProfile">
@@ -1606,18 +1637,19 @@
     <div class="tab-panel" id="tab-stats">
 
       <!-- Header -->
-      <div style="background:linear-gradient(135deg,var(--court),var(--court-2));border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">📊 My stats</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Your record across all sessions, leagues and partners.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 20v-7M12 20V5M18 20v-10"/></svg></span>
+        <h2>My stats</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Track your progress, see your achievements and keep improving.</p>
 
       <!-- Section tabs -->
-      <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px" id="statsSectionBtns">
-        <button onclick="showStatsSection('alltime')" data-section="alltime" class="stats-sec-btn active" style="padding:8px 14px;border-radius:10px;border:1px solid var(--court);background:var(--court);color:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;white-space:nowrap">All time</button>
-        <button onclick="showStatsSection('partners')" data-section="partners" class="stats-sec-btn" style="padding:8px 14px;border-radius:10px;border:1px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;white-space:nowrap">🤝 Partners</button>
-        <button onclick="showStatsSection('opponents')" data-section="opponents" class="stats-sec-btn" style="padding:8px 14px;border-radius:10px;border:1px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;white-space:nowrap">⚔️ Opponents</button>
-        <button onclick="showStatsSection('leagues')" data-section="leagues" class="stats-sec-btn" style="padding:8px 14px;border-radius:10px;border:1px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;white-space:nowrap">🏆 Leagues</button>
-        <button onclick="showStatsSection('h2h')" data-section="h2h" class="stats-sec-btn" style="padding:8px 14px;border-radius:10px;border:1px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem;white-space:nowrap">⚔️ H2H lookup</button>
+      <div class="lg-seg" style="margin-bottom:16px;overflow-x:auto;flex-wrap:nowrap" id="statsSectionBtns">
+        <button onclick="showStatsSection('alltime')" data-section="alltime" class="stats-sec-btn on">All time</button>
+        <button onclick="showStatsSection('partners')" data-section="partners" class="stats-sec-btn">🤝 Partners</button>
+        <button onclick="showStatsSection('opponents')" data-section="opponents" class="stats-sec-btn">⚔️ Opponents</button>
+        <button onclick="showStatsSection('leagues')" data-section="leagues" class="stats-sec-btn">🏆 Leagues</button>
+        <button onclick="showStatsSection('h2h')" data-section="h2h" class="stats-sec-btn">⚔️ H2H lookup</button>
       </div>
 
       <!-- All time -->
@@ -1738,13 +1770,14 @@
 
     <!-- ── TAB: Schedule ─────────────────────────────────────── -->
     <div class="tab-panel" id="tab-schedule">
-      <div style="background:linear-gradient(150deg,var(--court) 0%,var(--court-2) 100%);border-radius:16px;padding:20px 22px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
-        <div>
-          <h2 style="margin:0 0 4px;color:#fff">📅 Schedule</h2>
-          <p style="margin:0;color:rgba(255,255,255,.7);font-size:.84rem">Upcoming sessions across your leagues.</p>
+      <div class="ma-head" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+          <h2>Schedule</h2>
         </div>
-        <button onclick="window.openScheduleSessionPicker()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:12px;padding:10px 14px;cursor:pointer;font-family:inherit;font-weight:700;font-size:.84rem;white-space:nowrap">+ Plan a session</button>
+        <button onclick="window.openScheduleSessionPicker()" class="lg-btn pri" style="flex:none">+ Plan a session</button>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Plan your next session and invite your friends to play! Only the friends you select will receive an email invitation.</p>
       <div id="scheduleContent"><p style="color:var(--muted);font-size:.84rem">Join or create a league to see scheduled sessions here.</p></div>
     </div><!-- end tab-schedule -->
 
@@ -2005,24 +2038,27 @@
 
     <!-- ── TAB: Achievements ─────────────────────────────────── -->
     <div class="tab-panel" id="tab-achievements">
-      <div style="background:linear-gradient(135deg,#b7791f,#d69e2e);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">🏅 Achievements</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Badges earned through your games. Keep playing to unlock more.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
+        <h2>Badges</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Earn badges for your achievements, track your progress and show off your badminton journey!</p>
       <div id="streakBanner" class="hide" style="background:linear-gradient(135deg,#e53e3e,#c53030);border-radius:14px;padding:16px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px">
         <span style="font-size:2rem">🔥</span>
         <div><div id="streakTitle" style="font-weight:800;color:#fff;font-size:1rem"></div>
         <div style="font-size:.8rem;color:rgba(255,255,255,.75)">Keep it up — play again before your streak resets!</div></div>
       </div>
-      <div id="achievementsList" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+      <div id="achievementsList" class="bdg-grid"></div>
+      <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:14px">Keep playing, keep earning! 🏸</p>
     </div><!-- end tab-achievements -->
 
     <!-- ── TAB: Smash Speed ──────────────────────────────────── -->
     <div class="tab-panel" id="tab-smash">
-      <div style="background:linear-gradient(135deg,#1a202c,#2d3748);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">💥 Smash Speed</h2>
-        <p style="margin:0;color:rgba(255,255,255,.7);font-size:.84rem">Prop your phone up facing you, then swing — the camera watches your racket.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+        <h2>Smash Speed</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Measure how fast your smashes are and challenge yourself to get faster!</p>
 
       <!-- Big record button -->
       <div class="card" style="text-align:center;padding:28px 20px;margin-bottom:14px">
@@ -2061,8 +2097,11 @@
           <div id="smashFsStatus" style="position:absolute;bottom:calc(48px + env(safe-area-inset-bottom));left:20px;right:20px;text-align:center;color:#fff;font-weight:900;font-size:1.5rem;text-shadow:0 2px 10px rgba(0,0,0,.7);z-index:1"></div>
         </div>
 
-        <div id="smashSpeedDisplay" style="font-size:4rem;font-weight:900;color:var(--shuttle);line-height:1;margin-bottom:4px;min-height:72px">—</div>
-        <div style="font-size:.8rem;color:var(--muted);margin-bottom:20px">km/h estimated racket head speed</div>
+        <div class="smash-gauge">
+          <div id="smashSpeedDisplay">—</div>
+          <div class="smash-gauge-unit">km/h</div>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:20px">estimated racket head speed</div>
         <button id="smashRecordBtn" onclick="window.startSmashDetection()" style="width:90px;height:90px;border-radius:50%;border:none;background:linear-gradient(135deg,#e53e3e,#c53030);color:#fff;font-size:2rem;cursor:pointer;box-shadow:0 6px 24px rgba(229,62,62,.4);transition:transform .1s;-webkit-tap-highlight-color:transparent" onmousedown="this.style.transform='scale(.93)'" onmouseup="this.style.transform='scale(1)'">
           📷
         </button>
@@ -2083,24 +2122,32 @@
       </div>
 
       <!-- Personal bests -->
+      <h3 class="ma-h3" style="margin-top:4px">Your progress</h3>
+      <div class="ma-grid">
+        <div class="ma-stat">
+          <div class="ma-stat-top">
+            <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+            <div class="ma-stat-txt"><div class="ma-lbl">Fastest</div><div class="ma-val" id="smashPBFastest">—</div></div>
+          </div>
+        </div>
+        <div class="ma-stat">
+          <div class="ma-stat-top">
+            <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 20v-7M12 20V5M18 20v-10"/></svg></span>
+            <div class="ma-stat-txt"><div class="ma-lbl">Average</div><div class="ma-val" id="smashPBAverage">—</div></div>
+          </div>
+        </div>
+        <div class="ma-stat" style="grid-column:1 / -1">
+          <div class="ma-stat-top">
+            <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></span>
+            <div class="ma-stat-txt"><div class="ma-lbl">Total smashes recorded</div><div class="ma-val" id="smashPBCount">0</div></div>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="margin-bottom:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <h2 style="margin:0">Personal bests</h2>
+          <h2 style="margin:0">History</h2>
           <button onclick="window.clearSmashHistory()" style="background:none;border:none;color:var(--muted);font-size:.76rem;cursor:pointer">Clear</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
-          <div style="background:var(--mist);border-radius:12px;padding:12px;text-align:center">
-            <div id="smashPBFastest" style="font-size:1.5rem;font-weight:900;color:var(--coral)">—</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:3px;font-weight:600">Fastest</div>
-          </div>
-          <div style="background:var(--mist);border-radius:12px;padding:12px;text-align:center">
-            <div id="smashPBAverage" style="font-size:1.5rem;font-weight:900;color:var(--court)">—</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:3px;font-weight:600">Average</div>
-          </div>
-          <div style="background:var(--mist);border-radius:12px;padding:12px;text-align:center">
-            <div id="smashPBCount" style="font-size:1.5rem;font-weight:900;color:var(--shuttle)">0</div>
-            <div style="font-size:.7rem;color:var(--muted);margin-top:3px;font-weight:600">Recorded</div>
-          </div>
         </div>
         <div id="smashHistory" style="display:flex;flex-direction:column;gap:6px"></div>
       </div>
@@ -2727,6 +2774,22 @@
   </div>
 </div>
 
+<!-- Invite friends — shown right after planning a session -->
+<div class="modal-overlay hide" id="inviteFriendsModal" onclick="if(event.target===this)window.closeInviteFriendsModal()">
+  <div class="modal" style="max-width:400px;text-align:left">
+    <button class="modal-close" onclick="window.closeInviteFriendsModal()">×</button>
+    <h3>Invite friends</h3>
+    <p class="modal-hint" style="margin-bottom:12px">Select the friends you want to invite to this session. Only the friends you tick will receive an email invitation.</p>
+    <input type="text" id="inviteFriendsFilter" class="auth-input" style="margin:0 0 10px" placeholder="Search friends…" oninput="window.renderInviteFriendsList()">
+    <div id="inviteFriendsList" style="max-height:44vh;overflow-y:auto;margin-bottom:14px"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+    <div id="inviteFriendsError" class="auth-error"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" style="flex:1" onclick="window.closeInviteFriendsModal()">Skip</button>
+      <button class="btn btn-primary" style="flex:2" onclick="window.lockButton(this, () => window.sendSessionInvites())">Invite selected friends</button>
+    </div>
+  </div>
+</div>
+
 <!-- Share results modal -->
 <div class="modal-overlay hide" id="shareModal" onclick="if(event.target===this)document.getElementById('shareModal').classList.add('hide')">
   <div style="background:var(--paper);border-radius:20px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)">
@@ -3030,20 +3093,6 @@
         <button onclick="window.seedSatsumaPlayerRatings()" class="btn btn-ghost btn-sm" style="margin-top:6px;width:100%;font-size:.78rem">⚡ Set all to 1.5 (default)</button>
       </div>
 
-      <!-- Player emails: which email belongs to which player name -->
-      <div style="margin-bottom:14px;padding:12px 14px;background:var(--mist);border-radius:12px">
-        <div style="font-weight:700;font-size:.84rem;margin-bottom:4px">📧 Player emails <span style="font-weight:400;color:var(--muted);font-size:.76rem">— which email belongs to which player</span></div>
-        <p style="font-size:.74rem;color:var(--muted);margin:0 0 10px;line-height:1.5">Someone changed email? Type their name and their new email — their results, rating and badges stay under the same name. Keep "replace" ticked to retire the old email.</p>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
-          <input type="text" id="satEmailName" list="satEmailNameList" class="auth-input" style="flex:1 1 140px;min-width:0;margin:0;font-size:.84rem" placeholder="Player name" autocomplete="off">
-          <datalist id="satEmailNameList"></datalist>
-          <input type="email" id="satEmailInput" class="auth-input" style="flex:2 1 200px;min-width:0;margin:0;font-size:.84rem" placeholder="their@email.com" autocomplete="off">
-          <button onclick="window.lockButton(this, () => window.assignSatsumaEmail())" class="btn btn-dark btn-sm">Assign →</button>
-        </div>
-        <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:10px;cursor:pointer"><input type="checkbox" id="satEmailReplace" checked> Replace their old email(s)</label>
-        <div id="satsumaEmailList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
-      </div>
-
       <!-- Season management -->
       <div style="margin-bottom:14px;padding:12px 14px;background:var(--mist);border-radius:12px">
         <div style="font-weight:700;font-size:.84rem;margin-bottom:8px">📅 Seasons</div>
@@ -3286,6 +3335,65 @@
   </div>
 </div>
 
+<!-- Edit playing profile — bio, location, playing style etc. -->
+<div class="modal-overlay hide" id="editPlayingProfileModal" onclick="if(event.target===this)window.closeEditPlayingProfile()">
+  <div style="background:var(--paper);border-radius:20px;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <div style="background:linear-gradient(150deg,var(--court) 0%,var(--court-2) 100%);padding:18px 22px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1">
+      <h3 style="margin:0;color:#fff;font-size:1rem">Edit profile</h3>
+      <button onclick="window.closeEditPlayingProfile()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:1rem">×</button>
+    </div>
+    <div style="padding:18px 22px 24px;display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:.82rem;color:var(--muted)">Add a photo, set your name, bio and more. Make your profile yours!</p>
+
+      <div>
+        <label class="field-label">Bio</label>
+        <textarea id="ppBio" class="auth-input" style="height:70px;resize:none;margin:0" maxlength="140" placeholder="Badminton, fitness, good vibes."></textarea>
+      </div>
+
+      <div>
+        <label class="field-label">Location</label>
+        <input type="text" id="ppLocation" class="auth-input" style="margin:0" placeholder="e.g. Isle of Man">
+      </div>
+
+      <div>
+        <label class="field-label">Date of birth <span class="field-label" style="text-transform:none;display:inline">(optional)</span></label>
+        <input type="date" id="ppDob" class="auth-input" style="margin:0">
+        <div style="font-size:.72rem;color:var(--muted);margin-top:4px">Helps with skill and age-group match suggestions.</div>
+      </div>
+
+      <div>
+        <label class="field-label">Playing style</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px" id="ppStyleBtns">
+          <button type="button" class="btn btn-ghost btn-sm" data-style="defensive" onclick="window.selectPlayingProfile('style','defensive')" style="border-radius:10px">Defensive</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-style="allround" onclick="window.selectPlayingProfile('style','allround')" style="border-radius:10px">All-round</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-style="attacking" onclick="window.selectPlayingProfile('style','attacking')" style="border-radius:10px">Attacking</button>
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Preferred side</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px" id="ppHandBtns">
+          <button type="button" class="btn btn-ghost btn-sm" data-hand="right" onclick="window.selectPlayingProfile('hand','right')" style="border-radius:10px">Right-handed</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-hand="left" onclick="window.selectPlayingProfile('hand','left')" style="border-radius:10px">Left-handed</button>
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Favourite shuttle</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px" id="ppShuttleBtns">
+          <button type="button" class="btn btn-ghost btn-sm" data-shuttle="Yonex" onclick="window.selectPlayingProfile('shuttle','Yonex')" style="border-radius:10px;font-size:.76rem">Yonex</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-shuttle="Victor" onclick="window.selectPlayingProfile('shuttle','Victor')" style="border-radius:10px;font-size:.76rem">Victor</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-shuttle="RSL" onclick="window.selectPlayingProfile('shuttle','RSL')" style="border-radius:10px;font-size:.76rem">RSL</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-shuttle="Other" onclick="window.selectPlayingProfile('shuttle','Other')" style="border-radius:10px;font-size:.76rem">Other</button>
+        </div>
+      </div>
+
+      <div id="editPlayingProfileError" class="auth-error"></div>
+      <button class="btn btn-primary" style="width:100%;border-radius:12px;padding:13px" onclick="window.lockButton(this, () => window.savePlayingProfile())">💾 Save changes</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, setDoc, onSnapshot, getDoc, collection, getDocs, serverTimestamp, deleteDoc, updateDoc, deleteField, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -3451,6 +3559,20 @@ window.showRestTimer = function(seconds){
 // ── Export any table to CSV ──────────────────────────────────────────
 // Pass the id of a <tbody> and a base filename. Reads the header row from
 // the table's <thead> automatically so column names line up correctly.
+// Plain text for one table cell — drops purely-decorative bits (avatars, icons:
+// anything marked .no-export) and inserts a space between what's left so
+// adjacent elements with no whitespace between them (a rank pill glued to a
+// name, say) don't run together into one word.
+function cellText(el){
+  const clone = el.cloneNode(true);
+  clone.querySelectorAll('.no-export').forEach(n=>n.remove());
+  // A space before every remaining element, however deep, so two elements
+  // with no whitespace between them in the markup (a rank number and a name,
+  // say) don't fuse into one word once only the text is left.
+  clone.querySelectorAll('*').forEach(n=>n.insertAdjacentText('beforebegin',' '));
+  return clone.textContent.trim().replace(/\s+/g,' ');
+}
+
 window.exportTableToCSV = function(tbodyId, filename){
   const tbody = document.getElementById(tbodyId);
   if(!tbody){ if(window.showToast) window.showToast('Nothing to export yet', {icon:'⚠️'}); return; }
@@ -3461,7 +3583,7 @@ window.exportTableToCSV = function(tbodyId, filename){
   if(table){
     const headCells = table.querySelectorAll('thead th');
     if(headCells.length){
-      rows.push(Array.from(headCells).map(th => csvEscape(th.textContent.trim())).join(','));
+      rows.push(Array.from(headCells).map(th => csvEscape(cellText(th))).join(','));
     }
   }
 
@@ -3469,7 +3591,7 @@ window.exportTableToCSV = function(tbodyId, filename){
   tbody.querySelectorAll('tr').forEach(tr=>{
     const cells = tr.querySelectorAll('td');
     if(!cells.length) return;
-    rows.push(Array.from(cells).map(td => csvEscape(td.textContent.trim().replace(/\s+/g,' '))).join(','));
+    rows.push(Array.from(cells).map(td => csvEscape(cellText(td))).join(','));
   });
 
   if(rows.length <= 1){ if(window.showToast) window.showToast('No rows to export yet', {icon:'⚠️'}); return; }
@@ -3495,9 +3617,9 @@ window.printTable = function(tbodyId, title){
   const tbody = document.getElementById(tbodyId);
   if(!tbody){ if(window.showToast) window.showToast('Nothing to print yet', {icon:'⚠️'}); return; }
   const table = tbody.closest('table');
-  const headCells = table ? Array.from(table.querySelectorAll('thead th')).map(th=>th.textContent.trim()) : [];
+  const headCells = table ? Array.from(table.querySelectorAll('thead th')).map(th=>cellText(th)) : [];
   const rows = Array.from(tbody.querySelectorAll('tr')).map(tr =>
-    Array.from(tr.querySelectorAll('td')).map(td => td.textContent.trim().replace(/\s+/g,' '))
+    Array.from(tr.querySelectorAll('td')).map(td => cellText(td))
   ).filter(r => r.length);
 
   if(!rows.length){ if(window.showToast) window.showToast('No rows to print yet', {icon:'⚠️'}); return; }
@@ -4094,6 +4216,69 @@ window.saveProfileSettings = async function(){
   }
 };
 
+// ── Playing profile: bio, location, DOB, style, handedness, favourite shuttle ──
+window._ppState = { style:null, hand:null, shuttle:null };
+
+function ppHighlight(group, attr, val){
+  document.querySelectorAll('#'+group+' [data-'+attr+']').forEach(b=>{
+    const on = b.dataset[attr] === val;
+    b.style.background = on ? 'var(--court)' : '';
+    b.style.color = on ? '#fff' : '';
+    b.style.borderColor = on ? 'var(--court)' : '';
+  });
+}
+
+window.selectPlayingProfile = function(kind, val){
+  window._ppState[kind] = val;
+  if(kind==='style') ppHighlight('ppStyleBtns','style',val);
+  else if(kind==='hand') ppHighlight('ppHandBtns','hand',val);
+  else if(kind==='shuttle') ppHighlight('ppShuttleBtns','shuttle',val);
+};
+
+window.openEditPlayingProfile = async function(){
+  const user = auth.currentUser;
+  if(!user){ alert('Sign in first.'); return; }
+  document.getElementById('editPlayingProfileError').style.display = 'none';
+  const data = window.currentUserData || {};
+  document.getElementById('ppBio').value = data.bio || '';
+  document.getElementById('ppLocation').value = data.location || '';
+  document.getElementById('ppDob').value = data.dob || '';
+  window._ppState = { style: data.playingStyle||null, hand: data.handedness||null, shuttle: data.favouriteShuttle||null };
+  ppHighlight('ppStyleBtns','style', window._ppState.style);
+  ppHighlight('ppHandBtns','hand', window._ppState.hand);
+  ppHighlight('ppShuttleBtns','shuttle', window._ppState.shuttle);
+  document.getElementById('editPlayingProfileModal').classList.remove('hide');
+};
+
+window.closeEditPlayingProfile = function(){
+  document.getElementById('editPlayingProfileModal').classList.add('hide');
+};
+
+window.savePlayingProfile = async function(){
+  const user = auth.currentUser;
+  if(!user) return;
+  const err = document.getElementById('editPlayingProfileError');
+  err.style.display = 'none';
+  const updates = {
+    bio: document.getElementById('ppBio').value.trim(),
+    location: document.getElementById('ppLocation').value.trim(),
+    dob: document.getElementById('ppDob').value || null,
+    playingStyle: window._ppState.style || null,
+    handedness: window._ppState.hand || null,
+    favouriteShuttle: window._ppState.shuttle || null
+  };
+  try{
+    await setDoc(doc(db,'users',user.uid), updates, { merge: true });
+    if(window.currentUserData) Object.assign(window.currentUserData, updates);
+    window.closeEditPlayingProfile();
+    if(window.loadProfileTab) window.loadProfileTab();
+    if(window.showToast) window.showToast('Profile updated!', {icon:'✅'});
+  }catch(e){
+    err.style.display = 'block';
+    err.textContent = 'Failed to save: ' + e.message;
+  }
+};
+
 window.confirmDeleteAccount = function(){
   const sure = confirm('Delete your account permanently? This removes your profile and cannot be undone. Any sessions you created will remain, but you will lose admin/editor access tied to this account.');
   if(!sure) return;
@@ -4449,7 +4634,6 @@ window.switchAdminTab = async function(tab){
     await window.renderSatsumaLeaderboard();
     await window.loadSatsumaSubmissions();
     await window.loadSatsumaGameLog();
-    window.renderSatsumaEmailLinks();
     // Populate player dropdowns from dynamic roster
     ['satEditP1','satEditP2'].forEach(id=>{
       const sel = document.getElementById(id);
@@ -4787,7 +4971,7 @@ window.renderSatsumaEmailLinks = async function(){
   if(!list) return;
   await window.loadSatsumaEmailMap(true);
   const links = window.satsumaEmailLinks();
-  // Signed-up status per email, so the admin can see whether the new address has an account/access yet
+  // Signed-up status per email, so whoever's linking can see whether the new address has an account/access yet
   const users = {};
   try{
     const snap = await getDocs(collection(db,'users'));
@@ -5355,9 +5539,11 @@ window.getPlayerPhotos = async function(){
   _photoCache = { ts:Date.now(), byEmail, byName };
   return _photoCache;
 };
+// no-export: purely decorative, so CSV/print (which read cell text) skip it —
+// otherwise the initial letter runs straight into the name with no space.
 window.lgAvatar = function(name, photo){
-  if(photo) return '<img class="lg-av" src="'+esc(photo)+'" alt="" loading="lazy">';
-  return '<span class="lg-av">'+esc(([...String(name||'?').trim()][0]||'?').toUpperCase())+'</span>';
+  if(photo) return '<img class="lg-av no-export" src="'+esc(photo)+'" alt="" loading="lazy">';
+  return '<span class="lg-av no-export">'+esc(([...String(name||'?').trim()][0]||'?').toUpperCase())+'</span>';
 };
 // delta = places climbed since last week (positive = up)
 window.lgTrend = function(delta){
@@ -6490,15 +6676,15 @@ window.sendFriendRequest = async function(toUid, toName){
 };
 
 window.loadFriendRequests = async function(uid){
-  const card=document.getElementById('friendRequestsCard');
   const list=document.getElementById('friendRequestsList');
-  if(!card||!list) return;
+  const dot=document.getElementById('friendReqDot');
+  if(!list) return;
   try{
     const snap=await getDocs(query(collection(db,'friendRequests'), where('to','==',uid), where('status','==','pending')));
     const pending=[];
     snap.forEach(d=>pending.push({id:d.id,...d.data()}));
-    if(!pending.length){ card.classList.add('hide'); return; }
-    card.classList.remove('hide');
+    if(dot) dot.classList.toggle('hide', !pending.length);
+    if(!pending.length){ list.innerHTML='<p style="color:var(--muted);font-size:.84rem">No pending requests.</p>'; return; }
     list.innerHTML='';
     pending.forEach(r=>{
       const row=document.createElement('div');
@@ -6533,6 +6719,25 @@ window.declineFriendRequest = async function(reqId){
   }catch(e){}
 };
 
+// A friend counts as online if their profile's lastSeen ping is under 5 minutes old.
+const FRIEND_ONLINE_MS = 5*60*1000;
+function friendLastSeenMs(f){
+  const ls = f.lastSeen;
+  if(!ls) return 0;
+  if(typeof ls.toMillis === 'function') return ls.toMillis();
+  if(typeof ls === 'number') return ls;
+  return 0;
+}
+function friendStatusText(f){
+  const ms = friendLastSeenMs(f);
+  if(!ms) return { online:false, text:'Offline' };
+  const online = Date.now()-ms < FRIEND_ONLINE_MS;
+  if(online) return { online:true, text:'Online' };
+  const mins = Math.round((Date.now()-ms)/60000);
+  const text = mins<60 ? `Last seen ${mins}m ago` : mins<1440 ? `Last seen ${Math.round(mins/60)}h ago` : `Last seen ${Math.round(mins/1440)}d ago`;
+  return { online:false, text };
+}
+
 window.loadFriendsList = async function(uid){
   const list=document.getElementById('friendsList');
   const count=document.getElementById('friendCount');
@@ -6546,7 +6751,7 @@ window.loadFriendsList = async function(uid){
     sentSnap.forEach(d=>friendUids.push(d.data().to));
     recvSnap.forEach(d=>friendUids.push(d.data().from));
     if(count) count.textContent=friendUids.length+' friend'+(friendUids.length!==1?'s':'');
-    if(!friendUids.length){ list.innerHTML='<p style="color:var(--muted);font-size:.84rem">No friends yet — search above to add some!</p>'; return; }
+    if(!friendUids.length){ window._myFriendsCache=[]; window.renderFriendsList(); return; }
 
     // Load friend profiles
     list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
@@ -6558,24 +6763,63 @@ window.loadFriendsList = async function(uid){
       }catch(e){}
     }));
 
-    list.innerHTML='';
-    friends.sort((a,b)=>(a.name||'').localeCompare(b.name||'')).forEach(f=>{
-      const card=document.createElement('div');
-      card.style='display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair);cursor:pointer';
-      card.onclick=()=>window.openFriendProfile(f.id, f.name||'Friend');
-      card.onmouseover=()=>card.style.background='var(--mist)';
-      card.onmouseout=()=>card.style.background='';
-      const initial=(f.name||'?').charAt(0).toUpperCase();
-      card.innerHTML=`
-        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--court),var(--court-2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex:none">${initial}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-weight:700;font-size:.92rem;color:var(--ink)">${esc(f.name||'No name')}</div>
-          <div style="font-size:.74rem;color:var(--muted);margin-top:2px">${esc(f.email||'')}</div>
-        </div>
-        <span style="color:var(--court);font-size:.8rem;font-weight:700">View →</span>`;
-      list.appendChild(card);
-    });
+    window._myFriendsCache = friends.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+    window.renderFriendsList();
   }catch(e){ list.innerHTML='<p style="color:var(--coral);font-size:.84rem">Failed to load friends.</p>'; }
+};
+
+// Re-renders #friendsList from the cached friend list, applying the current
+// All/Online segment and the search box — called whenever either changes.
+window.renderFriendsList = function(){
+  const list=document.getElementById('friendsList');
+  if(!list) return;
+  const friends = window._myFriendsCache || [];
+  if(!friends.length){ list.innerHTML='<p style="color:var(--muted);font-size:.84rem">No friends yet — tap + Add friend above!</p>'; return; }
+  const segment = window._friendsSegment || 'all';
+  const q = (document.getElementById('friendsFilterInput')?.value||'').trim().toLowerCase();
+  const rows = friends
+    .map(f=>({ f, status: friendStatusText(f) }))
+    .filter(({f,status})=>{
+      if(segment==='online' && !status.online) return false;
+      if(q && !(f.name||'').toLowerCase().includes(q) && !(f.email||'').toLowerCase().includes(q)) return false;
+      return true;
+    });
+  if(!rows.length){
+    list.innerHTML = `<p style="color:var(--muted);font-size:.84rem">${segment==='online' ? 'No friends online right now.' : 'No friends match your search.'}</p>`;
+    return;
+  }
+  list.innerHTML='';
+  rows.forEach(({f,status})=>{
+    const card=document.createElement('div');
+    card.className='fr-row';
+    card.onclick=()=>window.openFriendProfile(f.id, f.name||'Friend');
+    const initial=(f.name||'?').charAt(0).toUpperCase();
+    const avatar = f.photoData ? `<img class="fr-av" src="${esc(f.photoData)}" alt="">` : `<span class="fr-av">${esc(initial)}</span>`;
+    card.innerHTML=`
+      <span class="fr-av-wrap">${avatar}${status.online?'<i class="fr-dot"></i>':''}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:.92rem;color:var(--ink)">${esc(f.name||'No name')}</div>
+        <div style="font-size:.76rem;color:${status.online?'var(--pos)':'var(--muted)'};margin-top:2px;font-weight:${status.online?'700':'400'}">${status.text}</div>
+      </div>
+      <span class="fr-chev">›</span>`;
+    list.appendChild(card);
+  });
+};
+
+window.switchFriendsTab = function(tab){
+  window._friendsSegment = tab;
+  document.querySelectorAll('#tab-friends [data-ftab]').forEach(b=>b.classList.toggle('on', b.dataset.ftab===tab));
+  document.getElementById('friendsPanelList').classList.toggle('hide', tab==='requests');
+  document.getElementById('friendsPanelRequests').classList.toggle('hide', tab!=='requests');
+  if(tab!=='requests') window.renderFriendsList();
+};
+
+window.openAddFriendModal = function(){
+  document.getElementById('addFriendModal').classList.remove('hide');
+  window.showMyFriendQR();
+};
+window.closeAddFriendModal = function(){
+  document.getElementById('addFriendModal').classList.add('hide');
 };
 
 window.openFriendProfile = async function(friendUid, friendName){
@@ -8051,7 +8295,7 @@ window.loadProfileTab = async function(){
         <div style="position:absolute;bottom:-40px;left:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
         <div style="width:76px;height:76px;border-radius:50%;color:#fff;font-size:1.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid rgba(255,255,255,.4);${avatarStyle};position:relative;z-index:1">${photoUrl?'':(name[0]||'?')}</div>
         <div style="font-weight:900;font-size:1.3rem;color:#fff;position:relative;z-index:1">${esc(name)}</div>
-        <div style="font-size:.82rem;color:rgba(255,255,255,.75);margin-top:4px;position:relative;z-index:1">${esc(email)}</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.75);margin-top:4px;position:relative;z-index:1">${data.location?'📍 '+esc(data.location):esc(email)}</div>
         <div style="display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;position:relative;z-index:1">
           ${role==='admin'?'<span style="background:rgba(255,255,255,.22);color:#fff;padding:4px 11px;border-radius:20px;font-size:.72rem;font-weight:700">⚙️ App admin</span>':''}
           ${isSatsumaAdmin?'<span style="background:rgba(255,255,255,.22);color:#fff;padding:4px 11px;border-radius:20px;font-size:.72rem;font-weight:700">🔑 Satsuma admin</span>':''}
@@ -8059,8 +8303,21 @@ window.loadProfileTab = async function(){
           ${isSatsumaView&&!isSatsuma?'<span style="background:rgba(255,255,255,.22);color:#fff;padding:4px 11px;border-radius:20px;font-size:.72rem;font-weight:700">👁 Satsuma viewer</span>':''}
           ${streak>=2?`<span style="background:rgba(255,255,255,.22);color:#fff;padding:4px 11px;border-radius:20px;font-size:.72rem;font-weight:700">🔥 ${streak} week streak</span>`:''}
         </div>
-        <button onclick="window.openProfileSettings()" style="margin-top:16px;background:#fff;color:var(--court);border:none;border-radius:10px;padding:9px 20px;font-weight:800;font-size:.82rem;cursor:pointer;position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.15)">✏️ Edit profile</button>
+        <div style="display:flex;justify-content:center;gap:8px;margin-top:16px;position:relative;z-index:1">
+          <button onclick="window.openEditPlayingProfile()" style="background:#fff;color:var(--court);border:none;border-radius:10px;padding:9px 18px;font-weight:800;font-size:.82rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)">✏️ Edit profile</button>
+          <button onclick="window.openProfileSettings()" style="background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:9px 16px;font-weight:700;font-size:.82rem;cursor:pointer">⚙️ Settings</button>
+        </div>
       </div>
+
+      ${(data.bio || data.playingStyle || data.handedness || data.favouriteShuttle) ? `
+      <div class="card" style="margin-bottom:14px">
+        ${data.bio?`<p style="margin:0 0 10px;font-size:.86rem;color:var(--ink);line-height:1.5">${esc(data.bio)}</p>`:''}
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${data.playingStyle?`<span style="background:var(--mist-2);color:var(--ink);padding:4px 11px;border-radius:20px;font-size:.76rem;font-weight:700">${esc({defensive:'Defensive',allround:'All-round',attacking:'Attacking'}[data.playingStyle]||data.playingStyle)}</span>`:''}
+          ${data.handedness?`<span style="background:var(--mist-2);color:var(--ink);padding:4px 11px;border-radius:20px;font-size:.76rem;font-weight:700">${data.handedness==='left'?'Left-handed':'Right-handed'}</span>`:''}
+          ${data.favouriteShuttle?`<span style="background:var(--mist-2);color:var(--ink);padding:4px 11px;border-radius:20px;font-size:.76rem;font-weight:700">🏸 ${esc(data.favouriteShuttle)}</span>`:''}
+        </div>
+      </div>`:''}
 
       <!-- Quick stats row -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
@@ -8323,7 +8580,111 @@ window.postSessionDate = async function(){
     window._scheduleTargetLeagueCode = null;
     window._scheduleTargetLeagueName = null;
     if(window.loadScheduleTab) window.loadScheduleTab();
+    // Offer to invite friends to the session just planned (skip on edits — they were already invited)
+    if(!editingId){
+      window.openInviteFriendsModal({
+        dateStr: startDate.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}),
+        timeStr: startDate.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}),
+        location, format: _sessionFormat
+      });
+    }
   }catch(e){ err.style.display='block'; err.textContent='Failed: '+e.message; }
+};
+
+// ── Invite friends to a planned session ─────────────────────────────
+window._pendingInviteSession = null;
+window._inviteFriendsCache = null;
+
+window.openInviteFriendsModal = async function(sessionInfo){
+  window._pendingInviteSession = sessionInfo;
+  const modal = document.getElementById('inviteFriendsModal');
+  const list = document.getElementById('inviteFriendsList');
+  const errEl = document.getElementById('inviteFriendsError');
+  if(errEl) errEl.style.display = 'none';
+  if(!modal || !auth.currentUser) return;
+  modal.classList.remove('hide');
+  list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  try{
+    window._inviteFriendsCache = await window.fetchAcceptedFriends(auth.currentUser.uid);
+  }catch(e){
+    window._inviteFriendsCache = [];
+    list.innerHTML = '<p style="color:var(--coral);font-size:.84rem">Failed to load friends: '+esc(e.message)+'</p>';
+    return;
+  }
+  window.renderInviteFriendsList();
+};
+
+window.closeInviteFriendsModal = function(){
+  document.getElementById('inviteFriendsModal').classList.add('hide');
+  window._pendingInviteSession = null;
+};
+
+// Every friend the signed-in user has an accepted friendRequest with — used
+// both by the Friends tab and by the session invite picker.
+window.fetchAcceptedFriends = async function(uid){
+  const [sentSnap, recvSnap] = await Promise.all([
+    getDocs(query(collection(db,'friendRequests'), where('from','==',uid), where('status','==','accepted'))),
+    getDocs(query(collection(db,'friendRequests'), where('to','==',uid), where('status','==','accepted')))
+  ]);
+  const friendUids = [];
+  sentSnap.forEach(d=>friendUids.push(d.data().to));
+  recvSnap.forEach(d=>friendUids.push(d.data().from));
+  const friends = [];
+  await Promise.all(friendUids.map(async fuid=>{
+    try{
+      const d = await getDoc(doc(db,'users',fuid));
+      if(d.exists()) friends.push({ id:fuid, ...d.data() });
+    }catch(e){}
+  }));
+  return friends.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+};
+
+window.renderInviteFriendsList = function(){
+  const list = document.getElementById('inviteFriendsList');
+  if(!list) return;
+  const friends = window._inviteFriendsCache || [];
+  const q = (document.getElementById('inviteFriendsFilter')?.value||'').trim().toLowerCase();
+  if(!friends.length){ list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">No friends yet — add some from the Friends tab first.</p>'; return; }
+  const checked = new Set(Array.from(list.querySelectorAll('input[type=checkbox]:checked')).map(cb=>cb.value));
+  const rows = friends.filter(f=>!q || (f.name||'').toLowerCase().includes(q));
+  if(!rows.length){ list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">No friends match your search.</p>'; return; }
+  list.innerHTML = rows.map(f=>{
+    const canInvite = !!(f.email || f.fcmToken);
+    const initial = (f.name||'?').charAt(0).toUpperCase();
+    const avatar = f.photoData ? `<img class="fr-av" src="${esc(f.photoData)}" alt="" style="width:32px;height:32px;font-size:.86rem">` : `<span class="fr-av" style="width:32px;height:32px;font-size:.86rem">${esc(initial)}</span>`;
+    return `<label style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--hair);cursor:${canInvite?'pointer':'not-allowed'};opacity:${canInvite?1:.5}">
+      <input type="checkbox" value="${esc(f.id)}" ${checked.has(f.id)?'checked':''} ${canInvite?'':'disabled'} style="width:18px;height:18px;accent-color:var(--court);flex:none">
+      ${avatar}
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:.88rem;color:var(--ink)">${esc(f.name||'No name')}</div>
+        ${canInvite?'':'<div style="font-size:.72rem;color:var(--muted)">No email or notifications on file</div>'}
+      </div>
+    </label>`;
+  }).join('');
+};
+
+window.sendSessionInvites = async function(){
+  const session = window._pendingInviteSession;
+  const errEl = document.getElementById('inviteFriendsError');
+  if(errEl) errEl.style.display = 'none';
+  const checked = Array.from(document.querySelectorAll('#inviteFriendsList input[type=checkbox]:checked')).map(cb=>cb.value);
+  if(!checked.length){ if(errEl){ errEl.style.display='block'; errEl.textContent='Tick at least one friend, or Skip.'; } return; }
+  const friends = (window._inviteFriendsCache||[]).filter(f=>checked.includes(f.id));
+  const recipients = friends.map(f=>({ email:f.email||null, fcmToken:f.fcmToken||null, name:f.name||'' })).filter(r=>r.email||r.fcmToken);
+  const organiserName = (window.currentUserData&&window.currentUserData.name)||(auth.currentUser&&auth.currentUser.email)||'A friend';
+  try{
+    const res = await fetch('/api/notify-session-invite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Notify-Secret': NOTIFY_API_SECRET },
+      body: JSON.stringify({ organiserName, ...session, recipients })
+    });
+    if(!res.ok){ const d = await res.json().catch(()=>({})); throw new Error(d.error||('HTTP '+res.status)); }
+    window.closeInviteFriendsModal();
+    if(window.showToast) window.showToast(`Invited ${recipients.length} friend${recipients.length===1?'':'s'}!`, {icon:'📨'});
+    else alert(`Invited ${recipients.length} friend${recipients.length===1?'':'s'}!`);
+  }catch(e){
+    if(errEl){ errEl.style.display='block'; errEl.textContent='Failed to send invites: '+e.message; }
+  }
 };
 
 window.rsvpSatsumaSession = async function(sessionId, response){
@@ -11084,6 +11445,13 @@ window.loadSatsumaTab = async function(){
   if(startBtnWrap) startBtnWrap.classList.toggle('hide', isViewOnly || (!isFullMember && !isViewOnly));
   const notifBtn = document.getElementById('satsumaEnableNotifBtn');
   if(notifBtn) notifBtn.classList.toggle('hide', !(isFullMember || isViewOnly));
+  // Email linking: open to every full member (and app/Satsuma admins), not view-only
+  const emailCard = document.getElementById('satsumaEmailCard');
+  const canLinkEmail = isFullMember || window.currentUserRole === 'admin' || window._isSatsumaAdmin === true;
+  if(emailCard){
+    emailCard.classList.toggle('hide', !canLinkEmail);
+    if(canLinkEmail) window.renderSatsumaEmailLinks();
+  }
 
   await window.loadSatsumaEmailMap();
   const myRosterName = window.satsumaNameForEmail(userEmail) || (window.currentUserData&&window.currentUserData.name) || null;
@@ -13709,6 +14077,12 @@ const ACHIEVEMENTS = [
   { id:'winner_ratio', icon:'⭐', name:'60% club',       desc:'Win rate above 60% (min 10 games)', check: s=>s.played>=10&&s.won/s.played>=0.6 },
   { id:'perfect',      icon:'💎', name:'Perfect session', desc:'Win every game in a session', check: (s,nc,games)=>games.some(g=>g.perfectSession) },
 ];
+const BADGE_COLORS = {
+  first_game:'#d9701f', ten_games:'#d9701f', fifty_games:'#d9701f', century_games:'#d9701f',
+  first_win:'#d69e2e', five_wins:'#d69e2e', twenty_wins:'#d69e2e', fifty_wins:'#d69e2e',
+  positive:'#2b6cb0', big_diff:'#2b6cb0', single_fig:'#2b6cb0', big_comeback:'#2b6cb0', century_pts:'#2b6cb0', double_ton:'#2b6cb0',
+  veteran:'#6b46c1', social:'#6b46c1', week_streak:'#6b46c1', month_streak:'#6b46c1', winner_ratio:'#6b46c1', perfect:'#6b46c1'
+};
 
 function renderAchievements(){
   const list = document.getElementById('achievementsList');
@@ -13762,12 +14136,13 @@ function renderAchievements(){
   list.innerHTML='';
   ACHIEVEMENTS.forEach(a=>{
     const unlocked = a.check(stats, courtsUsed, gameLevelData, allPartners, streak||0);
+    const color = BADGE_COLORS[a.id] || 'var(--court)';
     const card = document.createElement('div');
-    card.style=`border-radius:14px;padding:14px;text-align:center;border:2px solid ${unlocked?'var(--court)':'var(--hair)'};background:${unlocked?'var(--mist-2)':'var(--paper)'};opacity:${unlocked?1:0.45};transition:.15s`;
-    card.innerHTML=`<div style="font-size:1.8rem;margin-bottom:6px">${a.icon}</div>
-      <div style="font-weight:800;font-size:.8rem;color:var(--ink);margin-bottom:3px">${a.name}</div>
-      <div style="font-size:.68rem;color:var(--muted);line-height:1.3">${a.desc}</div>
-      ${unlocked?'<div style="font-size:.65rem;font-weight:800;color:var(--court);margin-top:6px;letter-spacing:.04em">UNLOCKED \u2713</div>':''}`;
+    card.className = 'bdg-tile'+(unlocked?' on':'');
+    card.innerHTML=`
+      <div class="bdg-ico" style="background:${unlocked?color:'var(--mist-2)'}">${a.icon}${unlocked?'<i class="bdg-check">\u2713</i>':''}</div>
+      <div class="bdg-name">${esc(a.name)}</div>
+      <div class="bdg-desc">${esc(a.desc)}</div>`;
     list.appendChild(card);
   });
 }
@@ -13795,10 +14170,7 @@ function showStatsSection(section){
   const target = document.getElementById('stats-'+section);
   if(target) target.classList.remove('hide');
   document.querySelectorAll('.stats-sec-btn').forEach(b=>{
-    const active = b.dataset.section === section;
-    b.style.background = active ? 'var(--court)' : 'none';
-    b.style.color = active ? '#fff' : 'var(--muted)';
-    b.style.borderColor = active ? 'var(--court)' : 'var(--hair)';
+    b.classList.toggle('on', b.dataset.section === section);
   });
   if(section==='partners') renderStatsPartners();
   else if(section==='opponents') renderStatsOpponents();

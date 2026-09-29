@@ -541,6 +541,21 @@
   .smash-gauge #smashSpeedDisplay{font-size:2.7rem;font-weight:900;color:var(--court);line-height:1}
   .smash-gauge-unit{font-size:.8rem;color:var(--muted);font-weight:700;letter-spacing:.03em;margin-top:2px}
 
+  /* ── Profile preview (Edit profile modal) ── */
+  .pp-preview{background:var(--mist);border:1px solid var(--hair);border-radius:14px;padding:14px}
+  .pp-preview-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .pp-preview-av{width:48px;height:48px;border-radius:50%;background:var(--court) center/cover no-repeat;color:#fff;font-weight:800;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex:none}
+  .pp-preview-name{font-weight:800;font-size:.98rem;color:var(--ink);overflow-wrap:anywhere}
+  .pp-preview-loc{font-size:.78rem;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+  .pp-preview-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .pp-preview-pills span{background:var(--paper);border:1px solid var(--hair);color:var(--ink);padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700}
+  .pp-preview-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:12px;border-top:1px solid var(--hair)}
+  .pp-preview-stats div{text-align:center}
+  .pp-preview-stats b{display:block;font-size:1.05rem;font-weight:900;color:var(--court)}
+  .pp-preview-stats span{font-size:.68rem;color:var(--muted);font-weight:600}
+  .pp-preview-about-label{font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px}
+  .pp-preview-about{font-size:.82rem;color:var(--ink);line-height:1.4;overflow-wrap:anywhere}
+
   .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
   .toolbar .meta{font-size:.85rem;color:var(--muted)}
   .toolbar .meta b{color:var(--ink)}
@@ -3335,7 +3350,7 @@
   </div>
 </div>
 
-<!-- Edit playing profile — bio, location, playing style etc. -->
+<!-- Edit playing profile — photo, name, bio, location, playing style etc. -->
 <div class="modal-overlay hide" id="editPlayingProfileModal" onclick="if(event.target===this)window.closeEditPlayingProfile()">
   <div style="background:var(--paper);border-radius:20px;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)">
     <div style="background:linear-gradient(150deg,var(--court) 0%,var(--court-2) 100%);padding:18px 22px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1">
@@ -3345,14 +3360,50 @@
     <div style="padding:18px 22px 24px;display:flex;flex-direction:column;gap:16px">
       <p style="margin:0;font-size:.82rem;color:var(--muted)">Add a photo, set your name, bio and more. Make your profile yours!</p>
 
+      <!-- Live preview — updates as you edit below -->
+      <div>
+        <div class="field-label" style="margin-bottom:8px">Your profile preview</div>
+        <div class="pp-preview">
+          <div class="pp-preview-top">
+            <span class="pp-preview-av" id="ppPreviewAv">?</span>
+            <div style="min-width:0">
+              <div class="pp-preview-name" id="ppPreviewName">Player</div>
+              <div class="pp-preview-loc" id="ppPreviewLoc"></div>
+            </div>
+          </div>
+          <div class="pp-preview-pills" id="ppPreviewPills"></div>
+          <div class="pp-preview-stats">
+            <div><b id="ppPreviewGames">0</b><span>Games</span></div>
+            <div><b id="ppPreviewWins">0</b><span>Wins</span></div>
+            <div><b id="ppPreviewWinRate">—</b><span>Win rate</span></div>
+          </div>
+          <div id="ppPreviewAboutWrap" class="hide">
+            <div class="pp-preview-about-label">About</div>
+            <div class="pp-preview-about" id="ppPreviewBio"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="position:relative;flex:none">
+          <div id="ppAvatarPreview" style="width:56px;height:56px;border-radius:50%;background:var(--court) center/cover no-repeat;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem"></div>
+          <button type="button" onclick="document.getElementById('ppPhotoInput').click()" style="position:absolute;bottom:-2px;right:-2px;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--hair);cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center">📷</button>
+          <input type="file" id="ppPhotoInput" accept="image/*" class="hide" onchange="window.handlePlayingPhotoSelect(event)">
+        </div>
+        <div style="flex:1;min-width:0">
+          <label class="field-label">Display name</label>
+          <input type="text" id="ppName" class="auth-input" style="margin:0" placeholder="Your name" oninput="window.updateProfilePreview()">
+        </div>
+      </div>
+
       <div>
         <label class="field-label">Bio</label>
-        <textarea id="ppBio" class="auth-input" style="height:70px;resize:none;margin:0" maxlength="140" placeholder="Badminton, fitness, good vibes."></textarea>
+        <textarea id="ppBio" class="auth-input" style="height:70px;resize:none;margin:0" maxlength="140" placeholder="Badminton, fitness, good vibes." oninput="window.updateProfilePreview()"></textarea>
       </div>
 
       <div>
         <label class="field-label">Location</label>
-        <input type="text" id="ppLocation" class="auth-input" style="margin:0" placeholder="e.g. Isle of Man">
+        <input type="text" id="ppLocation" class="auth-input" style="margin:0" placeholder="e.g. Isle of Man" oninput="window.updateProfilePreview()">
       </div>
 
       <div>
@@ -4233,6 +4284,70 @@ window.selectPlayingProfile = function(kind, val){
   if(kind==='style') ppHighlight('ppStyleBtns','style',val);
   else if(kind==='hand') ppHighlight('ppHandBtns','hand',val);
   else if(kind==='shuttle') ppHighlight('ppShuttleBtns','shuttle',val);
+  window.updateProfilePreview();
+};
+
+const PP_STYLE_LABELS = { defensive:'Defensive', allround:'All-round', attacking:'Attacking' };
+
+// Redraws the "Your profile preview" card inside the Edit profile modal from
+// whatever is currently in the form — called on every keystroke/pick so it
+// always reflects what Save would actually store.
+window.updateProfilePreview = function(){
+  const name = (document.getElementById('ppName')?.value||'').trim() || 'Player';
+  const bio = (document.getElementById('ppBio')?.value||'').trim();
+  const location = (document.getElementById('ppLocation')?.value||'').trim();
+  const photo = pendingPhotoDataUrl;
+
+  const av = document.getElementById('ppPreviewAv');
+  if(av){
+    if(photo){ av.style.backgroundImage = `url(${photo})`; av.textContent = ''; }
+    else { av.style.backgroundImage = ''; av.textContent = name[0].toUpperCase(); }
+  }
+  const nameEl = document.getElementById('ppPreviewName');
+  if(nameEl) nameEl.textContent = name;
+  const locEl = document.getElementById('ppPreviewLoc');
+  if(locEl) locEl.textContent = location ? '📍 '+location : '';
+
+  const pills = [];
+  if(window._ppState.style) pills.push(PP_STYLE_LABELS[window._ppState.style]||window._ppState.style);
+  if(window._ppState.hand) pills.push(window._ppState.hand==='left'?'Left-handed':'Right-handed');
+  if(window._ppState.shuttle) pills.push(window._ppState.shuttle);
+  const pillsEl = document.getElementById('ppPreviewPills');
+  if(pillsEl) pillsEl.innerHTML = pills.map(p=>`<span>${esc(p)}</span>`).join('');
+
+  const stats = window._profileStatsCache || { games:0, winRate:null };
+  const gEl = document.getElementById('ppPreviewGames'); if(gEl) gEl.textContent = stats.games||0;
+  const wEl = document.getElementById('ppPreviewWins'); if(wEl) wEl.textContent = stats.wins||0;
+  const wrEl = document.getElementById('ppPreviewWinRate'); if(wrEl) wrEl.textContent = stats.winRate!=null ? stats.winRate+'%' : '—';
+
+  const aboutWrap = document.getElementById('ppPreviewAboutWrap');
+  const aboutText = document.getElementById('ppPreviewBio');
+  if(aboutWrap) aboutWrap.classList.toggle('hide', !bio);
+  if(aboutText) aboutText.textContent = bio;
+};
+
+window.handlePlayingPhotoSelect = function(event){
+  const file = event.target.files[0];
+  if(!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const size = 160;
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const minSide = Math.min(img.width, img.height);
+      const sx = (img.width-minSide)/2, sy = (img.height-minSide)/2;
+      ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+      pendingPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      const preview = document.getElementById('ppAvatarPreview');
+      if(preview){ preview.style.backgroundImage = `url(${pendingPhotoDataUrl})`; preview.textContent = ''; }
+      window.updateProfilePreview();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
 };
 
 window.openEditPlayingProfile = async function(){
@@ -4240,13 +4355,21 @@ window.openEditPlayingProfile = async function(){
   if(!user){ alert('Sign in first.'); return; }
   document.getElementById('editPlayingProfileError').style.display = 'none';
   const data = window.currentUserData || {};
+  pendingPhotoDataUrl = data.photoData || null;
+  document.getElementById('ppName').value = data.name || '';
   document.getElementById('ppBio').value = data.bio || '';
   document.getElementById('ppLocation').value = data.location || '';
   document.getElementById('ppDob').value = data.dob || '';
+  const avatarPreview = document.getElementById('ppAvatarPreview');
+  if(avatarPreview){
+    if(pendingPhotoDataUrl){ avatarPreview.style.backgroundImage = `url(${pendingPhotoDataUrl})`; avatarPreview.textContent = ''; }
+    else { avatarPreview.style.backgroundImage = ''; avatarPreview.textContent = (data.name||'?')[0].toUpperCase(); }
+  }
   window._ppState = { style: data.playingStyle||null, hand: data.handedness||null, shuttle: data.favouriteShuttle||null };
   ppHighlight('ppStyleBtns','style', window._ppState.style);
   ppHighlight('ppHandBtns','hand', window._ppState.hand);
   ppHighlight('ppShuttleBtns','shuttle', window._ppState.shuttle);
+  window.updateProfilePreview();
   document.getElementById('editPlayingProfileModal').classList.remove('hide');
 };
 
@@ -4260,6 +4383,8 @@ window.savePlayingProfile = async function(){
   const err = document.getElementById('editPlayingProfileError');
   err.style.display = 'none';
   const updates = {
+    name: document.getElementById('ppName').value.trim() || 'Player',
+    photoData: pendingPhotoDataUrl,
     bio: document.getElementById('ppBio').value.trim(),
     location: document.getElementById('ppLocation').value.trim(),
     dob: document.getElementById('ppDob').value || null,
@@ -4270,6 +4395,7 @@ window.savePlayingProfile = async function(){
   try{
     await setDoc(doc(db,'users',user.uid), updates, { merge: true });
     if(window.currentUserData) Object.assign(window.currentUserData, updates);
+    window.refreshAvatarDisplay();
     window.closeEditPlayingProfile();
     if(window.loadProfileTab) window.loadProfileTab();
     if(window.showToast) window.showToast('Profile updated!', {icon:'✅'});
@@ -8246,6 +8372,7 @@ window.loadProfileTab = async function(){
       });
     });
     const winRate = totalGames>0 ? Math.round((totalWins/totalGames)*100) : null;
+    window._profileStatsCache = { games: totalGames, wins: totalWins, winRate };
 
     // Satsuma standing (only for members, and only if points exist)
     let satsumaCard = '';
@@ -11729,7 +11856,7 @@ let courts = [ newCourt(1) ];
 let active = 0;
 let editIdx = null, editSit = null, editSplit = 0;
 const MAX_COURTS = 4;
-const APP_VERSION = 'v3.4.0';
+const APP_VERSION = 'v3.4.7';
 const STORE_KEY = 'shuttle_session_v4';
 const HISTORY_KEY = 'shuttler_history_v1';
 function cur(){ return courts[active]; }

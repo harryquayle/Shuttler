@@ -556,6 +556,16 @@
   .pp-preview-about-label{font-size:.68rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px}
   .pp-preview-about{font-size:.82rem;color:var(--ink);line-height:1.4;overflow-wrap:anywhere}
 
+  /* ── Shuttle loading spinner: a shuttle orbiting on an orange trail ── */
+  .ss-spin{display:flex;align-items:center;justify-content:center;padding:14px 0}
+  .ss-spin svg{width:60px;height:60px;animation:ssSpin 1s linear infinite;transform-origin:50% 50%}
+  .ss-spin.ss-sm{padding:4px 0}
+  .ss-spin.ss-sm svg{width:26px;height:26px}
+  .ss-spin.ss-lg svg{width:min(58vw,220px);height:min(58vw,220px)}
+  .ss-trail{fill:none;stroke:var(--court);stroke-width:6;stroke-linecap:round;opacity:.85}
+  .ss-cock{fill:#fff;stroke:var(--court);stroke-width:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+  @keyframes ssSpin{to{transform:rotate(360deg)}}
+
   .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
   .toolbar .meta{font-size:.85rem;color:var(--muted)}
   .toolbar .meta b{color:var(--ink)}
@@ -1254,7 +1264,7 @@
               <span id="leagueHistoryChevron" style="color:var(--muted);font-size:.8rem">▼ Show</span>
             </button>
             <div id="leagueHistoryPanel" class="hide" style="border:1px solid var(--hair);border-top:none;border-radius:0 0 14px 14px;padding:14px 18px;background:var(--paper)">
-              <div id="leagueHistoryList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+              <div id="leagueHistoryList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
             </div>
           </div>
 
@@ -1456,7 +1466,7 @@
           <button onclick="window.lockButton(this, () => window.assignSatsumaEmail())" class="btn btn-dark btn-sm">Assign →</button>
         </div>
         <label style="display:flex;align-items:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:10px;cursor:pointer"><input type="checkbox" id="satEmailReplace" checked> Replace their old email(s)</label>
-        <div id="satsumaEmailList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="satsumaEmailList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
 
       <div style="margin-bottom:18px">
@@ -1465,7 +1475,7 @@
           <span id="satsumaHistoryChevron" style="color:var(--muted);font-size:.8rem">▼ Show</span>
         </button>
         <div id="satsumaHistoryPanel" class="hide" style="border:1px solid var(--hair);border-top:none;border-radius:0 0 14px 14px;background:var(--paper)">
-          <div id="satsumaHistoryList"><p style="color:var(--muted);font-size:.84rem;padding:14px">Loading…</p></div>
+          <div id="satsumaHistoryList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
         </div>
       </div>
 
@@ -1563,7 +1573,7 @@
               <th class="num" style="padding:8px 10px;font-size:.72rem;color:var(--muted);font-weight:700">DIFF</th>
             </tr></thead>
             <tbody id="iomSinglesLeaderboardBody">
-              <tr><td colspan="7" style="padding:20px;color:var(--muted);font-size:.84rem;text-align:center">Loading…</td></tr>
+              <tr><td colspan="7" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -1572,7 +1582,7 @@
       <!-- Match history -->
       <div class="card" style="margin-top:14px">
         <h2 style="margin-bottom:12px">Recent games</h2>
-        <div id="iomSinglesHistory"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="iomSinglesHistory"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
     </div><!-- end tab-iomsingles -->
 
@@ -1752,7 +1762,7 @@
         <div class="card" style="margin-bottom:14px">
           <h2 style="margin-bottom:4px">🤝 Best partners</h2>
           <p class="hint">People you win most with in doubles & mixed.</p>
-          <div id="statsPartnersList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+          <div id="statsPartnersList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
         </div>
       </div>
 
@@ -1761,7 +1771,7 @@
         <div class="card" style="margin-bottom:14px">
           <h2 style="margin-bottom:4px">⚔️ Head-to-head</h2>
           <p class="hint">Your record against individual opponents.</p>
-          <div id="statsOpponentsList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+          <div id="statsOpponentsList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
         </div>
       </div>
 
@@ -1770,7 +1780,7 @@
         <div class="card" style="margin-bottom:14px">
           <h2 style="margin-bottom:4px">🏆 By league</h2>
           <p class="hint">Your approved stats in each league.</p>
-          <div id="statsLeaguesList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+          <div id="statsLeaguesList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
         </div>
       </div>
 
@@ -1867,7 +1877,7 @@
           <h2 style="margin:0">Choose a local session</h2>
           <button onclick="window.loadAnalyseTab()" class="btn btn-ghost btn-sm" style="padding:5px 10px;font-size:.76rem">↺ Refresh</button>
         </div>
-        <div id="analyseLocalList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="analyseLocalList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
       <!-- Paste scores -->
       <div id="analyseMethodPaste" class="card hide" style="margin-bottom:14px">
@@ -2222,7 +2232,7 @@
           <!-- Club admins -->
           <div style="padding:14px 18px;border-top:1px solid var(--hair)">
             <div style="font-weight:700;font-size:.86rem;margin-bottom:10px">👤 Club admins</div>
-            <div id="myClubAdminsList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+            <div id="myClubAdminsList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
             <div style="display:flex;gap:8px;margin-top:10px">
               <input type="email" id="clubAdminEmailInput" class="auth-input" style="flex:1;margin:0;font-size:.84rem" placeholder="Add admin by email…" autocomplete="new-password">
               <button onclick="window.addClubAdmin()" class="btn btn-dark btn-sm">Add</button>
@@ -2282,7 +2292,7 @@
           <input type="text" id="clubSearchInput" class="auth-input" style="flex:1;margin:0" placeholder="Search by name or location…">
           <button class="btn btn-dark btn-sm" onclick="window.searchClubs()">Search</button>
         </div>
-        <div id="allClubsList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="allClubsList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
     </div><!-- end tab-clubs -->
 
@@ -2811,7 +2821,7 @@
     <h3>Invite friends</h3>
     <p class="modal-hint" style="margin-bottom:12px">Select the friends you want to invite to this session. Only the friends you tick will receive an email invitation.</p>
     <input type="text" id="inviteFriendsFilter" class="auth-input" style="margin:0 0 10px" placeholder="Search friends…" oninput="window.renderInviteFriendsList()">
-    <div id="inviteFriendsList" style="max-height:44vh;overflow-y:auto;margin-bottom:14px"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+    <div id="inviteFriendsList" style="max-height:44vh;overflow-y:auto;margin-bottom:14px"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
     <div id="inviteFriendsError" class="auth-error"></div>
     <div style="display:flex;gap:8px">
       <button class="btn btn-ghost" style="flex:1" onclick="window.closeInviteFriendsModal()">Skip</button>
@@ -3082,7 +3092,7 @@
           <span>⏳ Pending session submissions</span>
           <button onclick="window.loadSatsumaSubmissions()" class="btn btn-ghost btn-sm" style="padding:3px 8px;font-size:.74rem">Refresh</button>
         </div>
-        <div id="satsumaSubmissionsList"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="satsumaSubmissionsList"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
 
       <!-- Admin action log -->
@@ -4811,7 +4821,7 @@ window.viewUserDetail = async function(uid){
     const el=document.getElementById(id); if(el) el.classList.add('hide');
   });
   panel.classList.remove('hide');
-  content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  content.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
 
   const SATSUMA_EMAILS=['harryrunrun@icloud.com','zanequinn2012@gmail.com','cheungw560@gmail.com','george.yanyanyan@gmail.com','jaspercorlett@gmail.com','emilycregeen@online.sch.im'];
 
@@ -5036,7 +5046,7 @@ window.adminAddSatsumaGame = async function(){
 window.loadSatsumaGameLog = async function(){
   const log = document.getElementById('satsumaGameLog');
   if(!log) return;
-  log.innerHTML = '<span style="color:var(--muted)">Loading…</span>';
+  log.innerHTML = '<div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'satsumaMatches'));
     const games = [];
@@ -5193,7 +5203,7 @@ window.unlinkSatsumaEmail = async function(email){
 window.renderSatsumaLeaderboard = async function(){
   const body = document.getElementById('satsumaLeaderboardBody');
   if(!body) return;
-  body.innerHTML = '<tr><td colspan="7" style="padding:14px;color:var(--muted);font-size:.85rem">Loading…</td></tr>';
+  body.innerHTML = '<tr><td colspan="7" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>';
 
   // Wait for auth to settle
   let currentUser = auth.currentUser;
@@ -5249,7 +5259,7 @@ window.renderSatsumaLeaderboard = async function(){
 };
 window.loadAllUsers = async function(){
   const list = document.getElementById('adminUserList');
-  list.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading…</p>';
+  list.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   await window.loadSatsumaEmailMap();
   try{
     const snap = await getDocs(collection(db, 'users'));
@@ -5811,7 +5821,7 @@ window.loadMyLeagues = async function(){
   if(!list) return;
   const user = auth.currentUser;
   if(!user){ list.innerHTML=''; return; }
-  list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const email = (user.email||'').toLowerCase();
     const [snap, matchSnap] = await Promise.all([
@@ -5899,7 +5909,7 @@ window.openLeaguePage = async function(code){
   document.getElementById('leaguePage').classList.remove('hide');
   document.getElementById('leaguePageCode').textContent = code;
   document.getElementById('leaguePageTitle').textContent = '…';
-  document.getElementById('leagueLeaderboardBody').innerHTML='<tr><td colspan="7" style="padding:14px;color:var(--muted);font-size:.85rem">Loading…</td></tr>';
+  document.getElementById('leagueLeaderboardBody').innerHTML='<tr><td colspan="7" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>';
   try{
     const snap = await getDoc(doc(db,'leagues',code));
     if(!snap.exists()){ alert('League not found.'); window.closeLeaguePage(); return; }
@@ -6012,7 +6022,7 @@ window.openLeaguePage = async function(code){
 window.renderPendingApprovals = async function(code){
   const list = document.getElementById('pendingApprovalsList');
   if(!list) return;
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'leagueMatches'));
     const pending = [];
@@ -6161,7 +6171,7 @@ window.rejectSession = async function(sessionId, code){
 window.renderLeagueHistory = async function(code){
   const list = document.getElementById('leagueHistoryList');
   if(!list) return;
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'leagueMatches'));
     const approved = [];
@@ -6551,7 +6561,7 @@ window.createLeagueTab = function(lg, user, email, dynNav, dynPanels){
           <th>Player</th><th class="num">Pld</th><th class="num">W</th><th class="num">L</th>
           <th class="num">For</th><th class="num">Agt</th><th class="num">Diff</th><th class="num">ELO</th>
         </tr></thead>
-        <tbody id="lgLb_${lg.id}"><tr><td colspan="8" style="padding:14px;color:var(--muted);font-size:.85rem">Loading…</td></tr></tbody>
+        <tbody id="lgLb_${lg.id}"><tr><td colspan="8" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr></tbody>
       </table></div>
     </div>
 
@@ -6562,7 +6572,7 @@ window.createLeagueTab = function(lg, user, email, dynNav, dynPanels){
         <span id="lgHistChev_${lg.id}" style="color:var(--muted);font-size:.8rem">▼ Show</span>
       </button>
       <div id="lgHistPanel_${lg.id}" class="hide" style="border:1px solid var(--hair);border-top:none;border-radius:0 0 14px 14px;padding:14px 18px;background:var(--paper)">
-        <div id="lgHistList_${lg.id}"><p style="color:var(--muted);font-size:.84rem">Loading…</p></div>
+        <div id="lgHistList_${lg.id}"><div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>
       </div>
     </div>
 
@@ -6649,7 +6659,7 @@ window.toggleLeagueTabHistory = async function(leagueId){
 window.renderLeagueTabHistory = async function(leagueId){
   const list = document.getElementById('lgHistList_'+leagueId);
   if(!list) return;
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'leagueMatches'));
     const matches = [];
@@ -6895,7 +6905,7 @@ window.loadFriendsList = async function(uid){
     if(!friendUids.length){ window._myFriendsCache=[]; window.renderFriendsList(); return; }
 
     // Load friend profiles
-    list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+    list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
     const friends=[];
     await Promise.all(friendUids.map(async fuid=>{
       try{
@@ -6967,7 +6977,7 @@ window.openFriendProfile = async function(friendUid, friendName){
   switchTab('friendProfile');
   const content=document.getElementById('friendProfileContent');
   if(!content) return;
-  content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  content.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
 
   try{
     const myUid=auth.currentUser&&auth.currentUser.uid;
@@ -7262,7 +7272,7 @@ window.loadHeadToHead = async function(){
   const result=document.getElementById('h2hResult');
   if(!p1||!p2){ result.innerHTML='<p style="color:var(--coral);font-size:.84rem">Enter both player names.</p>'; return; }
   if(p1.toLowerCase()===p2.toLowerCase()){ result.innerHTML='<p style="color:var(--coral);font-size:.84rem">Enter two different players.</p>'; return; }
-  result.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  result.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   let p1Wins=0, p2Wins=0, draws=0;
   const games=[];
   const matchName=(a,q)=>a.toLowerCase()===q.toLowerCase();
@@ -7548,7 +7558,7 @@ window.loadIomSinglesTab = async function(){
   const body = document.getElementById('iomSinglesLeaderboardBody');
   const histEl = document.getElementById('iomSinglesHistory');
   if(!body) return;
-  body.innerHTML='<tr><td colspan="7" style="padding:20px;color:var(--muted);text-align:center">Loading…</td></tr>';
+  body.innerHTML='<tr><td colspan="7" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>';
   if(!auth.currentUser){
     await new Promise(res=>{ const u=auth.onAuthStateChanged(x=>{u();res();}); setTimeout(res,4000); });
   }
@@ -8329,7 +8339,7 @@ window.loadProfileTab = async function(){
   // Wait for auth to settle if needed
   let user = auth.currentUser;
   if(!user){
-    content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+    content.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
     await new Promise(resolve=>{
       const unsub = auth.onAuthStateChanged(u=>{ unsub(); user=u; resolve(); });
       setTimeout(resolve, 3000); // Timeout fallback
@@ -8337,7 +8347,7 @@ window.loadProfileTab = async function(){
   }
 
   if(!user){ content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Sign in to view your profile.</p>'; return; }
-  content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  content.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDoc(doc(db,'users',user.uid));
     const data = snap.exists() ? snap.data() : {};
@@ -8745,7 +8755,7 @@ window.openInviteFriendsModal = async function(sessionInfo){
   if(errEl) errEl.style.display = 'none';
   if(!modal || !auth.currentUser) return;
   modal.classList.remove('hide');
-  list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     window._inviteFriendsCache = await window.fetchAcceptedFriends(auth.currentUser.uid);
   }catch(e){
@@ -9016,7 +9026,7 @@ window.submitFeedback = async function(){
 window.loadFeedbackInbox = async function(){
   const list = document.getElementById('feedbackInboxList');
   if(!list) return;
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
 
   // Wait for auth if needed
   if(!auth.currentUser){
@@ -9189,7 +9199,7 @@ window.createClub = async function(){
 window.loadClubsTab = async function(){
   const allList = document.getElementById('allClubsList');
   if(!allList) return;
-  allList.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  allList.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const user = auth.currentUser;
     const userEmail = (user&&user.email||'').toLowerCase();
@@ -9546,7 +9556,7 @@ window.deleteClubAnnouncement = async function(annId){
 window.linkLeagueToClub = async function(){
   const list=document.getElementById('linkLeagueList');
   if(!list) return;
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   document.getElementById('linkLeagueModal').classList.remove('hide');
   try{
     const user=auth.currentUser;
@@ -9973,7 +9983,7 @@ window.loadLeagueComments = function(){
   if(_commentsUnsub){ _commentsUnsub(); _commentsUnsub = null; }
   const list = document.getElementById('leagueCommentsList');
   if(!list) return;
-  list.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   _commentsUnsub = onSnapshot(collection(db,'leagueComments'), snap=>{
     const comments = [];
     snap.forEach(d=>{
@@ -10086,7 +10096,7 @@ window.loadScheduleTab = async function(){
   if(!content) return;
   const user = auth.currentUser;
   if(!user){ content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Sign in to see your schedule.</p>'; return; }
-  content.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  content.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
 
   const skillLabel = {all:'All levels',beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'};
   const fmtLabel = {doubles:'🏸 Doubles',singles:'🎯 Singles',mixed:'🤝 Mixed'};
@@ -10619,7 +10629,7 @@ window.selectSatsumaSeason = async function(seasonId){
   window.renderSatsumaSeasonActions();
   // Reload leaderboard only
   const body = document.getElementById('satsumaTabLeaderboardBody');
-  if(body) body.innerHTML='<tr><td colspan="8" style="padding:14px;color:var(--muted);text-align:center">Loading…</td></tr>';
+  if(body) body.innerHTML='<tr><td colspan="8" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>';
   try{
     await window.loadSatsumaPlayers();
     const { rows } = await window.loadSatsumaLeaderboard();
@@ -10662,7 +10672,7 @@ window.logAdminAction = async function(action, details){
 window.loadAdminActionLog = async function(){
   const el = document.getElementById('adminActionLogList');
   if(!el) return;
-  el.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  el.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'adminActionLog'));
     const entries = [];
@@ -10919,7 +10929,7 @@ window.showRatingHistoryChart = async function(playerName){
     overlay.onclick = (e)=>{ if(e.target===overlay) overlay.remove(); };
     document.body.appendChild(overlay);
   }
-  overlay.innerHTML = `<div class="modal" style="max-width:640px"><p style="text-align:center;color:var(--muted);padding:40px 0">Loading…</p></div>`;
+  overlay.innerHTML = `<div class="modal" style="max-width:640px"><div class="ss-spin ss-lg" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></div>`;
 
   try{
     const [snap] = await Promise.all([getDocs(collection(db,'satsumaApprovedSessions'))]);
@@ -11070,7 +11080,7 @@ window._showRatingPointTip = function(ev, dateStr, value){
 window.loadSatsumaSessionAudit = async function(){
   const el = document.getElementById('satsumaAuditList');
   if(!el) return;
-  el.innerHTML = '<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  el.innerHTML = '<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const snap = await getDocs(collection(db,'satsumaApprovedSessions'));
     if(snap.empty){ el.innerHTML='<p style="color:var(--muted);font-size:.84rem">No approved sessions found.</p>'; return; }
@@ -11562,7 +11572,7 @@ window.loadSatsumaTab = async function(){
 
   const body = document.getElementById('satsumaTabLeaderboardBody');
   if(!body){ console.error('satsumaTabLeaderboardBody not found'); return; }
-  body.innerHTML = '<tr><td colspan="7" style="padding:14px;color:var(--muted);font-size:.85rem">Loading…</td></tr>';
+  body.innerHTML = '<tr><td colspan="7" style="padding:10px"><div class="ss-spin ss-sm" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div></td></tr>';
 
   // Wait for auth
   if(!auth.currentUser){
@@ -11690,7 +11700,7 @@ window.toggleSatsumaHistory = async function(){
     panel.classList.remove('hide');
     if(chevron) chevron.textContent='▲ Hide';
     const list = document.getElementById('satsumaHistoryList');
-    if(list) list.innerHTML='<p style="color:var(--muted);font-size:.84rem;padding:14px">Loading…</p>';
+    if(list) list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
     try{
       const snap = await getDocs(collection(db,'satsumaMatches'));
       const matches = [];
@@ -14509,7 +14519,7 @@ async function renderStatsLeagues(){
   if(!list) return;
   const myName = getMyName();
   if(!myName || !window.auth || !window.auth.currentUser){ list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Sign in to see league stats.</p>'; return; }
-  list.innerHTML='<p style="color:var(--muted);font-size:.84rem">Loading…</p>';
+  list.innerHTML='<div class="ss-spin" role="status" aria-label="Loading"><svg viewBox="0 0 100 100"><circle class="ss-trail" cx="50" cy="50" r="38" pathLength="100" stroke-dasharray="72 100"/><path class="ss-cock" d="M50 12 55 27 45 27Z"/><circle class="ss-cock" cx="50" cy="28.5" r="3.6"/></svg></div>';
   try{
     const user = window.auth.currentUser;
     const email = (user.email||'').toLowerCase();

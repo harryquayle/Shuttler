@@ -1426,7 +1426,7 @@
           <button onclick="window.showRatingHistoryChart()" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">📈 My history</button>
           <button onclick="window.printTable('satsumaTabLeaderboardBody', '🍊 Satsuma League')" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">🖨 Print</button>
           <button onclick="window.exportTableToCSV('satsumaTabLeaderboardBody', 'satsuma-standings')" class="btn btn-ghost btn-sm" style="font-size:.74rem;padding:5px 10px;white-space:nowrap">⬇ CSV</button>
-          <button onclick="window.analyseSatsumaAllTime()" style="background:linear-gradient(135deg,#1a365d,#2b6cb0);color:#fff;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:700;white-space:nowrap">🔬 Analyse</button>
+          <button onclick="window.analyseSatsumaAllTime()" style="background:linear-gradient(135deg,var(--court),var(--court-2));color:#fff;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;font-family:inherit;font-size:.76rem;font-weight:700;white-space:nowrap">🔬 Analyse</button>
         </div>
         <!-- Season switcher + new season (shown when seasons exist or user is admin) -->
         <div id="satsumaSeasonBlock" style="margin-bottom:12px">
@@ -1516,14 +1516,18 @@
     <!-- ── TAB: IOM Singles League ───────────────────────────── -->
     <div class="tab-panel" id="tab-iomsingles">
       <!-- Header -->
-      <div style="background:linear-gradient(135deg,#1a4a2e,#276749);border-radius:16px;padding:20px 22px;margin-bottom:18px" id="iomSinglesHeaderCard">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-          <h2 style="margin:0;color:#fff;flex:1">🏝️ IOM Singles League</h2>
-          <button onclick="window.openSpecialLeagueBranding('iomsingles')" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex:none" title="Appearance">⚙️</button>
+      <div class="lg-card" style="margin-bottom:14px">
+        <div class="lg-card-top">
+          <!-- id kept: league branding paints this crest -->
+          <span class="lg-crest" id="iomSinglesHeaderCard" style="background:linear-gradient(135deg,#1a4a2e,#276749)">🏝️</span>
+          <div class="lg-card-title">
+            <h2 class="lg-name" style="margin:0">IOM Singles League</h2>
+            <p class="lg-subline" style="margin:3px 0 0">Official Isle of Man singles standings.</p>
+          </div>
+          <button onclick="window.openSpecialLeagueBranding('iomsingles')" class="lg-gear" title="Appearance">⚙️</button>
         </div>
-        <p style="margin:0 0 14px;color:rgba(255,255,255,.75);font-size:.84rem">Official Isle of Man singles standings.</p>
-        <div id="iomSinglesStartBtnWrap">
-          <button onclick="if(window._moduleReady){window.createIomSinglesSession();}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createIomSinglesSession());}" style="background:#fff;color:#276749;border:none;border-radius:11px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.12);-webkit-tap-highlight-color:transparent">
+        <div id="iomSinglesStartBtnWrap" style="padding:0 14px 14px">
+          <button onclick="if(window._moduleReady){window.createIomSinglesSession();}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createIomSinglesSession());}" class="lg-btn pri">
             🎯 Start official singles session
           </button>
         </div>
@@ -1774,10 +1778,11 @@
 
     <!-- ── TAB: Recent Sessions ───────────────────────────────── -->
     <div class="tab-panel" id="tab-recent">
-      <div style="background:linear-gradient(135deg,#553c9a,#6b46c1);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">🕐 Recent sessions</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Synced to your account. Tap a session to expand.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h2>Recent sessions</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Synced to your account. Tap a session to expand.</p>
       <input type="text" id="recentSearchInput" placeholder="🔍 Search by player or date…" oninput="renderRecentSessions()" class="auth-input" style="margin:0 0 14px;font-size:.86rem">
       <div id="recentSessionsList"><p style="color:var(--muted);font-size:.84rem;text-align:center;padding:20px 0">No recent sessions yet.</p></div>
     </div><!-- end tab-recent -->
@@ -1798,10 +1803,11 @@
 
     <!-- ── TAB: Feedback ─────────────────────────────────────── -->
     <div class="tab-panel" id="tab-feedback">
-      <div style="background:linear-gradient(135deg,var(--shuttle),#2a3a5c);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">💬 How can we do better?</h2>
-        <p style="margin:0;color:rgba(255,255,255,.7);font-size:.84rem">Your feedback goes straight to the developer. Be honest!</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-4 4V5z"/></svg></span>
+        <h2>How can we do better?</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Your feedback goes straight to the developer. Be honest!</p>
 
       <!-- Submit feedback -->
       <div class="card" style="margin-bottom:18px">
@@ -1852,7 +1858,7 @@
       <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Upload a photo of scores, paste results, or pick a local session — get a full breakdown.</p>
       <!-- Input method tabs -->
       <div style="display:flex;gap:6px;margin-bottom:16px">
-        <button data-amethod="local" onclick="window.setAnalyseMethod('local')" class="analyse-method-btn" style="flex:1;padding:10px;border-radius:10px;border:2px solid #2b6cb0;background:#2b6cb0;color:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem">📋 Local session</button>
+        <button data-amethod="local" onclick="window.setAnalyseMethod('local')" class="analyse-method-btn" style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--court);background:var(--court);color:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem">📋 Local session</button>
         <button data-amethod="paste" onclick="window.setAnalyseMethod('paste')" class="analyse-method-btn" style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem">📝 Paste scores</button>
         <button data-amethod="photo" onclick="window.setAnalyseMethod('photo')" class="analyse-method-btn" style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--hair);background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:700;font-size:.82rem">📷 Photo</button>
       </div>
@@ -1878,7 +1884,7 @@
 
         <!-- Upload area -->
         <div id="analysePhotoUploadArea">
-          <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--hair);border-radius:12px;padding:28px;cursor:pointer;transition:border-color .15s;background:var(--mist)" onmouseover="this.style.borderColor='#2b6cb0'" onmouseout="this.style.borderColor='var(--hair)'">
+          <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--hair);border-radius:12px;padding:28px;cursor:pointer;transition:border-color .15s;background:var(--mist)" onmouseover="this.style.borderColor='var(--court)'" onmouseout="this.style.borderColor='var(--hair)'">
             <span style="font-size:2.5rem;margin-bottom:8px">📷</span>
             <span style="font-weight:700;font-size:.88rem;color:var(--ink)">Tap to choose photo</span>
             <span style="font-size:.76rem;color:var(--muted);margin-top:4px">JPG, PNG or HEIC · Camera or library</span>
@@ -1909,7 +1915,7 @@
         </div>
       </div>
       <!-- Analyse button -->
-      <button id="analyseRunBtn" onclick="window.runMatchAnalysis()" class="btn" style="width:100%;padding:14px;border-radius:13px;background:linear-gradient(135deg,#1a365d,#2b6cb0);color:#fff;font-size:1rem;font-weight:800;margin-bottom:16px;box-shadow:0 4px 14px rgba(43,108,176,.4)">🔬 Analyse match</button>
+      <button id="analyseRunBtn" onclick="window.runMatchAnalysis()" class="btn" style="width:100%;padding:14px;border-radius:13px;background:linear-gradient(135deg,var(--court),var(--court-2));color:#fff;font-size:1rem;font-weight:800;margin-bottom:16px;box-shadow:0 4px 14px rgba(217,112,31,.4)">🔬 Analyse match</button>
       <!-- Results -->
       <div id="analyseResults" class="hide"></div>
     </div><!-- end tab-analyse -->
@@ -1918,10 +1924,11 @@
     <div class="tab-panel" id="tab-import">
 
       <!-- Header card — matches other tabs -->
-      <div style="background:linear-gradient(135deg,#1a2e4a,#2d4a7a);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">🤖 AI Score Import</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Take a photo of any scoresheet and Shuttler will read the scores for you.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></span>
+        <h2>AI Score Import</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Take a photo of any scoresheet and Shuttler will read the scores for you.</p>
 
       <!-- Bulk import — scan a whole stack of old scoresheets at once -->
       <div class="card" style="margin-bottom:18px">
@@ -2180,10 +2187,11 @@
 
     <!-- ── TAB: Clubs ────────────────────────────────────────── -->
     <div class="tab-panel" id="tab-clubs">
-      <div style="background:linear-gradient(135deg,#2d3748,#4a5568);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">🏟️ Clubs</h2>
-        <p style="margin:0;color:rgba(255,255,255,.7);font-size:.84rem">Official club pages for badminton clubs across the UK.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 8h.01M15 8h.01M9 12h.01M15 12h.01M9 16h.01M15 16h.01"/></svg></span>
+        <h2>Clubs</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Official club pages for badminton clubs across the UK.</p>
 
       <!-- My club (shown when user owns one) -->
       <div id="myClubSection" class="hide" style="margin-bottom:18px">
@@ -2280,10 +2288,11 @@
 
     <!-- ── TAB: Find Courts ──────────────────────────────────── -->
     <div class="tab-panel" id="tab-courts">
-      <div style="background:linear-gradient(135deg,#2b6cb0,#3182ce);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">📍 Book a court</h2>
-        <p style="margin:0;color:rgba(255,255,255,.7);font-size:.84rem">Find and book badminton courts near you across the UK.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <h2>Book a court</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Find and book badminton courts near you across the UK.</p>
 
       <!-- Quick search -->
       <div class="card" style="margin-bottom:14px">
@@ -2332,6 +2341,11 @@
 
     <!-- ── TAB: Privacy & Terms ──────────────────────────────── -->
     <div class="tab-panel" id="tab-privacy">
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 4.5-3.4 8.4-8 9-4.6-.6-8-4.5-8-9V6l8-3z"/></svg></span>
+        <h2>Privacy &amp; Terms</h2>
+      </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">How Shuttler collects, uses and protects your data.</p>
       <div class="card" style="margin-bottom:14px">
         <h2 style="margin-bottom:12px">🔒 Privacy Policy</h2>
         <p style="font-size:.86rem;color:var(--ink);margin-bottom:10px"><strong>Last updated: July 2026</strong></p>
@@ -2405,10 +2419,11 @@
 
     <!-- ── TAB: Templates ────────────────────────────────────── -->
     <div class="tab-panel" id="tab-templates">
-      <div style="background:linear-gradient(135deg,#2c7a7b,#38b2ac);border-radius:16px;padding:20px 22px;margin-bottom:18px">
-        <h2 style="margin:0 0 4px;color:#fff">📋 Session templates</h2>
-        <p style="margin:0;color:rgba(255,255,255,.75);font-size:.84rem">Save your regular setups and start a session in one tap.</p>
+      <div class="ma-head">
+        <span class="ma-ico"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V4a2 2 0 0 1 2-2h10"/></svg></span>
+        <h2>Session templates</h2>
       </div>
+      <p style="margin:8px 0 16px;color:var(--muted);font-size:.84rem">Save your regular setups and start a session in one tap.</p>
       <div class="card" style="margin-bottom:14px">
         <button class="btn btn-primary btn-sm" onclick="window.saveCurrentAsTemplate()">💾 Save current court as template</button>
       </div>
@@ -11714,7 +11729,7 @@ window.toggleSatsumaHistory = async function(){
           +'<div style="font-size:.73rem;color:var(--muted);margin-top:2px">'+timeStr+' · '+s.games.length+' game'+(s.games.length!==1?'s':'')+' · '+esc(players.join(', '))+'</div>'
           +'</div>'
           +'<button data-scorecard="'+si+'" style="background:rgba(217,112,31,.18);color:#d9701f;border:none;border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:.72rem;font-weight:700;flex:none;white-space:nowrap">Share scorecard 📤</button>'
-          +'<button data-analyse="'+si+'" style="background:linear-gradient(135deg,#1a365d,#2b6cb0);color:#fff;border:none;border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;font-size:.74rem;font-weight:700;flex:none;-webkit-tap-highlight-color:transparent">🔬 Analyse</button>'
+          +'<button data-analyse="'+si+'" style="background:linear-gradient(135deg,var(--court),var(--court-2));color:#fff;border:none;border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;font-size:.74rem;font-weight:700;flex:none;-webkit-tap-highlight-color:transparent">🔬 Analyse</button>'
           +'<span class="sat-hist-chev" style="color:var(--muted);font-size:.8rem;flex:none">▼</span>';
 
         // Games body (hidden by default)
@@ -12483,9 +12498,9 @@ window.setAnalyseMethod = function(method){
     if(panel) panel.classList.toggle('hide', m!==method);
     const btn = document.querySelector('[data-amethod="'+m+'"]');
     if(btn){
-      btn.style.background = m===method ? '#2b6cb0' : 'none';
+      btn.style.background = m===method ? 'var(--court)' : 'none';
       btn.style.color = m===method ? '#fff' : 'var(--muted)';
-      btn.style.borderColor = m===method ? '#2b6cb0' : 'var(--hair)';
+      btn.style.borderColor = m===method ? 'var(--court)' : 'var(--hair)';
     }
   });
   document.getElementById('analyseResults').classList.add('hide');
@@ -12527,7 +12542,7 @@ window.loadAnalyseTab = function(){
 
     const btn = document.createElement('div');
     btn.style = 'padding:12px 14px;border:1px solid var(--hair);border-radius:11px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;background:var(--paper)';
-    btn.onmouseover = ()=>btn.style.borderColor='#2b6cb0';
+    btn.onmouseover = ()=>btn.style.borderColor='var(--court)';
     btn.onmouseout = ()=>{ if(_analyseSelectedSession!==ses) btn.style.borderColor='var(--hair)'; };
     btn.innerHTML =
       '<div style="display:flex;align-items:center;gap:10px">' +
@@ -12540,7 +12555,7 @@ window.loadAnalyseTab = function(){
     btn.onclick = ()=>{
       _analyseSelectedSession = ses;
       list.querySelectorAll('div[data-session-btn]').forEach(d=>d.style.borderColor='var(--hair)');
-      btn.style.borderColor = '#2b6cb0';
+      btn.style.borderColor = 'var(--court)';
       list.querySelectorAll('[id^=analyseCheck_]').forEach(el=>el.style.display='none');
       const chk = document.getElementById('analyseCheck_'+i);
       if(chk) chk.style.display='inline';
@@ -13937,7 +13952,7 @@ window.analyseSessionDirect = function(ses){
   _analyseSelectedSession = ses;
   // Show it selected in the list
   const list = document.getElementById('analyseLocalList');
-  if(list) list.innerHTML='<div style="padding:12px 14px;border:2px solid #2b6cb0;border-radius:11px;background:var(--paper)">'
+  if(list) list.innerHTML='<div style="padding:12px 14px;border:2px solid var(--court);border-radius:11px;background:var(--paper)">'
     +'<div style="font-weight:700;font-size:.88rem;color:var(--ink)">'+esc(ses.courtName||'Satsuma League')+'</div>'
     +'<div style="font-size:.76rem;color:var(--muted);margin-top:2px">'+ses.games.length+' games · '+esc(ses.players.join(', '))+'</div>'
     +'</div>';

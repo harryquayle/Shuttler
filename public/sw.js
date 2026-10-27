@@ -38,7 +38,7 @@ self.addEventListener('notificationclick', (e) => {
 });
 // ─────────────────────────────────────────────────────────────────────
 
-const CACHE = 'shuttler-v3';
+const CACHE = 'shuttler-v4';
 
 self.addEventListener('install', e => {
   e.waitUntil(

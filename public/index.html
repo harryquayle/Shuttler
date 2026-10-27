@@ -3137,6 +3137,7 @@
       <div style="margin-bottom:14px;padding:12px 14px;background:var(--mist);border-radius:12px">
         <div style="font-weight:700;font-size:.84rem;margin-bottom:8px">📅 Seasons</div>
         <div id="satsumaSeasonsList"></div>
+        <button onclick="window.lockButton(this, () => window.fixUntaggedSatsumaSessions())" class="btn btn-ghost btn-sm" style="margin-top:8px;width:100%;font-size:.78rem">🛠️ Fix untagged sessions</button>
         <div style="display:flex;gap:6px;margin-top:8px">
           <input type="text" id="newSeasonName" class="auth-input" style="flex:1;margin:0;font-size:.84rem" placeholder="Season name e.g. 2025/26">
           <button onclick="window.lockButton(this, () => window.createSatsumaSeason())" class="btn btn-dark btn-sm">+ New season</button>
@@ -4608,6 +4609,9 @@ onAuthStateChanged(auth, async user => {
       return;
     }
     const profile = await ensureUserProfile(user);
+    // TEMP: artificial delay so the shuttle loading spinner is visible after
+    // sign-in — remove once you've had a look.
+    await new Promise(resolve => setTimeout(resolve, 5000));
     window.currentUserRole = profile.role || 'editor';
     window.currentUserData = profile;
     window.refreshAvatarDisplay();
@@ -10336,7 +10340,9 @@ window.logSatsumaGameIfComplete = async function(gameIndex){
   if(g._loggedKey === cloudSessionId + ':' + gameIndex + ':' + g.s1 + ':' + g.s2) return; // already logged this exact result
 
   const players = court.session.players;
+  const seasonId = await window.getCurrentSeasonId();
   const matchRecord = {
+    seasonId,
     sessionId: cloudSessionId,
     gameIndex: gameIndex,
     t1: g.t1.map(i => players[i]),
@@ -10449,6 +10455,38 @@ window.saveSatsumaRatings = async function(){
 };
 
 // ── Seasons ────────────────────────────────────────────────────────
+// Returns the current season id even if loadSatsumaSeasons() hasn't run yet.
+window.getCurrentSeasonId = async function(){
+  if(window._currentSeasonId) return window._currentSeasonId;
+  try{
+    const snap = await getDocs(query(collection(db,'satsumaSeasons'), where('isCurrent','==',true)));
+    if(!snap.empty){
+      window._currentSeasonId = snap.docs[0].id;
+      return window._currentSeasonId;
+    }
+  }catch(e){ console.warn('getCurrentSeasonId failed:', e); }
+  return null;
+};
+
+// Admin: tag sessions/matches that have no seasonId with the current season.
+// Only untagged docs are touched; anything already tagged to a season is left alone.
+window.fixUntaggedSatsumaSessions = async function(){
+  try{
+    const seasonId = await window.getCurrentSeasonId();
+    if(!seasonId){ window.showToast('No current season set', {icon:'⚠️'}); return; }
+    let fixed = 0;
+    for(const col of ['satsumaApprovedSessions','satsumaMatches']){
+      const snap = await getDocs(collection(db,col));
+      const untagged = snap.docs.filter(d=>!d.data().seasonId);
+      await Promise.all(untagged.map(d=>updateDoc(doc(db,col,d.id),{seasonId})));
+      fixed += untagged.length;
+    }
+    if(window.logAdminAction) window.logAdminAction('Fixed untagged sessions', `${fixed} docs tagged to ${seasonId}`);
+    window.showToast(`Fixed ${fixed} untagged ${fixed===1?'record':'records'}`, {icon:'🛠️'});
+    if(fixed) window.renderSatsumaLeaderboard();
+  }catch(e){ window.showToast('Failed: '+e.message, {icon:'⚠️'}); console.error(e); }
+};
+
 window.loadSatsumaSeasons = async function(){
   try{
     const snap = await getDocs(collection(db,'satsumaSeasons'));
@@ -10871,7 +10909,7 @@ window.submitSatsumaSession = async function(){
 
   window._submitSatsumaInFlight = true;
   const sessionId = window._cloudSessionId||cloudSessionId||('sat_'+Date.now());
-  const seasonId = window._currentSeasonId || null;
+  const seasonId = await window.getCurrentSeasonId();
   try{
     await setDoc(doc(db,'satsumaSubmissions',sessionId),{
       sessionId, players, official: isOfficial, seasonId,
@@ -11188,7 +11226,7 @@ window.approveSatsumaSubmission = async function(docId){
     // Score session — pass official flag so badges only awarded if official
     const rows = window._scoreSatsumaSession(sub.games||[], sessionRating, official, minGames);
 
-    const seasonId = sub.seasonId || window._currentSeasonId || null;
+    const seasonId = sub.seasonId || await window.getCurrentSeasonId();
     const writes = [];
     // Individual games with frozen sessionRating
     (sub.games||[]).forEach((g,i)=>{
@@ -13148,7 +13186,25 @@ Rules:
 - Return ONLY score lines, no headings or explanations
 - If no scores visible, return: NO_SCORES_FOUND`;
 
+// Downscale big phone photos (Anthropic rejects >5MB images; proxy may too)
+async function shrinkImageForAI(base64, mediaType){
+  try{
+    const img = new Image();
+    await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; img.src=`data:${mediaType||'image/jpeg'};base64,${base64}`; });
+    const MAX = 1800;
+    const scale = Math.min(1, MAX/Math.max(img.naturalWidth, img.naturalHeight));
+    if(scale===1 && base64.length < 1500000) return {base64, mediaType};
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.naturalWidth*scale); c.height = Math.round(img.naturalHeight*scale);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,0,0,c.width,c.height);
+    return {base64: c.toDataURL('image/jpeg',0.85).split(',')[1], mediaType:'image/jpeg'};
+  }catch(e){ return {base64, mediaType}; }
+}
+
 async function callClaudeVision(base64, mediaType){
+  ({base64, mediaType} = await shrinkImageForAI(base64, mediaType));
   const prompt = _importMode === 'iom' ? IOM_PROMPT : GENERIC_PROMPT;
   const response = await fetch('https://shuttler-ai-proxy.harryrunrun.workers.dev', {
     method: 'POST',
@@ -13167,7 +13223,8 @@ async function callClaudeVision(base64, mediaType){
   });
   const raw = await response.text();
   if(!raw) throw new Error('Empty response from AI proxy');
-  const data = JSON.parse(raw);
+  let data;
+  try{ data = JSON.parse(raw); }catch(e){ throw new Error(`AI proxy error ${response.status}: ${raw.slice(0,120)}`); }
   if(!response.ok) throw new Error(data.error?.message||`API error ${response.status}`);
   const text = (data.content||[]).map(c=>c.text||'').join('').trim();
   return text;

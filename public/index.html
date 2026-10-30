@@ -1421,7 +1421,7 @@
           <div id="satsumaStartBtnWrap" style="display:flex;gap:8px;flex-wrap:wrap">
             <button onclick="if(window._moduleReady){window.createSatsumaSession('doubles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('doubles'));}" class="lg-btn pri">🏸 Start doubles session</button>
             <button onclick="if(window._moduleReady){window.createSatsumaSession('singles');}else{window._moduleReadyQueue=window._moduleReadyQueue||[];window._moduleReadyQueue.push(()=>window.createSatsumaSession('singles'));}" class="lg-btn out">🎯 Start singles session</button>
-            <button onclick="window.lockButton(this, () => window.submitSatsumaSession())" class="lg-btn">📤 Submit for approval</button>
+            <button onclick="window.lockButton(this, () => window.submitSatsumaSession())" class="lg-btn">📤 Submit to leaderboard</button>
           </div>
         </div>
         <div class="lg-pos" id="satsumaPos" style="display:none"></div>
@@ -10414,7 +10414,7 @@ window.addSatsumaPlayer = async function(){
   const name = (document.getElementById('newPlayerName').value||'').trim();
   const rating = parseFloat(document.getElementById('newPlayerRating').value);
   const division = document.getElementById('newPlayerDivision').value||'junior';
-  if(!name){ alert('Enter a player name.'); return; }
+  if(!name){ window.satsumaAlert('Enter a player name.'); return; }
   const docId = name.toLowerCase().replace(/[^a-z0-9]/g,'_');
   try{
     await setDoc(doc(db,'players',docId),{name,rating:isNaN(rating)?null:rating,division,addedAt:Date.now()},{merge:true});
@@ -10422,7 +10422,7 @@ window.addSatsumaPlayer = async function(){
     document.getElementById('newPlayerRating').value='';
     await window.loadSatsumaPlayers();
     window.renderSatsumaRatingsList([]);
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 window.removeSatsumaPlayer = async function(name){
@@ -10432,7 +10432,7 @@ window.removeSatsumaPlayer = async function(name){
     await deleteDoc(doc(db,'players',docId));
     await window.loadSatsumaPlayers();
     window.renderSatsumaRatingsList([]);
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 // Override saveSatsumaRatings to also save division
@@ -10449,9 +10449,9 @@ window.saveSatsumaRatings = async function(){
   try{
     await Promise.all(writes);
     await window.loadSatsumaPlayers();
-    alert('Player register saved ✅');
+    window.satsumaAlert('Player register saved ✅');
     window.renderSatsumaLeaderboard();
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 // ── Seasons ────────────────────────────────────────────────────────
@@ -10564,7 +10564,7 @@ window.renderSatsumaSeasonActions = function(){
 window.showSeasonAwards = async function(seasonId, seasonName){
   try{
     const snap = await getDocs(query(collection(db,'satsumaApprovedSessions'), where('seasonId','==',seasonId)));
-    if(snap.empty){ alert('No approved sessions in this season to award.'); return; }
+    if(snap.empty){ window.satsumaAlert('No approved sessions in this season to award.'); return; }
     const players = {}; // name → {finals:[], sessions:0, won:0, played:0}
     const init = n => { if(!players[n]) players[n]={finals:[],sessions:0,won:0,lost:0,played:0,biggestWin:0}; };
     const sessionsSorted = [];
@@ -10631,7 +10631,7 @@ window.showSeasonAwards = async function(seasonId, seasonName){
       </div>`;
     document.body.appendChild(overlay);
     if(window.fireConfetti) window.fireConfetti();
-  }catch(e){ alert('Failed to build awards: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed to build awards: '+e.message); }
 };
 
 window.finishSatsumaSeason = async function(seasonId, seasonName){
@@ -10643,7 +10643,7 @@ window.finishSatsumaSeason = async function(seasonId, seasonName){
     window.renderSatsumaSeasonActions();
     // Show a little celebration of the season that just wrapped up
     await window.showSeasonAwards(seasonId, seasonName);
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 window.selectSatsumaSeason = async function(seasonId){
@@ -10678,7 +10678,7 @@ window.selectSatsumaSeason = async function(seasonId){
 window.createSatsumaSeason = async function(){
   const input = document.getElementById('newSeasonName');
   const name = (input&&input.value||'').trim();
-  if(!name){ alert('Enter a season name e.g. 2025/26'); return; }
+  if(!name){ window.satsumaAlert('Enter a season name e.g. 2025/26'); return; }
   try{
     const docId = 'season_'+Date.now();
     // Un-set current on all existing seasons, make new one current
@@ -10692,8 +10692,8 @@ window.createSatsumaSeason = async function(){
     await window.loadSatsumaSeasons();
     const { rows } = await window.loadSatsumaLeaderboard();
     window.renderSatsumaTabRows(rows);
-    alert(`✅ "${name}" created and set as the current season — starts completely fresh!`);
-  }catch(e){ alert('Failed: '+e.message); }
+    window.satsumaAlert(`✅ "${name}" created and set as the current season — starts completely fresh!`);
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 window.logAdminAction = async function(action, details){
@@ -10769,8 +10769,8 @@ window.deleteSatsumaSeason = async function(seasonId, seasonName){
     const { rows } = await window.loadSatsumaLeaderboard();
     window.renderSatsumaTabRows(rows);
     if(window.logAdminAction) window.logAdminAction('Deleted season', `${seasonName} · ${sessionIds.length} sessions, ${matchCount} games wiped`);
-    alert(`✅ Season "${seasonName}" and all its data deleted.`);
-  }catch(e){ alert('Failed: '+e.message); }
+    window.satsumaAlert(`✅ Season "${seasonName}" and all its data deleted.`);
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 window.setCurrentSeason = async function(seasonId){
@@ -10780,7 +10780,7 @@ window.setCurrentSeason = async function(seasonId){
     await Promise.all(writes);
     window._currentSeasonId = seasonId;
     window.loadSatsumaSeasons();
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 // Copy all existing "All time" history into a chosen season.
@@ -10796,7 +10796,7 @@ window.migrateAllTimeToSeason = async function(seasonId, seasonName){
     approvedSnap.forEach(d=>{ existingById[d.id] = d.data(); });
 
     if(rawSnap.empty && approvedSnap.empty){
-      alert('No historical games found anywhere yet — nothing to copy.');
+      window.satsumaAlert('No historical games found anywhere yet — nothing to copy.');
       return;
     }
 
@@ -10859,16 +10859,16 @@ window.migrateAllTimeToSeason = async function(seasonId, seasonName){
     });
 
     if(!writes.length){
-      alert(`Nothing to copy — all ${allSessions.length} session(s) are already tagged to "${seasonName}".`);
+      window.satsumaAlert(`Nothing to copy — all ${allSessions.length} session(s) are already tagged to "${seasonName}".`);
       return;
     }
 
     await Promise.all(writes);
-    alert(`✅ Done!\n${created} new session${created===1?'':'s'} created, ${retagged} existing session${retagged===1?'':'s'} re-tagged into "${seasonName}".`);
+    window.satsumaAlert(`✅ Done!\n${created} new session${created===1?'':'s'} created, ${retagged} existing session${retagged===1?'':'s'} re-tagged into "${seasonName}".`);
     await window.loadSatsumaSeasons();
     const { rows } = await window.loadSatsumaLeaderboard();
     window.renderSatsumaTabRows(rows);
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 // ── Satsuma submission & approval ──────────────────────────────────
@@ -10887,25 +10887,77 @@ window.seedSatsumaPlayerRatings = async function(){
     await window.loadSatsumaPlayers();
     window.renderSatsumaRatingsList([]);
     if(window.showToast) window.showToast(`${allPlayers.length} players set to rating 1.5`, {icon:'✅'});
-    else alert(`✅ ${allPlayers.length} players set to rating 1.5.`);
-  }catch(e){ alert('Failed: '+e.message); }
+    else window.satsumaAlert(`✅ ${allPlayers.length} players set to rating 1.5.`);
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 window._submitSatsumaInFlight = false;
+// ── Satsuma toast + leaderboard refresh helpers ──────────────────
+// Replaces alert() in the Satsuma flow. Failures get a warning icon and stay longer.
+window.satsumaAlert = function(msg){
+  msg = String(msg==null?'':msg);
+  const isErr = /^(Failed|Need at least|No active|Enter a|Submission not found)/i.test(msg);
+  const clean = esc(msg.replace(/^[✅⚠️\s]+/u,'').replace(/\s*\n\s*/g,' · '));
+  window.showToast(clean, {icon:isErr?'⚠️':'✅', duration:Math.min(7000, 2500 + clean.length*40)});
+};
+
+// Drop the cached approved-sessions snapshot and redraw every leaderboard view.
+window.refreshSatsumaLeaderboards = async function(){
+  window._satsumaApprovedCache = null;
+  window._satsumaSessionStatusCache = null;
+  const tasks = [];
+  if(document.getElementById('satsumaLeaderboardBody')) tasks.push(window.renderSatsumaLeaderboard());
+  if(document.getElementById('satsumaTabLeaderboardBody') && window.loadSatsumaTab) tasks.push(window.loadSatsumaTab());
+  if(window.loadSatsumaSubmissions) tasks.push(window.loadSatsumaSubmissions());
+  if(typeof renderRecentSessions==='function') renderRecentSessions();
+  await Promise.allSettled(tasks);
+};
+
+// Why is a played Satsuma session (by cloud session id) not on the leaderboard?
+// Returns a map of session id -> {text}; sessions that are fully counted are absent.
+window.getSatsumaSessionStatuses = async function(){
+  const c = window._satsumaSessionStatusCache;
+  if(c && Date.now()-c.ts < 20000) return c.map;
+  const map = {};
+  try{
+    const [subSnap, apprSnap] = await Promise.all([
+      getDocs(collection(db,'satsumaSubmissions')),
+      getDocs(collection(db,'satsumaApprovedSessions'))
+    ]);
+    await window.loadSatsumaPlayers();
+    const known = window._playersCache||{};
+    const sel = window._selectedSeasonId || null;
+    subSnap.forEach(d=>{
+      const s=d.data();
+      if(s.status==='pending') map[d.id]={text:'Not counted yet: submitted but not scored — tap Submit again'};
+      else if(s.status==='rejected') map[d.id]={text:'Not counted: submission rejected'};
+    });
+    apprSnap.forEach(d=>{
+      const s=d.data();
+      const unknown=(s.players||[]).filter(n=>!known[n]);
+      if(sel && s.seasonId!==sel) map[d.id]={text:'Not shown: belongs to a different season than the one selected'};
+      else if(unknown.length) map[d.id]={text:'Counted, but player not in register (unrated): '+unknown.join(', ')};
+      else delete map[d.id];
+    });
+  }catch(e){ console.warn('getSatsumaSessionStatuses failed:', e); return {}; }
+  window._satsumaSessionStatusCache = { ts:Date.now(), map };
+  return map;
+};
+
 window.submitSatsumaSession = async function(){
   if(window._submitSatsumaInFlight) return; // extra safety even outside lockButton
   const court = window.cur&&window.cur();
-  if(!court||!court.session){ alert('No active session.'); return; }
+  if(!court||!court.session){ window.satsumaAlert('No active session.'); return; }
   const players = court.session.players||[];
   const games = (court.session.games||[]).filter(g=>g.s1!=null&&g.s2!=null);
-  if(games.length<4){ alert('Need at least 4 completed games to submit.'); return; }
+  if(games.length<4){ window.satsumaAlert('Need at least 4 completed games to submit.'); return; }
 
   // Check score cap — official sessions capped at 21
   const overCap = games.some(g=>g.s1>21||g.s2>21);
   if(overCap && !confirm('Some scores are over 21. Official Satsuma sessions are capped at 21. Submit anyway?')) return;
 
   const isOfficial = !overCap; // auto-mark official if all scores ≤ 21
-  if(!confirm(`Submit ${games.length} games to the Satsuma League for approval?\n${isOfficial?'✅ Will be marked OFFICIAL (scores ≤ 21).':'⚠️ Will be marked UNOFFICIAL (scores > 21 found).'}`)) return;
+  if(!confirm(`Submit ${games.length} games to the Satsuma League leaderboard?\n${isOfficial?'✅ Will be marked OFFICIAL (scores ≤ 21).':'⚠️ Will be marked UNOFFICIAL (scores > 21 found).'}`)) return;
 
   window._submitSatsumaInFlight = true;
   const sessionId = window._cloudSessionId||cloudSessionId||('sat_'+Date.now());
@@ -10924,10 +10976,12 @@ window.submitSatsumaSession = async function(){
       submittedAt:Date.now(),
       submittedBy:auth.currentUser?auth.currentUser.email:'unknown'
     });
-    alert(`✅ Submitted! ${isOfficial?'Marked as official.':'Marked as unofficial — badges won\'t be awarded.'}\nHarry will review and approve.`);
+    // No approval step: score the session and add it to the leaderboard immediately
+    await window.approveSatsumaSubmission(sessionId, {auto:true});
+    window.satsumaAlert(`✅ Added to the leaderboard! ${isOfficial?'Marked as official.':'Marked as unofficial — badges won\'t be awarded.'}`);
     if(typeof window.resetCourtSilent==='function') window.resetCourtSilent();
     navTo('satsuma');
-  }catch(e){ alert('Failed: '+e.message); }
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
   finally{ window._submitSatsumaInFlight = false; }
 };
 
@@ -11200,10 +11254,11 @@ window.loadSatsumaSubmissions = async function(){
   }catch(e){ el.innerHTML=`<p style="color:var(--coral);font-size:.84rem">Failed: ${e.message}</p>`; }
 };
 
-window.approveSatsumaSubmission = async function(docId){
+window.approveSatsumaSubmission = async function(docId, opts){
+  opts = opts || {};
   try{
     const subSnap = await getDoc(doc(db,'satsumaSubmissions',docId));
-    if(!subSnap.exists()){ alert('Submission not found.'); return; }
+    if(!subSnap.exists()){ window.satsumaAlert('Submission not found.'); return; }
     const sub = subSnap.data();
     // Load current player ratings/divisions
     await window.loadSatsumaPlayers();
@@ -11249,10 +11304,12 @@ window.approveSatsumaSubmission = async function(docId){
     writes.push(setDoc(doc(db,'satsumaSubmissions',docId),{status:'approved',approvedAt:Date.now()},{merge:true}));
     await Promise.all(writes);
     if(window.logAdminAction) window.logAdminAction('Approved session', `${docId} · ${rows.length} players · ${division}${official?'':' (unofficial)'}`);
-    alert(`✅ Approved! Session rating: ${sessionRating} (${division}, ${official?'official':'unofficial'}). ${rows.length} players scored.`);
-    window.loadSatsumaSubmissions();
-    window.renderSatsumaLeaderboard();
-  }catch(e){ alert('Failed: '+e.message); console.error(e); }
+    if(!opts.auto) window.satsumaAlert(`✅ Approved! Session rating: ${sessionRating} (${division}, ${official?'official':'unofficial'}). ${rows.length} players scored.`);
+    await window.refreshSatsumaLeaderboards();
+  }catch(e){
+    window.satsumaAlert('Failed: '+e.message); console.error(e);
+    if(opts.auto) throw e; // let submit know the session was NOT added
+  }
 };
 
 window.rejectSatsumaSubmission = async function(docId){
@@ -11260,8 +11317,8 @@ window.rejectSatsumaSubmission = async function(docId){
   try{
     await setDoc(doc(db,'satsumaSubmissions',docId),{status:'rejected',rejectedAt:Date.now()},{merge:true});
     if(window.logAdminAction) window.logAdminAction('Rejected session', docId);
-    window.loadSatsumaSubmissions();
-  }catch(e){ alert('Failed: '+e.message); }
+    await window.refreshSatsumaLeaderboards();
+  }catch(e){ window.satsumaAlert('Failed: '+e.message); }
 };
 
 // Core scoring: score one session given all its games and a sessionRating
@@ -14789,6 +14846,15 @@ function renderRecentSessions(){
       header.querySelector('.expand-arrow').textContent = open ? '▲' : '▼';
     };
     card.appendChild(header);
+    if(h.sessionType==='satsuma' && h.satsumaSessionId){
+      const note = document.createElement('div');
+      note.style = 'display:none;padding:6px 16px;font-size:.72rem;font-weight:700;color:var(--coral);background:var(--coral-bg);border-top:1px solid var(--hair)';
+      card.appendChild(note);
+      window.getSatsumaSessionStatuses().then(map=>{
+        const st = map[h.satsumaSessionId];
+        if(st){ note.textContent = '🍊 '+st.text; note.style.display=''; }
+      });
+    }
     card.appendChild(body);
     list.appendChild(card);
   });
@@ -15276,7 +15342,8 @@ function archiveSession(court){
       games: ses.games||[],
       matchType: ses.matchType||'doubles',
       playedAt,
-      archivedAt: playedAt
+      archivedAt: playedAt,
+      ...(window.currentSessionType==='satsuma' ? {sessionType:'satsuma', satsumaSessionId: window._cloudSessionId||cloudSessionId||null} : {})
     };
     history.unshift(entry);
     // Keep last 200 sessions
